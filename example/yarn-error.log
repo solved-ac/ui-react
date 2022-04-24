@@ -1,0 +1,69 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/bin/yarn add -D --ignore-workspace-root-check @storybook/react@^6.4.22 @storybook/addon-links@^6.4.22 @storybook/addon-essentials@^6.4.22 @storybook/addon-actions@^6.4.22 @storybook/addon-interactions@^6.4.22 @storybook/testing-library@^0.0.11 @storybook/node-logger@^6.4.22 @storybook/preset-create-react-app@^3.2.0
+
+PATH: 
+  /Users/shiftpsh/solvedac-react/ui-react/example/node_modules/.bin:/Users/shiftpsh/solvedac-react/ui-react/node_modules/.bin:/Users/shiftpsh/solvedac-react/node_modules/.bin:/Users/shiftpsh/node_modules/.bin:/Users/node_modules/.bin:/node_modules/.bin:/usr/local/lib/node_modules/npm/node_modules/@npmcli/run-script/lib/node-gyp-bin:/Users/shiftpsh/.npm/_npx/d28cfb4b54958d89/node_modules/.bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/TeX/texbin:/opt/X11/bin:/Library/Apple/usr/bin:/Library/Frameworks/Mono.framework/Versions/Current/Commands
+
+Yarn version: 
+  1.22.17
+
+Node version: 
+  16.13.1
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: ENOENT: no such file or directory, lstat '/Users/shiftpsh/solvedac-react/ui-react/node_modules/react-scripts/node_modules/webpack'
+
+npm manifest: 
+  {
+    "name": "@solved-ac/ui-react-example",
+    "homepage": ".",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+      "start": "node ../node_modules/react-scripts/bin/react-scripts.js start",
+      "build": "node ../node_modules/react-scripts/bin/react-scripts.js build",
+      "test": "node ../node_modules/react-scripts/bin/react-scripts.js test",
+      "eject": "node ../node_modules/react-scripts/bin/react-scripts.js eject"
+    },
+    "dependencies": {
+      "@testing-library/jest-dom": "link:../node_modules/@testing-library/jest-dom",
+      "@testing-library/react": "link:../node_modules/@testing-library/react",
+      "@testing-library/user-event": "link:../node_modules/@testing-library/user-event",
+      "@types/jest": "link:../node_modules/@types/jest",
+      "@types/node": "link:../node_modules/@types/node",
+      "@types/react": "link:../node_modules/@types/react",
+      "@types/react-dom": "link:../node_modules/@types/react-dom",
+      "react": "link:../node_modules/react",
+      "react-dom": "link:../node_modules/react-dom",
+      "react-scripts": "link:../node_modules/react-scripts",
+      "typescript": "link:../node_modules/typescript",
+      "@solved-ac/ui-react": "link:.."
+    },
+    "devDependencies": {
+      "@babel/plugin-syntax-object-rest-spread": "^7.8.3"
+    },
+    "eslintConfig": {
+      "extends": "react-app"
+    },
+    "browserslist": {
+      "production": [
+        ">0.2%",
+        "not dead",
+        "not op_mini all"
+      ],
+      "development": [
+        "last 1 chrome version",
+        "last 1 firefox version",
+        "last 1 safari version"
+      ]
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
