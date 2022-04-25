@@ -79,12 +79,12 @@ export const Button: React.FC<ButtonProps> = (props) => {
     circle,
     fullWidth,
     padding,
+    style,
+    children,
     ...rest
   } = props
 
   const wrappedBackgroundColor = backgroundColor && new Color(backgroundColor)
-
-  if (wrappedBackgroundColor) console.log(wrappedBackgroundColor.lightness())
 
   const computedBackgroundColor = new Color(
     backgroundColor ||
@@ -122,13 +122,21 @@ export const Button: React.FC<ButtonProps> = (props) => {
       disabled={disabled === true}
       circle={circle === true}
       padding={padding}
-      style={{ width: props.fullWidth ? '100%' : 'unset', ...props.style }}
+      style={{ width: fullWidth ? '100%' : 'unset', ...style }}
     >
-      <div
-        style={{ padding: props.padding === 'none' ? 'unset' : '12px 16px' }}
-      >
-        {props.children}
+      <div style={{ padding: padding === 'none' ? 'unset' : '12px 16px' }}>
+        {children}
       </div>
     </ButtonContainer>
   )
+}
+
+Button.defaultProps = {
+  backgroundColor: undefined,
+  hoverColor: undefined,
+  primary: false,
+  disabled: false,
+  circle: false,
+  fullWidth: false,
+  padding: 'normal',
 }
