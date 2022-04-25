@@ -1,7 +1,7 @@
 import Color from 'color'
 import React, { HTMLAttributes } from 'react'
 import styled, { useTheme } from 'styled-components'
-import { primaryTextOnBackground } from '../utils/color'
+import { c, primaryTextOnBackground } from '../utils/color'
 
 interface ButtonContainerProps {
   backgroundColor: Color
@@ -77,21 +77,19 @@ export const Button: React.FC<ButtonProps> = (props) => {
 
   const wrappedBackgroundColor = backgroundColor && new Color(backgroundColor)
 
-  const computedBackgroundColor = new Color(
+  const computedBackgroundColor = c(
     backgroundColor ||
       (primary
         ? solvedTheme.color.solvedAc
         : solvedTheme.color.background.card.main)
   )
 
-  const computedHoverColor = new Color(
+  const computedHoverColor = c(
     hoverColor ||
       (wrappedBackgroundColor &&
         (wrappedBackgroundColor.isLight()
           ? wrappedBackgroundColor.darken(0.1)
-          : wrappedBackgroundColor.lighten(
-              1 - wrappedBackgroundColor.luminosity()
-            ))) ||
+          : wrappedBackgroundColor.lighten(2))) ||
       (computedBackgroundColor.isLight()
         ? computedBackgroundColor.darken(0.1)
         : computedBackgroundColor.lighten(2))
@@ -102,12 +100,12 @@ export const Button: React.FC<ButtonProps> = (props) => {
       {...rest}
       backgroundColor={
         disabled
-          ? computedBackgroundColor.mix(new Color('transparent'))
+          ? computedBackgroundColor.mix(c`transparent`)
           : computedBackgroundColor
       }
       hoverColor={
         disabled
-          ? computedBackgroundColor.mix(new Color('transparent'))
+          ? computedBackgroundColor.mix(c`transparent`)
           : computedHoverColor
       }
       disabled={disabled === true}
