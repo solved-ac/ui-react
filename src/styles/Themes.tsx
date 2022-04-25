@@ -54,12 +54,18 @@ export interface SolvedTheme {
   color: {
     solvedAc: Color
     text: {
-      primary: Color
-      secondary: Color
-    }
-    textInverted: {
-      primary: Color
-      secondary: Color
+      primary: {
+        main: Color
+        inverted: Color
+        light: Color
+        dark: Color
+      }
+      secondary: {
+        main: Color
+        inverted: Color
+        light: Color
+        dark: Color
+      }
     }
     background: {
       page: Color
@@ -96,12 +102,18 @@ export const Light: SolvedTheme = {
   color: {
     solvedAc: defaultPalette.ac,
     text: {
-      primary: defaultPalette.black,
-      secondary: defaultPalette.gray[500],
-    },
-    textInverted: {
-      primary: defaultPalette.white,
-      secondary: defaultPalette.gray[400],
+      primary: {
+        main: defaultPalette.black,
+        inverted: defaultPalette.white,
+        light: defaultPalette.white,
+        dark: defaultPalette.black,
+      },
+      secondary: {
+        main: defaultPalette.gray[500],
+        inverted: defaultPalette.gray[400],
+        light: defaultPalette.gray[400],
+        dark: defaultPalette.gray[500],
+      },
     },
     background: {
       page: defaultPalette.white,
@@ -137,12 +149,18 @@ export const Dark: SolvedTheme = {
   color: {
     ...Light.color,
     text: {
-      primary: defaultPalette.white,
-      secondary: defaultPalette.gray[400],
-    },
-    textInverted: {
-      primary: defaultPalette.black,
-      secondary: defaultPalette.gray[500],
+      primary: {
+        main: defaultPalette.white,
+        inverted: defaultPalette.black,
+        light: defaultPalette.white,
+        dark: defaultPalette.black,
+      },
+      secondary: {
+        main: defaultPalette.gray[400],
+        inverted: defaultPalette.gray[500],
+        light: defaultPalette.gray[500],
+        dark: defaultPalette.gray[400],
+      },
     },
     background: {
       page: defaultPalette.gray[800],
@@ -164,17 +182,9 @@ export const Dark: SolvedTheme = {
 }
 
 export const Black: SolvedTheme = {
-  ...Light,
+  ...Dark,
   color: {
-    ...Light.color,
-    text: {
-      primary: defaultPalette.white,
-      secondary: defaultPalette.gray[400],
-    },
-    textInverted: {
-      primary: defaultPalette.black,
-      secondary: defaultPalette.gray[500],
-    },
+    ...Dark.color,
     background: {
       page: defaultPalette.black,
       card: { main: defaultPalette.gray[900], dark: defaultPalette.gray[800] },

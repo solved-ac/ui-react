@@ -1,10 +1,10 @@
 import Color from 'color'
 import React, { HTMLAttributes } from 'react'
 import styled, { useTheme } from 'styled-components'
-import { Light } from '../styles/Themes'
+import { primaryTextOnBackground } from '../utils/color'
 
 interface ButtonContainerProps {
-  themeColor: Color
+  backgroundColor: Color
   hoverColor: Color
   disabled: boolean
   circle: boolean
@@ -15,14 +15,11 @@ const ButtonContainer = styled.button<ButtonContainerProps>`
   display: inline-block;
   font: inherit;
   vertical-align: middle;
-  background: ${({ themeColor }) => themeColor.toString()};
+  background: ${({ backgroundColor }) => backgroundColor.toString()};
   border: none;
   padding: 0;
-  color: ${({ themeColor, disabled }) =>
-    (themeColor.darken(0.1).isLight()
-      ? Light.color.text.primary
-      : Light.color.textInverted.primary
-    )
+  color: ${({ backgroundColor, disabled, theme }) =>
+    primaryTextOnBackground(backgroundColor.darken(0.1), theme)
       .alpha(disabled ? 0.5 : 1)
       .toString()};
   transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease,
@@ -32,28 +29,22 @@ const ButtonContainer = styled.button<ButtonContainerProps>`
   border-radius: ${({ circle }) => (circle ? '9999px' : '4px')};
   &:hover {
     background: ${({ hoverColor }) => hoverColor.toString()};
-    color: ${({ hoverColor, disabled }) =>
-      (hoverColor.darken(0.1).isLight()
-        ? Light.color.text.primary
-        : Light.color.textInverted.primary
-      )
+    color: ${({ hoverColor, disabled, theme }) =>
+      primaryTextOnBackground(hoverColor.darken(0.1), theme)
         .alpha(disabled ? 0.5 : 1)
         .toString()};
-    box-shadow: ${({ disabled, hoverColor }) =>
-      disabled ? 'unset' : `${hoverColor.alpha(0.4).toString()} 0px 4px 8px`};
+    box-shadow: ${({ disabled, hoverColor, theme }) =>
+      disabled ? 'unset' : theme.styles.shadow(hoverColor, 8)};
     transform: ${({ disabled }) => (disabled ? 'unset' : 'translate(0, -4px)')};
   }
   &:active {
     background: ${({ hoverColor }) => hoverColor.toString()};
-    color: ${({ hoverColor, disabled }) =>
-      (hoverColor.darken(0.1).isLight()
-        ? Light.color.text.primary
-        : Light.color.textInverted.primary
-      )
+    color: ${({ hoverColor, disabled, theme }) =>
+      primaryTextOnBackground(hoverColor.darken(0.1), theme)
         .alpha(disabled ? 0.5 : 1)
         .toString()};
-    box-shadow: ${({ disabled, hoverColor }) =>
-      disabled ? 'unset' : `${hoverColor.alpha(0.4).toString()} 0px 2px 4px`};
+    box-shadow: ${({ disabled, hoverColor, theme }) =>
+      disabled ? 'unset' : theme.styles.shadow(hoverColor, 4)};
     transform: ${({ disabled }) => (disabled ? 'unset' : 'translate(0, -2px)')};
   }
 `
@@ -109,7 +100,7 @@ export const Button: React.FC<ButtonProps> = (props) => {
   return (
     <ButtonContainer
       {...rest}
-      themeColor={
+      backgroundColor={
         disabled
           ? computedBackgroundColor.mix(new Color('transparent'))
           : computedBackgroundColor
