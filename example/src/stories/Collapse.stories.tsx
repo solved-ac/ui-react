@@ -10,6 +10,14 @@ export default {
       control: 'boolean',
       description: 'Whether the children should be shown',
     },
+    as: {
+      control: 'none',
+      description: 'The component type to render the children in',
+    },
+    children: {
+      control: 'none',
+      description: 'The children to display',
+    },
   },
 } as ComponentMeta<typeof Collapse>
 
