@@ -102,10 +102,12 @@ export const SolvedGlobalStyles = createGlobalStyle<{ theme: SolvedTheme }>`
         max-width: 100%;
     }
     
+    /* TODO remove named classes */
     .pc_hidden {
         display: none;
     }
     
+    /* TODO remove named classes */
     img.emoji {
         height: 1em;
         width: 1em;
@@ -113,6 +115,7 @@ export const SolvedGlobalStyles = createGlobalStyle<{ theme: SolvedTheme }>`
         vertical-align: -0.1em;
     }
     
+    /* TODO remove named classes */
     .noscroll {
         overflow: hidden !important;
     }
@@ -158,10 +161,12 @@ export const SolvedGlobalStyles = createGlobalStyle<{ theme: SolvedTheme }>`
         }
     }
     
+    /* TODO remove named classes */
     .nounderline a {
         text-decoration: none;
     }
     
+    /* TODO remove named classes */
     .hover_underline a {
         text-decoration: none;
         &:hover {
@@ -169,6 +174,7 @@ export const SolvedGlobalStyles = createGlobalStyle<{ theme: SolvedTheme }>`
         }
     }
     
+    /* TODO remove named classes */
     .contents {
         position: relative;
         margin: 48px auto 0px auto;
@@ -185,40 +191,49 @@ export const SolvedGlobalStyles = createGlobalStyle<{ theme: SolvedTheme }>`
         }
     }
     
+    /* TODO remove named classes */
     .solvedac-centering {
         position: relative;
         margin: 0 auto;
         max-width: 1200px;
     }
 
+    /* TODO remove named classes */
     .bronze {
         color: #ad5600;
     }
     
+    /* TODO remove named classes */
     .silver {
         color: #435f7a;
     }
     
+    /* TODO remove named classes */
     .gold {
         color: #ec9a00;
     }
     
+    /* TODO remove named classes */
     .platinum {
         color: #27e2a4;
     }
     
+    /* TODO remove named classes */
     .diamond {
         color: #00b4fc;
     }
     
+    /* TODO remove named classes */
     .ruby {
         color: #ff0062;
     }
-
+    
+    /* TODO remove named classes */
     .master {
         color: #b300e0;
     }
     
+    /* TODO remove named classes */
     .description {
         color: ${({ theme }) => theme.color.text.secondary.main};
     }
