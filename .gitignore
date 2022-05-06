@@ -4,3 +4,4 @@ node_modules
 .pnp.js
 
 dist
+yarn-error.log
