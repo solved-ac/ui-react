@@ -1,11 +1,16 @@
-import Color from 'color'
+import {
+  darken,
+  lighten,
+  readableColor as polishedReadableColor,
+  transparentize
+} from 'polished'
 import React, { HTMLAttributes } from 'react'
 import styled, { useTheme } from 'styled-components'
-import { c, primaryTextOnBackground } from '../utils/color'
+import { readableColor } from '../utils/color'
 
 interface ButtonContainerProps {
-  backgroundColor: Color
-  hoverColor: Color
+  backgroundColor: string
+  hoverColor: string
   disabled: boolean
   circle: boolean
   padding?: 'none' | 'normal'
@@ -15,13 +20,14 @@ const ButtonContainer = styled.button<ButtonContainerProps>`
   display: inline-block;
   font: inherit;
   vertical-align: middle;
-  background: ${({ backgroundColor }) => backgroundColor.toString()};
+  background: ${({ backgroundColor }) => backgroundColor};
   border: none;
   padding: 0;
   color: ${({ backgroundColor, disabled, theme }) =>
-    primaryTextOnBackground(backgroundColor.darken(0.1), theme)
-      .alpha(disabled ? 0.5 : 1)
-      .toString()};
+    transparentize(
+      disabled ? 0.5 : 0,
+      readableColor(darken(0.2, backgroundColor), theme)
+    )};
   transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease,
     box-shadow 0.3s ease;
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
@@ -30,9 +36,10 @@ const ButtonContainer = styled.button<ButtonContainerProps>`
   &:hover {
     background: ${({ hoverColor }) => hoverColor.toString()};
     color: ${({ hoverColor, disabled, theme }) =>
-      primaryTextOnBackground(hoverColor.darken(0.1), theme)
-        .alpha(disabled ? 0.5 : 1)
-        .toString()};
+      transparentize(
+        disabled ? 0.5 : 0,
+        readableColor(darken(0.2, hoverColor), theme)
+      )};
     box-shadow: ${({ disabled, hoverColor, theme }) =>
       disabled ? 'unset' : theme.styles.shadow(hoverColor, 8)};
     transform: ${({ disabled }) => (disabled ? 'unset' : 'translate(0, -4px)')};
@@ -40,9 +47,10 @@ const ButtonContainer = styled.button<ButtonContainerProps>`
   &:active {
     background: ${({ hoverColor }) => hoverColor.toString()};
     color: ${({ hoverColor, disabled, theme }) =>
-      primaryTextOnBackground(hoverColor.darken(0.1), theme)
-        .alpha(disabled ? 0.5 : 1)
-        .toString()};
+      transparentize(
+        disabled ? 0.5 : 0,
+        readableColor(darken(0.2, hoverColor), theme)
+      )};
     box-shadow: ${({ disabled, hoverColor, theme }) =>
       disabled ? 'unset' : theme.styles.shadow(hoverColor, 4)};
     transform: ${({ disabled }) => (disabled ? 'unset' : 'translate(0, -2px)')};
@@ -50,8 +58,8 @@ const ButtonContainer = styled.button<ButtonContainerProps>`
 `
 
 export interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
-  backgroundColor?: Color | string
-  hoverColor?: Color | string
+  backgroundColor?: string
+  hoverColor?: string
   primary?: boolean
   disabled?: boolean
   circle?: boolean
@@ -75,37 +83,31 @@ export const Button: React.FC<ButtonProps> = (props) => {
     ...rest
   } = props
 
-  const wrappedBackgroundColor = backgroundColor && new Color(backgroundColor)
-
-  const computedBackgroundColor = c(
+  const computedBackgroundColor =
     backgroundColor ||
-      (primary
-        ? solvedTheme.color.solvedAc
-        : solvedTheme.color.background.card.main)
-  )
+    (primary
+      ? solvedTheme.color.solvedAc
+      : solvedTheme.color.background.card.main)
 
-  const computedHoverColor = c(
+  const computedHoverColor =
     hoverColor ||
-      (wrappedBackgroundColor &&
-        (wrappedBackgroundColor.isLight()
-          ? wrappedBackgroundColor.darken(0.1)
-          : wrappedBackgroundColor.lighten(2))) ||
-      (computedBackgroundColor.isLight()
-        ? computedBackgroundColor.darken(0.1)
-        : computedBackgroundColor.lighten(2))
-  )
+    polishedReadableColor(
+      computedBackgroundColor,
+      darken(0.1, computedBackgroundColor),
+      lighten(0.2, computedBackgroundColor),
+      false
+    )
 
   return (
     <ButtonContainer
       {...rest}
-      backgroundColor={
-        disabled
-          ? computedBackgroundColor.mix(c`transparent`)
-          : computedBackgroundColor
-      }
+      backgroundColor={transparentize(
+        disabled ? 0.5 : 0,
+        computedBackgroundColor
+      )}
       hoverColor={
         disabled
-          ? computedBackgroundColor.mix(c`transparent`)
+          ? transparentize(0.5, computedBackgroundColor)
           : computedHoverColor
       }
       disabled={disabled === true}

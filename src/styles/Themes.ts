@@ -1,105 +1,106 @@
-import Color from 'color'
-import { c } from '../utils/color'
+import { mix } from 'polished'
 
-export const defaultPalette = {
-  white: c`#ffffff`,
+const defaultPalette = {
+  white: '#ffffff',
   gray: {
-    0: c`#ffffff`,
-    50: c`#fdfdfe`,
-    100: c`#f7f8f9`,
-    150: c`#eaeced`,
-    200: c`#dddfe0`,
-    250: c`#d7d9da`,
-    300: c`#d0d2d4`,
-    400: c`#b8bcbf`,
-    500: c`#8a8f95`,
-    600: c`#5b626a`,
-    700: c`#2c3640`,
-    750: c`#1a2733`,
-    800: c`#15202b`,
-    850: c`#101a23`,
-    900: c`#0b131b`,
-    950: c`#040609`,
-    1000: c`#000000`,
+    0: '#ffffff',
+    50: '#fdfdfe',
+    100: '#f7f8f9',
+    150: '#eaeced',
+    200: '#dddfe0',
+    250: '#d7d9da',
+    300: '#d0d2d4',
+    400: '#b8bcbf',
+    500: '#8a8f95',
+    600: '#5b626a',
+    700: '#2c3640',
+    750: '#1a2733',
+    800: '#15202b',
+    850: '#101a23',
+    900: '#0b131b',
+    950: '#040609',
+    1000: '#000000',
   },
-  black: c`#000000`,
-  ac: c`#17ce3a`,
+  black: '#000000',
+  ac: '#17ce3a',
   status: {
-    info: c`#8a8f95`,
-    warn: c`#ec9a00`,
-    error: c`#ff0062`,
-    success: c`#00b4fc`,
-    progress: c`#17ce3a`,
+    info: '#8a8f95',
+    warn: '#ec9a00',
+    error: '#ff0062',
+    success: '#00b4fc',
+    progress: '#17ce3a',
   },
   problemState: {
-    ac: c`#009f6b`,
-    partial: c`#efc050`,
-    wa: c`#e74c3c`,
+    ac: '#009f6b',
+    partial: '#efc050',
+    wa: '#e74c3c',
   },
   class: {
-    0: [c`#4f5257`, c`#282a2e`],
-    1: [c`#249ce5`, c`#49fbfe`],
-    2: [c`#20c5e9`, c`#41fdfe`],
-    3: [c`#1bdf8b`, c`#37fefc`],
-    4: [c`#2bd521`, c`#58fd45`],
-    5: [c`#b0db15`, c`#fdfe2b`],
-    6: [c`#ebca0f`, c`#fefd1d`],
-    7: [c`#f3b412`, c`#fffd26`],
-    8: [c`#ff7d00`, c`#fffc00`],
-    9: [c`#f31b74`, c`#ff37ee`],
-    10: [c`#a720e8`, c`#fd43ff`],
+    0: ['#4f5257', '#282a2e'],
+    1: ['#249ce5', '#49fbfe'],
+    2: ['#20c5e9', '#41fdfe'],
+    3: ['#1bdf8b', '#37fefc'],
+    4: ['#2bd521', '#58fd45'],
+    5: ['#b0db15', '#fdfe2b'],
+    6: ['#ebca0f', '#fefd1d'],
+    7: ['#f3b412', '#fffd26'],
+    8: ['#ff7d00', '#fffc00'],
+    9: ['#f31b74', '#ff37ee'],
+    10: ['#a720e8', '#fd43ff'],
   },
 }
 
 export interface SolvedTheme {
+  name: string
   color: {
-    solvedAc: Color
+    solvedAc: string
     text: {
       primary: {
-        main: Color
-        inverted: Color
-        light: Color
-        dark: Color
+        main: string
+        inverted: string
+        light: string
+        dark: string
       }
       secondary: {
-        main: Color
-        inverted: Color
-        light: Color
-        dark: Color
+        main: string
+        inverted: string
+        light: string
+        dark: string
       }
     }
     background: {
-      page: Color
-      card: { main: Color; dark: Color }
-      table: { main: Color; header: Color }
-      footer: Color
-      progress: Color
+      page: string
+      card: { main: string; dark: string }
+      table: { main: string; header: string }
+      footer: string
+      progress: string
     }
     problem: {
-      ac: Color
-      wa: Color
-      partial: Color
+      ac: string
+      wa: string
+      partial: string
     }
     status: {
-      info: Color
-      warn: Color
-      error: Color
-      success: Color
-      progress: Color
+      info: string
+      warn: string
+      error: string
+      success: string
+      progress: string
     }
-    border: Color
+    border: string
   }
   typography: {
     paragraph: string
     code: string
   }
   styles: {
-    border: (color?: Color) => string
-    shadow: (color?: Color, length?: number) => string
+    border: (color?: string) => string
+    shadow: (color?: string, length?: number) => string
   }
 }
 
-export const Light: SolvedTheme = {
+const Light: SolvedTheme = {
+  name: 'Light',
   color: {
     solvedAc: defaultPalette.ac,
     text: {
@@ -132,21 +133,22 @@ export const Light: SolvedTheme = {
   },
   typography: {
     paragraph:
-      '"Pretendard", "Inter", "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
+      '"Pretendard", "Inter", "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple string Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
     code: '"JetBrains Mono", "Noto Sans KR", "Consolas", "Courier New", Courier, monospace',
   },
   styles: {
-    border: (color?: Color) =>
-      `1px solid ${(color || defaultPalette.gray[200]).toString()}`,
-    shadow: (color?: Color, length?: number) =>
-      `${(color || defaultPalette.gray[200]).alpha(0.4).toString()} 0px ${
+    border: (color?: string) =>
+      `1px solid ${color || defaultPalette.gray[200]}`,
+    shadow: (color?: string, length?: number) =>
+      `${mix(0.4, color || defaultPalette.gray[200], 'transparent')} 0px ${
         (length || 8) / 2
       }px ${length || 8}px`,
   },
 }
 
-export const Dark: SolvedTheme = {
+const Dark: SolvedTheme = {
   ...Light,
+  name: 'Dark',
   color: {
     ...Light.color,
     text: {
@@ -173,17 +175,18 @@ export const Dark: SolvedTheme = {
     border: defaultPalette.gray[700],
   },
   styles: {
-    border: (color?: Color) =>
+    border: (color?: string) =>
       `1px solid ${(color || defaultPalette.gray[700]).toString()}`,
-    shadow: (color?: Color, length?: number) =>
-      `${(color || defaultPalette.gray[200]).alpha(0.4).toString()} 0px ${
+    shadow: (color?: string, length?: number) =>
+      `${mix(0.4, color || defaultPalette.gray[200], 'transparent')} 0px ${
         (length || 8) / 2
       }px ${length || 8}px`,
   },
 }
 
-export const Black: SolvedTheme = {
+const Black: SolvedTheme = {
   ...Dark,
+  name: 'Black',
   color: {
     ...Dark.color,
     background: {
@@ -196,13 +199,20 @@ export const Black: SolvedTheme = {
     border: defaultPalette.gray[900],
   },
   styles: {
-    border: (color?: Color) =>
+    border: (color?: string) =>
       `1px solid ${(color || defaultPalette.gray[900]).toString()}`,
-    shadow: (color?: Color, length?: number) =>
-      `${(color || defaultPalette.gray[200]).alpha(0.4).toString()} 0px ${
+    shadow: (color?: string, length?: number) =>
+      `${mix(0.4, color || defaultPalette.gray[200], 'transparent')} 0px ${
         (length || 8) / 2
       }px ${length || 8}px`,
   },
+}
+
+export const solvedThemes = {
+  light: Light,
+  dark: Dark,
+  black: Black,
+  palette: defaultPalette,
 }
 
 declare module 'styled-components' {
