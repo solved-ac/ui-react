@@ -9,10 +9,13 @@ export default {
     shown: {
       control: 'boolean',
       description: 'Whether the children should be shown',
+      defaultValue: false,
     },
     as: {
-      control: 'none',
+      control: 'radio',
+      options: ['div', 'p'],
       description: 'The component type to render the children in',
+      defaultValue: 'div',
     },
     children: {
       control: 'none',

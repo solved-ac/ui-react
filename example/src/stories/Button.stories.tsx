@@ -22,6 +22,10 @@ export default {
       control: 'boolean',
       description: 'Whether the button should be styled as a primary button',
     },
+    disabled: {
+      control: 'boolean',
+      description: 'Whether the button should be disabled',
+    },
     fullWidth: {
       control: 'boolean',
       description:
