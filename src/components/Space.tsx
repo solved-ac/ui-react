@@ -1,6 +1,6 @@
 import React from 'react'
 
-interface SpaceProps {
+export interface SpaceProps {
   h?: number | string
   w?: number | string
 }
