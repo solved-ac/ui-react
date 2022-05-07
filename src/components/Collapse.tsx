@@ -1,6 +1,12 @@
-import React, { ReactHTML, useLayoutEffect, useRef, useState } from 'react'
+import React, {
+  HTMLAttributes,
+  ReactHTML,
+  useLayoutEffect,
+  useRef,
+  useState
+} from 'react'
 
-export interface CollapseProps {
+export interface CollapseProps extends HTMLAttributes<HTMLDivElement> {
   shown: boolean
   as?: keyof ReactHTML
 }

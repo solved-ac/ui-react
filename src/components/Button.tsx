@@ -2,10 +2,21 @@ import { darken, transparentize } from 'polished'
 import React, { HTMLAttributes } from 'react'
 import styled, { useTheme } from 'styled-components'
 import { computeHoverColor, readableColor } from '../utils/color'
+import { cssVariables } from '../utils/styles'
+
+const [vars, v] = cssVariables(
+  [
+    'backgroundColor',
+    'hoverBackgroundColor',
+    'textColor',
+    'hoverTextColor',
+    'hoverShadow',
+    'activeShadow',
+  ],
+  'button'
+)
 
 interface ButtonContainerProps {
-  backgroundColor: string
-  hoverColor: string
   disabled: boolean
   circle: boolean
 }
@@ -14,38 +25,24 @@ const ButtonContainer = styled.button<ButtonContainerProps>`
   display: inline-block;
   vertical-align: middle;
   text-align: center;
-  background: ${({ backgroundColor }) => backgroundColor};
+  background: ${v.backgroundColor};
   padding: 0;
-  color: ${({ backgroundColor, disabled, theme }) =>
-    transparentize(
-      disabled ? 0.5 : 0,
-      readableColor(darken(0.2, backgroundColor), theme)
-    )};
+  color: ${v.textColor};
   transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease,
     box-shadow 0.3s ease;
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   user-select: none;
   border-radius: ${({ circle }) => (circle ? '9999px' : '4px')};
   &:hover {
-    background: ${({ hoverColor }) => hoverColor.toString()};
-    color: ${({ hoverColor, disabled, theme }) =>
-      transparentize(
-        disabled ? 0.5 : 0,
-        readableColor(darken(0.2, hoverColor), theme)
-      )};
-    box-shadow: ${({ disabled, hoverColor, theme }) =>
-      disabled ? 'unset' : theme.styles.shadow(hoverColor, 8)};
+    background: ${v.hoverBackgroundColor};
+    color: ${v.hoverTextColor};
+    box-shadow: ${v.hoverShadow};
     transform: ${({ disabled }) => (disabled ? 'unset' : 'translate(0, -4px)')};
   }
   &:active {
-    background: ${({ hoverColor }) => hoverColor.toString()};
-    color: ${({ hoverColor, disabled, theme }) =>
-      transparentize(
-        disabled ? 0.5 : 0,
-        readableColor(darken(0.2, hoverColor), theme)
-      )};
-    box-shadow: ${({ disabled, hoverColor, theme }) =>
-      disabled ? 'unset' : theme.styles.shadow(hoverColor, 4)};
+    background: ${v.hoverBackgroundColor};
+    color: ${v.hoverTextColor};
+    box-shadow: ${v.activeShadow};
     transform: ${({ disabled }) => (disabled ? 'unset' : 'translate(0, -2px)')};
   }
 `
@@ -90,18 +87,33 @@ export const Button: React.FC<ButtonProps> = (props) => {
   return (
     <ButtonContainer
       {...rest}
-      backgroundColor={transparentize(
-        disabled ? 0.5 : 0,
-        computedBackgroundColor
-      )}
-      hoverColor={
-        disabled
-          ? transparentize(0.5, computedBackgroundColor)
-          : computedHoverColor
-      }
       disabled={disabled === true}
       circle={circle === true}
-      style={{ width: fullWidth ? '100%' : 'unset', ...style }}
+      style={{
+        [vars.backgroundColor]: transparentize(
+          disabled ? 0.5 : 0,
+          computedBackgroundColor
+        ),
+        [vars.hoverBackgroundColor]: disabled
+          ? transparentize(0.5, computedBackgroundColor)
+          : computedHoverColor,
+        [vars.textColor]: transparentize(
+          disabled ? 0.5 : 0,
+          readableColor(darken(0.2, computedBackgroundColor), solvedTheme)
+        ),
+        [vars.hoverTextColor]: transparentize(
+          disabled ? 0.5 : 0,
+          readableColor(darken(0.2, computedHoverColor), solvedTheme)
+        ),
+        [vars.hoverShadow]: disabled
+          ? 'unset'
+          : solvedTheme.styles.shadow(computedHoverColor, 8),
+        [vars.activeShadow]: disabled
+          ? 'unset'
+          : solvedTheme.styles.shadow(computedHoverColor, 4),
+        width: fullWidth ? '100%' : 'unset',
+        ...style,
+      }}
     >
       <div style={{ padding: padding === 'none' ? 'unset' : '12px 16px' }}>
         {children}

@@ -1,5 +1,22 @@
 {
   "plugins": [
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
+    [
+      "@babel/plugin-transform-react-jsx",
+      {
+        "pragma": "React.createElement",
+        "pragmaFrag": "React.Fragment"
+      }
+    ],
+    "@babel/plugin-proposal-optional-chaining",
+    "inline-react-svg",
+    [
+      "babel-plugin-file-loader",
+      {
+        "publicPath": "./",
+        "outputPath": "./dist/assets"
+      }
+    ],
     [
       "babel-plugin-styled-components",
       {

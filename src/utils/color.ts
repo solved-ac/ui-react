@@ -1,7 +1,7 @@
 import {
-    darken,
-    lighten,
-    readableColor as polishedReadableColor
+  darken,
+  lighten,
+  readableColor as polishedReadableColor
 } from 'polished'
 import { SolvedTheme } from '../styles/Themes'
 

@@ -1,3 +1,5 @@
+// eslint-disable-next-line react/no-typos
+import 'react'
 
 /**
  * Default CSS definition for typescript,
@@ -17,4 +19,10 @@ declare module '*.svg' {
   const svgComponent: SvgrComponent
   export default svgUrl
   export { svgComponent as ReactComponent }
+}
+
+type CustomProp = { [key in `--${string}`]: string }
+declare module 'react' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
+  export interface CSSProperties extends CustomProp {}
 }
