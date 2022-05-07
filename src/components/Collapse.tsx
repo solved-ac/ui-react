@@ -1,13 +1,8 @@
-import React, {
-  HTMLAttributes,
-  ReactHTML,
-  useLayoutEffect,
-  useRef,
-  useState
-} from 'react'
+import React, { ReactHTML, useLayoutEffect, useRef, useState } from 'react'
 
-export interface CollapseProps extends HTMLAttributes<HTMLDivElement> {
+export interface CollapseProps {
   shown: boolean
+  children?: React.ReactNode
   as?: keyof ReactHTML
 }
 
@@ -63,4 +58,5 @@ export const Collapse: React.FC<CollapseProps> = (props) => {
 
 Collapse.defaultProps = {
   as: 'div',
+  children: undefined,
 }
