@@ -6,7 +6,7 @@ import { cssVariables } from '../utils/styles'
 
 const [vars, v] = cssVariables(
   ['backgroundColor', 'hoverBackgroundColor', 'textColor', 'hoverTextColor'],
-  'button'
+  'card'
 )
 
 interface CardContainerProps {
