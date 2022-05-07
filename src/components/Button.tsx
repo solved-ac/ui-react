@@ -18,10 +18,8 @@ interface ButtonContainerProps {
 
 const ButtonContainer = styled.button<ButtonContainerProps>`
   display: inline-block;
-  font: inherit;
   vertical-align: middle;
   background: ${({ backgroundColor }) => backgroundColor};
-  border: none;
   padding: 0;
   color: ${({ backgroundColor, disabled, theme }) =>
     transparentize(

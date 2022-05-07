@@ -1,4 +1,4 @@
-import { normalize, transparentize } from 'polished'
+import { buttons, normalize, textInputs, transparentize } from 'polished'
 import { createGlobalStyle } from 'styled-components'
 import { SolvedTheme } from './Themes'
 
@@ -57,9 +57,7 @@ export const SolvedGlobalStyles = createGlobalStyle<{ theme: SolvedTheme }>`
         border-radius: 8px;
     }
     
-    input[type="text"],
-    input[type="number"],
-    input[type="password"] {
+    ${textInputs()} {
         width: 100%;
         max-width: 400px;
         height: auto;
@@ -69,6 +67,12 @@ export const SolvedGlobalStyles = createGlobalStyle<{ theme: SolvedTheme }>`
         color: ${({ theme }) => theme.color.text.primary.main};
         border: ${({ theme }) => theme.styles.border()};
         border-radius: 8px;
+    }
+    
+    ${buttons()} {
+        border: none;
+        font: inherit;
+        text-align: inherit;
     }
     
     option {
