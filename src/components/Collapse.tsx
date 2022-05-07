@@ -7,7 +7,7 @@ export interface CollapseProps {
 }
 
 export const Collapse: React.FC<CollapseProps> = (props) => {
-  const { as, shown, children } = props
+  const { as = 'div', shown, children } = props
 
   const contentsRef = useRef<HTMLDivElement>(null)
   const [contentHeight, setContentHeight] = useState<number>(0)
@@ -38,8 +38,7 @@ export const Collapse: React.FC<CollapseProps> = (props) => {
     }
   }, [shown, contentHeight])
 
-  const RenderComponent = as ?? 'div'
-
+  const RenderComponent = as
   return (
     <RenderComponent
       style={{
@@ -54,9 +53,4 @@ export const Collapse: React.FC<CollapseProps> = (props) => {
       {mountChild ? <div ref={contentsRef}>{children}</div> : null}
     </RenderComponent>
   )
-}
-
-Collapse.defaultProps = {
-  as: 'div',
-  children: undefined,
 }

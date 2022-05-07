@@ -23,7 +23,7 @@ const paddingMap = {
 export const EmptyStatePlaceholder: React.FC<EmptyStatePlaceholderProps> = (
   props
 ) => {
-  const { padding, style, fullHeight, ...rest } = props
+  const { padding = 'normal', fullHeight = false, style, ...rest } = props
 
   const calculatedPadding = paddingMap[padding || 'normal']
 
@@ -37,9 +37,4 @@ export const EmptyStatePlaceholder: React.FC<EmptyStatePlaceholderProps> = (
       {...rest}
     />
   )
-}
-
-EmptyStatePlaceholder.defaultProps = {
-  padding: 'normal',
-  fullHeight: false,
 }

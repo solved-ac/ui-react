@@ -64,11 +64,11 @@ export const Button: React.FC<ButtonProps> = (props) => {
   const {
     backgroundColor,
     hoverColor,
-    primary,
-    disabled,
-    circle,
-    fullWidth,
-    padding,
+    primary = false,
+    disabled = false,
+    circle = false,
+    fullWidth = false,
+    padding = 'normal',
     style,
     children,
     ...rest
@@ -88,8 +88,8 @@ export const Button: React.FC<ButtonProps> = (props) => {
   return (
     <ButtonContainer
       {...rest}
-      disabled={disabled === true}
-      circle={circle === true}
+      disabled={disabled}
+      circle={circle}
       style={{
         [vars.backgroundColor]: transparentize(
           disabled ? 0.5 : 0,
@@ -121,14 +121,4 @@ export const Button: React.FC<ButtonProps> = (props) => {
       </div>
     </ButtonContainer>
   )
-}
-
-Button.defaultProps = {
-  backgroundColor: undefined,
-  hoverColor: undefined,
-  primary: false,
-  disabled: false,
-  circle: false,
-  fullWidth: false,
-  padding: 'normal',
 }

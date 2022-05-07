@@ -67,9 +67,9 @@ export const Tab: React.FC<TabProps> = (props) => {
   const solvedTheme = useTheme()
 
   const {
-    current,
+    current = false,
     backgroundColor,
-    disabled,
+    disabled = false,
     hoverColor,
     accentColor,
     style,
@@ -124,12 +124,4 @@ export const Tab: React.FC<TabProps> = (props) => {
       {...rest}
     />
   )
-}
-
-Tab.defaultProps = {
-  current: false,
-  disabled: false,
-  backgroundColor: undefined,
-  hoverColor: undefined,
-  accentColor: undefined,
 }

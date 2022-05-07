@@ -19,18 +19,6 @@ export interface TabsProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export const Tabs: React.FC<TabsProps> = (props) => {
-  const { fullWidth, multiline, ...rest } = props
-  return (
-    <TabsContainer
-      fullWidth={fullWidth === true}
-      multiline={multiline === true}
-      {...rest}
-    />
-  )
-}
-
-Tabs.defaultProps = {
-  children: undefined,
-  fullWidth: false,
-  multiline: false,
+  const { fullWidth = false, multiline = false, ...rest } = props
+  return <TabsContainer fullWidth={fullWidth} multiline={multiline} {...rest} />
 }

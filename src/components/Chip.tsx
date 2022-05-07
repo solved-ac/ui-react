@@ -31,7 +31,3 @@ export const Chip: React.FC<ChipProps> = (props) => {
     />
   )
 }
-
-Chip.defaultProps = {
-  backgroundColor: undefined,
-}

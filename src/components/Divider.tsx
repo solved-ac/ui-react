@@ -11,7 +11,7 @@ export interface DividerProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export const Divider: React.FC<DividerProps> = (props) => {
-  const { margin, ...rest } = props
+  const { margin = 'normal', ...rest } = props
 
   if (!margin || margin === 'none') return <DividerItem {...rest} />
 
@@ -22,8 +22,4 @@ export const Divider: React.FC<DividerProps> = (props) => {
       <Space h={margin === 'wide' ? 64 : 32} />
     </React.Fragment>
   )
-}
-
-Divider.defaultProps = {
-  margin: 'normal',
 }

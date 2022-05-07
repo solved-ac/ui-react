@@ -19,6 +19,7 @@ module.exports = {
     'import/no-extraneous-dependencies': 0,
     'no-shadow': 0,
     'react/prop-types': 0,
+    'react/require-default-props': 0,
     'react/jsx-fragments': 0,
     'react/jsx-filename-extension': [
       2,

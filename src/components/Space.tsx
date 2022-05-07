@@ -12,8 +12,3 @@ export const Space: React.FC<SpaceProps> = (props) => {
   }
   return <div style={{ display: 'block', width, height }} />
 }
-
-Space.defaultProps = {
-  h: undefined,
-  w: undefined,
-}

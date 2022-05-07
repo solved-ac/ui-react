@@ -53,9 +53,9 @@ export const Card: React.FC<CardProps> = (props) => {
   const {
     backgroundColor,
     hoverColor,
-    clickable,
-    disabled,
-    padding,
+    clickable = false,
+    disabled = false,
+    padding = 'normal',
     style,
     children,
     ...rest
@@ -99,12 +99,4 @@ export const Card: React.FC<CardProps> = (props) => {
       {children}
     </CardContainer>
   )
-}
-
-Card.defaultProps = {
-  backgroundColor: undefined,
-  hoverColor: undefined,
-  clickable: false,
-  disabled: false,
-  padding: 'normal',
 }
