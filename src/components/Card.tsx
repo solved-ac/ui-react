@@ -13,7 +13,6 @@ interface CardContainerProps {
   hoverColor: string
   clickable: boolean
   disabled: boolean
-  padding?: 'none' | 'normal' | 'wide'
 }
 
 const CardContainer = styled.div<CardContainerProps>`
@@ -50,7 +49,7 @@ export interface CardProps extends HTMLAttributes<HTMLDivElement> {
   hoverColor?: string
   clickable?: boolean
   disabled?: boolean
-  padding?: 'none' | 'normal'
+  padding?: 'none' | 'normal' | 'wide'
 }
 
 const paddingMap = {
@@ -99,7 +98,6 @@ export const Card: React.FC<CardProps> = (props) => {
       }
       disabled={disabled === true && clickable === true}
       clickable={clickable === true}
-      padding={padding}
       as={clickable ? 'button' : 'div'}
       style={{ padding: padding && paddingMap[padding], ...style }}
     >

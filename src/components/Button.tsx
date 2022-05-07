@@ -13,7 +13,6 @@ interface ButtonContainerProps {
   hoverColor: string
   disabled: boolean
   circle: boolean
-  padding?: 'none' | 'normal'
 }
 
 const ButtonContainer = styled.button<ButtonContainerProps>`
@@ -110,7 +109,6 @@ export const Button: React.FC<ButtonProps> = (props) => {
       }
       disabled={disabled === true}
       circle={circle === true}
-      padding={padding}
       style={{ width: fullWidth ? '100%' : 'unset', ...style }}
     >
       <div style={{ padding: padding === 'none' ? 'unset' : '12px 16px' }}>
