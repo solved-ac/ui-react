@@ -1,4 +1,4 @@
-import { mix } from 'polished'
+import { transparentize } from 'polished'
 
 const defaultPalette = {
   white: '#ffffff',
@@ -140,7 +140,7 @@ const Light: SolvedTheme = {
     border: (color?: string) =>
       `1px solid ${color || defaultPalette.gray[200]}`,
     shadow: (color?: string, length?: number) =>
-      `${mix(0.4, color || defaultPalette.gray[200], 'transparent')} 0px ${
+      `${transparentize(0.6, color || defaultPalette.gray[200])} 0px ${
         (length || 8) / 2
       }px ${length || 8}px`,
   },
@@ -178,7 +178,7 @@ const Dark: SolvedTheme = {
     border: (color?: string) =>
       `1px solid ${(color || defaultPalette.gray[700]).toString()}`,
     shadow: (color?: string, length?: number) =>
-      `${mix(0.4, color || defaultPalette.gray[200], 'transparent')} 0px ${
+      `${transparentize(0.6, color || defaultPalette.gray[200])} 0px ${
         (length || 8) / 2
       }px ${length || 8}px`,
   },
@@ -202,7 +202,7 @@ const Black: SolvedTheme = {
     border: (color?: string) =>
       `1px solid ${(color || defaultPalette.gray[900]).toString()}`,
     shadow: (color?: string, length?: number) =>
-      `${mix(0.4, color || defaultPalette.gray[200], 'transparent')} 0px ${
+      `${transparentize(0.6, color || defaultPalette.gray[200])} 0px ${
         (length || 8) / 2
       }px ${length || 8}px`,
   },

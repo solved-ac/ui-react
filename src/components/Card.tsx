@@ -1,12 +1,9 @@
 import {
-  darken,
-  lighten,
-  readableColor as polishedReadableColor,
   transparentize
 } from 'polished'
 import React, { HTMLAttributes } from 'react'
 import styled, { useTheme } from 'styled-components'
-import { readableColor } from '../utils/color'
+import { computeHoverColor, readableColor } from '../utils/color'
 
 interface CardContainerProps {
   backgroundColor: string
@@ -75,14 +72,10 @@ export const Card: React.FC<CardProps> = (props) => {
   const computedBackgroundColor =
     backgroundColor || solvedTheme.color.background.card.main
 
-  const computedHoverColor =
-    hoverColor ||
-    polishedReadableColor(
-      computedBackgroundColor,
-      darken(0.1, computedBackgroundColor),
-      lighten(0.2, computedBackgroundColor),
-      false
-    )
+  const computedHoverColor = computeHoverColor(
+    computedBackgroundColor,
+    hoverColor
+  )
 
   return (
     <CardContainer

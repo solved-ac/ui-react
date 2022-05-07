@@ -1,12 +1,7 @@
-import {
-  darken,
-  lighten,
-  readableColor as polishedReadableColor,
-  transparentize
-} from 'polished'
+import { darken, transparentize } from 'polished'
 import React, { HTMLAttributes } from 'react'
 import styled, { useTheme } from 'styled-components'
-import { readableColor } from '../utils/color'
+import { computeHoverColor, readableColor } from '../utils/color'
 
 interface ButtonContainerProps {
   backgroundColor: string
@@ -26,7 +21,7 @@ const ButtonContainer = styled.button<ButtonContainerProps>`
       disabled ? 0.5 : 0,
       readableColor(darken(0.2, backgroundColor), theme)
     )};
-  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease,
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease,
     box-shadow 0.3s ease;
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   user-select: none;
@@ -87,14 +82,10 @@ export const Button: React.FC<ButtonProps> = (props) => {
       ? solvedTheme.color.solvedAc
       : solvedTheme.color.background.card.main)
 
-  const computedHoverColor =
-    hoverColor ||
-    polishedReadableColor(
-      computedBackgroundColor,
-      darken(0.1, computedBackgroundColor),
-      lighten(0.2, computedBackgroundColor),
-      false
-    )
+  const computedHoverColor = computeHoverColor(
+    computedBackgroundColor,
+    hoverColor
+  )
 
   return (
     <ButtonContainer
