@@ -18,6 +18,7 @@ interface ButtonContainerProps {
 const ButtonContainer = styled.button<ButtonContainerProps>`
   display: inline-block;
   vertical-align: middle;
+  text-align: center;
   background: ${({ backgroundColor }) => backgroundColor};
   padding: 0;
   color: ${({ backgroundColor, disabled, theme }) =>
