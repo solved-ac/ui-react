@@ -27,7 +27,7 @@ export default {
       description: 'Whether the clickable card should be disabled',
     },
     padding: {
-      control: { type: 'select', options: ['none', 'normal'] },
+      control: { type: 'select', options: ['none', 'normal', 'wide'] },
       description: 'The padding of the card',
     },
   },

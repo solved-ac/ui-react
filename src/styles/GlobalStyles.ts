@@ -35,6 +35,10 @@ export const SolvedGlobalStyles = createGlobalStyle<{ theme: SolvedTheme }>`
   theme.color.background.page};
     }
 
+    h1, h2, h3, h4, h5, h6 {
+        margin: 0;
+    }
+
     ::selection {
         color: ${({ theme }) => theme.color.background.page};
         background: ${({ theme }) =>
