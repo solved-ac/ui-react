@@ -2,6 +2,18 @@ import { darken, ellipsis, transparentize } from 'polished'
 import React from 'react'
 import styled, { useTheme } from 'styled-components'
 import { computeHoverColor, readableColor } from '../utils/color'
+import { cssVariables } from '../utils/styles'
+
+const [vars, v] = cssVariables(
+  [
+    'backgroundColor',
+    'hoverBackgroundColor',
+    'textColor',
+    'hoverTextColor',
+    'accentColor',
+  ],
+  'tab'
+)
 
 interface TabContainerProps {
   disabled: boolean
@@ -25,39 +37,21 @@ const TabContainer = styled.button<TabContainerProps>`
   transition: background-color 0.3s ease, color 0.3s ease,
     border-color 0.3s ease;
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
-  background: ${({ backgroundColor }) => backgroundColor};
-  color: ${({ backgroundColor, disabled, theme }) =>
-    transparentize(
-      disabled ? 0.5 : 0,
-      readableColor(darken(0.2, backgroundColor), theme)
-    )};
-  &:hover {
-    background: ${({ hoverColor }) => hoverColor.toString()};
-    color: ${({ hoverColor, disabled, theme }) =>
-      transparentize(
-        disabled ? 0.5 : 0,
-        readableColor(darken(0.2, hoverColor), theme)
-      )};
-    background-color: ${({ hoverColor }) => hoverColor};
-    border-bottom: 2px solid ${({ accentColor }) => accentColor};
-  }
+  background: ${v.backgroundColor};
+  color: ${v.textColor};
+  &:hover,
   &:active {
-    background: ${({ hoverColor }) => hoverColor.toString()};
-    color: ${({ hoverColor, disabled, theme }) =>
-      transparentize(
-        disabled ? 0.5 : 0,
-        readableColor(darken(0.2, hoverColor), theme)
-      )};
-    background-color: ${({ hoverColor }) => hoverColor};
-    border-bottom: 2px solid ${({ accentColor }) => accentColor};
+    color: ${v.hoverTextColor};
+    background-color: ${v.hoverBackgroundColor};
+    border-bottom: 2px solid ${v.accentColor};
   }
 `
 
 const TabCurrentContainer = styled(TabContainer)`
   font-weight: bold;
-  border-bottom: 2px solid ${({ accentColor }) => accentColor};
+  border-bottom: 2px solid ${v.accentColor};
   &:hover {
-    border-bottom: 2px solid ${({ accentColor }) => accentColor};
+    border-bottom: 2px solid ${v.accentColor};
   }
 `
 
@@ -78,6 +72,7 @@ export const Tab: React.FC<TabProps> = (props) => {
     disabled,
     hoverColor,
     accentColor,
+    style,
     ...rest
   } = props
 
@@ -107,6 +102,25 @@ export const Tab: React.FC<TabProps> = (props) => {
           : computedHoverColor
       }
       disabled={disabled === true}
+      style={{
+        [vars.backgroundColor]: transparentize(
+          disabled ? 0.5 : 0,
+          computedBackgroundColor
+        ),
+        [vars.hoverBackgroundColor]: disabled
+          ? transparentize(0.5, computedBackgroundColor)
+          : computedHoverColor,
+        [vars.textColor]: transparentize(
+          disabled ? 0.5 : 0,
+          readableColor(darken(0.2, computedBackgroundColor), solvedTheme)
+        ),
+        [vars.hoverTextColor]: transparentize(
+          disabled ? 0.5 : 0,
+          readableColor(darken(0.2, computedHoverColor), solvedTheme)
+        ),
+        [vars.accentColor]: computedAccentColor,
+        ...style,
+      }}
       {...rest}
     />
   )

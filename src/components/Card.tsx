@@ -24,10 +24,7 @@ const CardContainer = styled.div<CardContainerProps>`
     transition: background 0.3s ease, color 0.3s ease;
     cursor: ${disabled ? 'not-allowed' : 'pointer'};
     user-select: none;
-    &:hover {
-      background: ${v.hoverBackgroundColor};
-      color: ${v.hoverTextColor};
-    }
+    &:hover,
     &:active {
       background: ${v.hoverBackgroundColor};
       color: ${v.hoverTextColor};

@@ -33,15 +33,16 @@ const ButtonContainer = styled.button<ButtonContainerProps>`
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   user-select: none;
   border-radius: ${({ circle }) => (circle ? '9999px' : '4px')};
-  &:hover {
+  &:hover,
+  &:active {
     background: ${v.hoverBackgroundColor};
     color: ${v.hoverTextColor};
+  }
+  &:hover {
     box-shadow: ${v.hoverShadow};
     transform: ${({ disabled }) => (disabled ? 'unset' : 'translate(0, -4px)')};
   }
   &:active {
-    background: ${v.hoverBackgroundColor};
-    color: ${v.hoverTextColor};
     box-shadow: ${v.activeShadow};
     transform: ${({ disabled }) => (disabled ? 'unset' : 'translate(0, -2px)')};
   }
