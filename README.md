@@ -20,7 +20,21 @@ npm install --save @solved-ac/ui-react styled-components
 
 ### SSR
 
-Like as in `styled-components`, this project needs `babel-plugin-styled-components` to support SSR. To set up read here: https://styled-components.com/docs/tooling
+Setup module alias. Please refer to: https://styled-components.com/docs/faqs#linking-in-an-ssr-scenario
+
+### Next.js
+
+Modify `tsconfig.json` to setup module alias.
+
+```json
+{
+  "compilerOptions": {
+    "paths": {
+      "styled-components": ["./node_modules/styled-components"]
+    }
+  }
+}
+```
 
 ## Usage
 
