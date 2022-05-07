@@ -1,8 +1,16 @@
 import React, { HTMLAttributes } from 'react'
 import styled from 'styled-components'
 
-const TabsContainer = styled.div`
+interface TabsContainerProps {
+  fullWidth: boolean
+  multiline: boolean
+}
+
+const TabsContainer = styled.div<TabsContainerProps>`
   overflow-x: auto;
+  display: ${({ fullWidth }) => (fullWidth ? 'flex' : 'block')};
+  white-space: ${({ multiline }) => (multiline ? 'nowrap' : 'normal')};
+  flex-wrap: ${({ multiline }) => (multiline ? 'wrap' : 'nowrap')};
 `
 
 export interface TabsProps extends HTMLAttributes<HTMLDivElement> {
@@ -14,11 +22,8 @@ export const Tabs: React.FC<TabsProps> = (props) => {
   const { fullWidth, multiline, ...rest } = props
   return (
     <TabsContainer
-      style={{
-        display: fullWidth ? 'flex' : 'block',
-        whiteSpace: multiline ? 'normal' : 'nowrap',
-        flexWrap: multiline ? 'wrap' : 'nowrap',
-      }}
+      fullWidth={fullWidth === true}
+      multiline={multiline === true}
       {...rest}
     />
   )
