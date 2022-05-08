@@ -18,10 +18,12 @@ const [vars, v] = cssVariables(
 
 interface ButtonContainerProps {
   circle: boolean
+  fullWidth: boolean
 }
 
 const ButtonContainer = styled.button<ButtonContainerProps>`
   ${cssClickable}
+  ${({ fullWidth }) => fullWidth && 'width: 100%;'}
   display: inline-block;
   vertical-align: middle;
   text-align: center;
@@ -88,6 +90,7 @@ export const Button: React.FC<ButtonProps> = (props) => {
       {...rest}
       disabled={disabled}
       circle={circle}
+      fullWidth={fullWidth}
       style={{
         [vars.backgroundColor]: computedBackgroundColor,
         [vars.hoverBackgroundColor]: computedHoverColor,
@@ -101,7 +104,6 @@ export const Button: React.FC<ButtonProps> = (props) => {
         ),
         [vars.hoverShadow]: solvedTheme.styles.shadow(computedHoverColor, 8),
         [vars.activeShadow]: solvedTheme.styles.shadow(computedHoverColor, 4),
-        width: fullWidth ? '100%' : 'unset',
         ...style,
       }}
     >

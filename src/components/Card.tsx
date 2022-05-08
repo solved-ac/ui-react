@@ -9,8 +9,15 @@ const [vars, v] = cssVariables(
   'card'
 )
 
+const paddingMap = {
+  none: 'padding: 0;',
+  normal: 'padding: 8px;',
+  wide: 'padding: 16px;',
+}
+
 interface CardContainerProps {
   clickable: boolean
+  padding: 'none' | 'normal' | 'wide'
 }
 
 const whenClickable = css`
@@ -28,6 +35,7 @@ const CardContainer = styled.div<CardContainerProps>`
   color: ${v.textColor};
   border-radius: 8px;
   ${({ clickable }) => clickable && whenClickable}
+  ${({ padding }) => paddingMap[padding]}
 `
 
 export interface CardProps extends HTMLAttributes<HTMLDivElement> {
@@ -36,12 +44,6 @@ export interface CardProps extends HTMLAttributes<HTMLDivElement> {
   clickable?: boolean
   disabled?: boolean
   padding?: 'none' | 'normal' | 'wide'
-}
-
-const paddingMap = {
-  none: '0',
-  normal: '8px',
-  wide: '16px',
 }
 
 export const Card: React.FC<CardProps> = (props) => {
@@ -72,6 +74,7 @@ export const Card: React.FC<CardProps> = (props) => {
       disabled={disabled && clickable}
       clickable={clickable}
       as={clickable ? 'button' : 'div'}
+      padding={padding}
       style={{
         [vars.backgroundColor]: computedBackgroundColor,
         [vars.hoverBackgroundColor]: computedHoverColor,
@@ -83,7 +86,6 @@ export const Card: React.FC<CardProps> = (props) => {
           darken(0.2, computedHoverColor),
           solvedTheme
         ),
-        padding: padding && paddingMap[padding],
         ...style,
       }}
     >

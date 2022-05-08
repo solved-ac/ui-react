@@ -1,9 +1,14 @@
+import { darken } from 'polished'
 import React from 'react'
 import styled, { useTheme } from 'styled-components'
 import { readableColor } from '../utils/color'
+import { cssVariables } from '../utils/styles'
+
+const [vars, v] = cssVariables(['backgroundColor', 'textColor'], 'chip')
 
 const ChipContainer = styled.div`
-  background-color: ${({ theme }) => theme.color.background.card.dark};
+  background-color: ${v.backgroundColor};
+  color: ${v.textColor};
   padding: 8px 12px;
   border-radius: 32px;
   text-align: center;
@@ -18,14 +23,18 @@ export const Chip: React.FC<ChipProps> = (props) => {
   const theme = useTheme()
   const { backgroundColor, ...childProps } = props
 
-  const color = backgroundColor || theme.color.background.card.dark
+  const computedBackgroundColor =
+    backgroundColor || theme.color.background.card.dark
 
   return (
     <ChipContainer
       {...childProps}
       style={{
-        background: color,
-        color: readableColor(color, theme),
+        [vars.backgroundColor]: computedBackgroundColor,
+        [vars.textColor]: readableColor(
+          darken(0.2, computedBackgroundColor),
+          theme
+        ),
         ...childProps.style,
       }}
     />
