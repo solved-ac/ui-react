@@ -1,5 +1,7 @@
 # HEAVILY INCOMPLETE
 
+Do not use this package in production! Almost every commit will be a breaking change.
+
 # @solved-ac/ui-react
 
 > React component library used by [solved.ac](https://solved.ac)
@@ -36,17 +38,9 @@ Modify `tsconfig.json` to setup module alias.
 }
 ```
 
-## Usage
+## Contribute
 
-```tsx
-import { Button } from '@solved-ac/ui-react'
-
-class Example extends Component {
-  render() {
-    return <Button />
-  }
-}
-```
+Contributions are welcome!
 
 ## License
 
