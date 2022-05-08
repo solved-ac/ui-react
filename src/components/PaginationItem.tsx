@@ -1,17 +1,13 @@
-import { ellipsis, transparentize } from 'polished'
+import { ellipsis } from 'polished'
 import React from 'react'
 import styled, { css, useTheme } from 'styled-components'
 import { computeHoverColor, readableColor } from '../utils/color'
 import { cssClickable, cssVariables } from '../utils/styles'
+import { transparentHoverTemplate } from '../utils/variables'
 
 export const paginationItemVariables = cssVariables(
   {
-    backgroundColor: (theme) =>
-      transparentize(1, theme.color.background.card.main),
-    textColor: (theme) => theme.color.text.primary.main,
-    hoverBackgroundColor: (theme) =>
-      computeHoverColor(theme.color.text.primary.main),
-    hoverTextColor: (theme) => theme.color.text.primary.inverted,
+    ...transparentHoverTemplate,
     activeBackgroundColor: (theme) =>
       computeHoverColor(theme.color.text.primary.main),
     activeTextColor: (theme) => theme.color.text.primary.inverted,
@@ -29,6 +25,11 @@ const whenCurrent = css`
   font-weight: bold;
   background: ${v.activeBackgroundColor};
   color: ${v.activeTextColor};
+  &:not([disabled]):hover,
+  &:not([disabled]):active {
+    background: ${v.activeBackgroundColor};
+    color: ${v.activeTextColor};
+  }
 `
 
 const PaginationItemContainer = styled.button<PaginationItemContainerProps>`

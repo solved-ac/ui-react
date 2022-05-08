@@ -2,11 +2,11 @@ import React, { HTMLAttributes } from 'react'
 import styled, { useTheme } from 'styled-components'
 import { computeHoverColor, readableColor } from '../utils/color'
 import { cssClickable, cssVariables } from '../utils/styles'
-import { cardTemplate } from '../utils/variables'
+import { cardHoverTemplate } from '../utils/variables'
 
 export const buttonVariables = cssVariables(
   {
-    ...cardTemplate,
+    ...cardHoverTemplate,
     hoverShadow: (theme) =>
       theme.styles.shadow(
         computeHoverColor(theme.color.background.card.main),

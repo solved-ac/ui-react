@@ -2,11 +2,11 @@ import React, { HTMLAttributes } from 'react'
 import styled, { css, useTheme } from 'styled-components'
 import { computeHoverColor, readableColor } from '../utils/color'
 import { cssClickable, cssVariables } from '../utils/styles'
-import { cardTemplate } from '../utils/variables'
+import { cardHoverTemplate } from '../utils/variables'
 
 export const cardVariables = cssVariables(
   {
-    ...cardTemplate,
+    ...cardHoverTemplate,
   },
   'card'
 )
