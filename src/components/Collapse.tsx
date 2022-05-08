@@ -1,4 +1,5 @@
 import React, { ReactHTML, useLayoutEffect, useRef, useState } from 'react'
+import styled from 'styled-components'
 
 export interface CollapseProps {
   shown: boolean
@@ -6,8 +7,22 @@ export interface CollapseProps {
   as?: keyof ReactHTML
 }
 
+interface RenderComponentProps {
+  height: number | 'auto'
+  opacity: number
+}
+
+const RenderComponent = styled.div<RenderComponentProps>`
+  height: ${({ height }) => height};
+  transform-origin: top;
+  opacity: ${({ opacity }) => opacity};
+  transition: height 0.3s ease, opacity 0.3s ease;
+  pointer-events: ${({ opacity }) => (opacity ? 'all' : 'none')};
+  overflow: 'hidden';
+`
+
 export const Collapse: React.FC<CollapseProps> = (props) => {
-  const { as = 'div', shown, children } = props
+  const { as, shown, children } = props
 
   const contentsRef = useRef<HTMLDivElement>(null)
   const [contentHeight, setContentHeight] = useState<number>(0)
@@ -38,17 +53,11 @@ export const Collapse: React.FC<CollapseProps> = (props) => {
     }
   }, [shown, contentHeight])
 
-  const RenderComponent = as
   return (
     <RenderComponent
-      style={{
-        height: renderHeight,
-        transformOrigin: 'top',
-        opacity: prevShown || shown ? 1 : 0,
-        transition: `height .3s ease, opacity .3s ease`,
-        pointerEvents: prevShown || shown ? 'all' : 'none',
-        overflow: 'hidden',
-      }}
+      as={as}
+      height={renderHeight}
+      opacity={prevShown || shown ? 1 : 0}
     >
       {mountChild ? <div ref={contentsRef}>{children}</div> : null}
     </RenderComponent>
