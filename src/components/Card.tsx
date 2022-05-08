@@ -69,7 +69,6 @@ export const Card: React.FC<CardProps> = (props) => {
 
   return (
     <CardContainer
-      {...rest}
       disabled={disabled && clickable}
       clickable={clickable}
       as={clickable ? 'button' : 'div'}
@@ -83,6 +82,7 @@ export const Card: React.FC<CardProps> = (props) => {
           computedHoverColor && readableColor(computedHoverColor, solvedTheme),
         ...style,
       }}
+      {...rest}
     >
       {children}
     </CardContainer>

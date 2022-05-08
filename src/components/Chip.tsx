@@ -28,17 +28,17 @@ export interface ChipProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export const Chip: React.FC<ChipProps> = (props) => {
   const theme = useTheme()
-  const { backgroundColor, ...childProps } = props
+  const { backgroundColor, style, ...rest } = props
 
   return (
     <ChipContainer
-      {...childProps}
       style={{
         [vars.backgroundColor]: backgroundColor,
         [vars.textColor]:
           backgroundColor && readableColor(backgroundColor, theme),
-        ...childProps.style,
+        ...style,
       }}
+      {...rest}
     />
   )
 }

@@ -90,7 +90,6 @@ export const Button: React.FC<ButtonProps> = (props) => {
 
   return (
     <ButtonContainer
-      {...rest}
       disabled={disabled}
       circle={circle}
       fullWidth={fullWidth}
@@ -110,6 +109,7 @@ export const Button: React.FC<ButtonProps> = (props) => {
           solvedTheme.styles.shadow(computedHoverColor, 4),
         ...style,
       }}
+      {...rest}
     >
       <div style={{ padding: padding === 'none' ? 'unset' : '12px 16px' }}>
         {children}
