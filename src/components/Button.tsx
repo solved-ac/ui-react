@@ -1,8 +1,8 @@
-import { darken, transparentize } from 'polished'
+import { darken } from 'polished'
 import React, { HTMLAttributes } from 'react'
 import styled, { useTheme } from 'styled-components'
 import { computeHoverColor, readableColor } from '../utils/color'
-import { cssVariables } from '../utils/styles'
+import { cssClickable, cssVariables } from '../utils/styles'
 
 const [vars, v] = cssVariables(
   [
@@ -17,11 +17,11 @@ const [vars, v] = cssVariables(
 )
 
 interface ButtonContainerProps {
-  disabled: boolean
   circle: boolean
 }
 
 const ButtonContainer = styled.button<ButtonContainerProps>`
+  ${cssClickable}
   display: inline-block;
   vertical-align: middle;
   text-align: center;
@@ -30,21 +30,19 @@ const ButtonContainer = styled.button<ButtonContainerProps>`
   color: ${v.textColor};
   transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease,
     box-shadow 0.3s ease;
-  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
-  user-select: none;
   border-radius: ${({ circle }) => (circle ? '9999px' : '4px')};
-  &:hover,
-  &:active {
+  &:not([disabled]):hover,
+  &:not([disabled]):active {
     background: ${v.hoverBackgroundColor};
     color: ${v.hoverTextColor};
   }
-  &:hover {
+  &:not([disabled]):hover {
     box-shadow: ${v.hoverShadow};
-    transform: ${({ disabled }) => (disabled ? 'unset' : 'translate(0, -4px)')};
+    transform: translate(0, -4px);
   }
-  &:active {
+  &:not([disabled]):active {
     box-shadow: ${v.activeShadow};
-    transform: ${({ disabled }) => (disabled ? 'unset' : 'translate(0, -2px)')};
+    transform: translate(0, -2px);
   }
 `
 
@@ -91,27 +89,18 @@ export const Button: React.FC<ButtonProps> = (props) => {
       disabled={disabled}
       circle={circle}
       style={{
-        [vars.backgroundColor]: transparentize(
-          disabled ? 0.5 : 0,
-          computedBackgroundColor
+        [vars.backgroundColor]: computedBackgroundColor,
+        [vars.hoverBackgroundColor]: computedHoverColor,
+        [vars.textColor]: readableColor(
+          darken(0.2, computedBackgroundColor),
+          solvedTheme
         ),
-        [vars.hoverBackgroundColor]: disabled
-          ? transparentize(0.5, computedBackgroundColor)
-          : computedHoverColor,
-        [vars.textColor]: transparentize(
-          disabled ? 0.5 : 0,
-          readableColor(darken(0.2, computedBackgroundColor), solvedTheme)
+        [vars.hoverTextColor]: readableColor(
+          darken(0.2, computedHoverColor),
+          solvedTheme
         ),
-        [vars.hoverTextColor]: transparentize(
-          disabled ? 0.5 : 0,
-          readableColor(darken(0.2, computedHoverColor), solvedTheme)
-        ),
-        [vars.hoverShadow]: disabled
-          ? 'unset'
-          : solvedTheme.styles.shadow(computedHoverColor, 8),
-        [vars.activeShadow]: disabled
-          ? 'unset'
-          : solvedTheme.styles.shadow(computedHoverColor, 4),
+        [vars.hoverShadow]: solvedTheme.styles.shadow(computedHoverColor, 8),
+        [vars.activeShadow]: solvedTheme.styles.shadow(computedHoverColor, 4),
         width: fullWidth ? '100%' : 'unset',
         ...style,
       }}

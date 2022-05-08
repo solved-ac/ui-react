@@ -1,8 +1,8 @@
-import { darken, transparentize } from 'polished'
+import { darken } from 'polished'
 import React, { HTMLAttributes } from 'react'
-import styled, { useTheme } from 'styled-components'
+import styled, { css, useTheme } from 'styled-components'
 import { computeHoverColor, readableColor } from '../utils/color'
-import { cssVariables } from '../utils/styles'
+import { cssClickable, cssVariables } from '../utils/styles'
 
 const [vars, v] = cssVariables(
   ['backgroundColor', 'hoverBackgroundColor', 'textColor', 'hoverTextColor'],
@@ -11,26 +11,23 @@ const [vars, v] = cssVariables(
 
 interface CardContainerProps {
   clickable: boolean
-  disabled: boolean
 }
+
+const whenClickable = css`
+  ${cssClickable}
+  transition: background 0.3s ease, color 0.3s ease;
+  &:not([disabled]):hover,
+  &:not([disabled]):active {
+    background: ${v.hoverBackgroundColor};
+    color: ${v.hoverTextColor};
+  }
+`
 
 const CardContainer = styled.div<CardContainerProps>`
   background: ${v.backgroundColor};
   color: ${v.textColor};
   border-radius: 8px;
-  ${({ clickable, disabled }) =>
-    clickable
-      ? `
-    transition: background 0.3s ease, color 0.3s ease;
-    cursor: ${disabled ? 'not-allowed' : 'pointer'};
-    user-select: none;
-    &:hover,
-    &:active {
-      background: ${v.hoverBackgroundColor};
-      color: ${v.hoverTextColor};
-    }
-  `
-      : ''}
+  ${({ clickable }) => clickable && whenClickable}
 `
 
 export interface CardProps extends HTMLAttributes<HTMLDivElement> {
@@ -72,25 +69,19 @@ export const Card: React.FC<CardProps> = (props) => {
   return (
     <CardContainer
       {...rest}
-      disabled={disabled === true && clickable === true}
-      clickable={clickable === true}
+      disabled={disabled && clickable}
+      clickable={clickable}
       as={clickable ? 'button' : 'div'}
       style={{
-        [vars.backgroundColor]: transparentize(
-          clickable && disabled ? 0.5 : 0,
-          computedBackgroundColor
+        [vars.backgroundColor]: computedBackgroundColor,
+        [vars.hoverBackgroundColor]: computedHoverColor,
+        [vars.textColor]: readableColor(
+          darken(0.2, computedBackgroundColor),
+          solvedTheme
         ),
-        [vars.hoverBackgroundColor]:
-          clickable && disabled
-            ? transparentize(0.5, computedBackgroundColor)
-            : computedHoverColor,
-        [vars.textColor]: transparentize(
-          disabled ? 0.5 : 0,
-          readableColor(computedHoverColor, solvedTheme)
-        ),
-        [vars.hoverTextColor]: transparentize(
-          disabled ? 0.5 : 0,
-          readableColor(darken(0.2, computedHoverColor), solvedTheme)
+        [vars.hoverTextColor]: readableColor(
+          darken(0.2, computedHoverColor),
+          solvedTheme
         ),
         padding: padding && paddingMap[padding],
         ...style,

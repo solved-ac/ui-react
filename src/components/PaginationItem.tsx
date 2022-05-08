@@ -8,67 +8,62 @@ const [vars, v] = cssVariables(
   [
     'backgroundColor',
     'hoverBackgroundColor',
+    'activeBackgroundColor',
     'textColor',
     'hoverTextColor',
-    'accentColor',
+    'activeTextColor',
   ],
-  'tab'
+  'pagination-item'
 )
 
-interface TabContainerProps {
+interface PaginationItemContainerProps {
   current: boolean
 }
 
 const whenCurrent = css`
   font-weight: bold;
-  border-bottom: 2px solid ${v.accentColor};
-  &:not([disabled]):hover {
-    border-bottom: 2px solid ${v.accentColor};
-  }
+  background: ${v.activeBackgroundColor};
+  color: ${v.activeTextColor};
 `
 
-const TabContainer = styled.button<TabContainerProps>`
-  ${cssClickable}
+const PaginationItemContainer = styled.button<PaginationItemContainerProps>`
   ${ellipsis()}
+  ${cssClickable}
   flex: 1 0 0;
   display: inline-block;
+  transition: background-color 0.2s;
   min-width: 64px;
-  padding: 16px 16px;
+  padding: 16px 8px;
   text-decoration: none;
   text-align: center;
-  user-select: none;
-  border: none;
-  border-bottom: 2px solid transparent;
-  transition: background-color 0.3s ease, color 0.3s ease,
-    border-color 0.3s ease;
   background: ${v.backgroundColor};
   color: ${v.textColor};
   &:not([disabled]):hover,
   &:not([disabled]):active {
+    background: ${v.hoverBackgroundColor};
     color: ${v.hoverTextColor};
-    background-color: ${v.hoverBackgroundColor};
-    border-bottom: 2px solid ${v.accentColor};
   }
   ${({ current }) => current && whenCurrent}
 `
 
-export interface TabProps extends React.HTMLAttributes<HTMLButtonElement> {
+export interface PaginationItemProps
+  extends React.HTMLAttributes<HTMLButtonElement> {
   current?: boolean
   disabled?: boolean
   backgroundColor?: string
   hoverColor?: string
-  accentColor?: string
+  activeColor?: string
 }
 
-export const Tab: React.FC<TabProps> = (props) => {
+export const PaginationItem: React.FC<PaginationItemProps> = (props) => {
   const solvedTheme = useTheme()
 
   const {
     current = false,
-    backgroundColor,
     disabled = false,
+    backgroundColor,
     hoverColor,
-    accentColor,
+    activeColor,
     style,
     ...rest
   } = props
@@ -76,21 +71,22 @@ export const Tab: React.FC<TabProps> = (props) => {
   const computedBackgroundColor =
     backgroundColor || transparentize(1, solvedTheme.color.background.card.main)
 
-  const computedAccentColor =
-    accentColor ||
-    readableColor(darken(0.2, computedBackgroundColor), solvedTheme)
-
   const computedHoverColor = backgroundColor
     ? computeHoverColor(computedBackgroundColor, hoverColor)
-    : hoverColor || solvedTheme.color.background.card.main
+    : hoverColor || solvedTheme.color.background.table.header
+
+  const computedActiveColor = backgroundColor
+    ? computeHoverColor(computedBackgroundColor, activeColor)
+    : activeColor || solvedTheme.color.background.table.header
 
   return (
-    <TabContainer
-      disabled={disabled}
+    <PaginationItemContainer
       current={current}
+      disabled={disabled}
       style={{
         [vars.backgroundColor]: computedBackgroundColor,
         [vars.hoverBackgroundColor]: computedHoverColor,
+        [vars.activeBackgroundColor]: computedActiveColor,
         [vars.textColor]: readableColor(
           darken(0.2, computedBackgroundColor),
           solvedTheme
@@ -99,7 +95,10 @@ export const Tab: React.FC<TabProps> = (props) => {
           darken(0.2, computedHoverColor),
           solvedTheme
         ),
-        [vars.accentColor]: computedAccentColor,
+        [vars.activeTextColor]: readableColor(
+          darken(0.2, computedActiveColor),
+          solvedTheme
+        ),
         ...style,
       }}
       {...rest}
