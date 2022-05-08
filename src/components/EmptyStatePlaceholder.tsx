@@ -31,15 +31,12 @@ export interface EmptyStatePlaceholderProps
 export const EmptyStatePlaceholder: React.FC<EmptyStatePlaceholderProps> = (
   props
 ) => {
-  const { padding = 'normal', fullHeight = false, style, ...rest } = props
+  const { padding = 'normal', fullHeight = false, ...rest } = props
 
   return (
     <EmptyStatePlaceholderContainer
       fullHeight={fullHeight}
       padding={padding}
-      style={{
-        ...style,
-      }}
       {...rest}
     />
   )
