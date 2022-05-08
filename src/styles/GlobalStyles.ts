@@ -1,5 +1,12 @@
 import { buttons, normalize, textInputs, transparentize } from 'polished'
 import { createGlobalStyle } from 'styled-components'
+import {
+    buttonVariables,
+    cardVariables,
+    chipVariables,
+    paginationItemVariables,
+    tabVariables
+} from '../utils/variables'
 import { SolvedTheme } from './Themes'
 
 export const SolvedGlobalStyles = createGlobalStyle<{ theme: SolvedTheme }>`
@@ -22,6 +29,11 @@ export const SolvedGlobalStyles = createGlobalStyle<{ theme: SolvedTheme }>`
         line-height: 1.6;
         overflow-x: hidden;
         background: ${({ theme }) => theme.color.background.footer};
+        ${({ theme }) => buttonVariables.styles(theme)}
+        ${({ theme }) => cardVariables.styles(theme)}
+        ${({ theme }) => chipVariables.styles(theme)}
+        ${({ theme }) => paginationItemVariables.styles(theme)}
+        ${({ theme }) => tabVariables.styles(theme)}
     }
     
     body {

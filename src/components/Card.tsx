@@ -1,13 +1,10 @@
-import { darken } from 'polished'
 import React, { HTMLAttributes } from 'react'
 import styled, { css, useTheme } from 'styled-components'
 import { computeHoverColor, readableColor } from '../utils/color'
-import { cssClickable, cssVariables } from '../utils/styles'
+import { cssClickable } from '../utils/styles'
+import { cardVariables } from '../utils/variables'
 
-const [vars, v] = cssVariables(
-  ['backgroundColor', 'hoverBackgroundColor', 'textColor', 'hoverTextColor'],
-  'card'
-)
+const { vars, v } = cardVariables
 
 const paddingMap = {
   none: 'padding: 0;',
@@ -60,13 +57,8 @@ export const Card: React.FC<CardProps> = (props) => {
     ...rest
   } = props
 
-  const computedBackgroundColor =
-    backgroundColor || solvedTheme.color.background.card.main
-
-  const computedHoverColor = computeHoverColor(
-    computedBackgroundColor,
-    hoverColor
-  )
+  const computedHoverColor =
+    hoverColor || (backgroundColor && computeHoverColor(backgroundColor))
 
   return (
     <CardContainer
@@ -76,16 +68,12 @@ export const Card: React.FC<CardProps> = (props) => {
       as={clickable ? 'button' : 'div'}
       padding={padding}
       style={{
-        [vars.backgroundColor]: computedBackgroundColor,
+        [vars.backgroundColor]: backgroundColor,
         [vars.hoverBackgroundColor]: computedHoverColor,
-        [vars.textColor]: readableColor(
-          darken(0.2, computedBackgroundColor),
-          solvedTheme
-        ),
-        [vars.hoverTextColor]: readableColor(
-          darken(0.2, computedHoverColor),
-          solvedTheme
-        ),
+        [vars.textColor]:
+          backgroundColor && readableColor(backgroundColor, solvedTheme),
+        [vars.hoverTextColor]:
+          computedHoverColor && readableColor(computedHoverColor, solvedTheme),
         ...style,
       }}
     >

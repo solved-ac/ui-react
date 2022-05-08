@@ -1,26 +1,47 @@
 import { css } from 'styled-components'
+import { SolvedTheme } from '../styles'
 
-export const cssVariables = <T extends string[], P extends string>(
-  names: readonly [...T],
+export const toCssName = (name: string): string =>
+  name.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`).replace(/^-/, '')
+
+export const cssVariables = <
+  T extends {
+    readonly [key: string]: string | ((theme: SolvedTheme) => string)
+  },
+  P extends string
+>(
+  defaults: T,
   prefix: P
-): [
-  { [key in T[number]]: `--solvedac-${string}` },
-  { [key in T[number]]: `var(--solvedac-${P}-${string})` }
-] => {
+): {
+  vars: { [key in keyof T]: `--solvedac-${string}` }
+  v: { [key in keyof T]: `var(--solvedac-${P}-${string})` }
+  styles: (theme: SolvedTheme) => string
+} => {
+  const names = Object.keys(defaults)
   const vars = Object.fromEntries(
-    names.map((name) => [
-      name,
-      `--solvedac-${prefix}-${name
-        .replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`)
-        .replace(/^-/, '')}`,
-    ])
-  ) as { [key in T[number]]: `--solvedac-${string}` }
+    names.map((name) => [name, `--solvedac-${prefix}-${toCssName(name)}`])
+  ) as { [key in keyof T]: `--solvedac-${string}` }
 
   const v = Object.fromEntries(
     Object.entries(vars).map(([k, v]) => [k, `var(${v})`])
-  ) as { [key in T[number]]: `var(--solvedac-${P}-${string})` }
+  ) as { [key in keyof T]: `var(--solvedac-${P}-${string})` }
 
-  return [vars, v]
+  const styles = (theme: SolvedTheme): string =>
+    (
+      Object.entries(defaults ?? {}) as [
+        string,
+        string | ((theme: SolvedTheme) => string)
+      ][]
+    )
+      .map(
+        ([key, value]) =>
+          `--solvedac-${prefix}-${toCssName(key)}: ${
+            typeof value === 'string' ? value : value(theme)
+          };`
+      )
+      .join('\n') ?? ''
+
+  return { vars, v, styles }
 }
 
 export const cssCentering = css`

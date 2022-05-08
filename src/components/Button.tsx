@@ -1,20 +1,10 @@
-import { darken } from 'polished'
 import React, { HTMLAttributes } from 'react'
 import styled, { useTheme } from 'styled-components'
 import { computeHoverColor, readableColor } from '../utils/color'
-import { cssClickable, cssVariables } from '../utils/styles'
+import { cssClickable } from '../utils/styles'
+import { buttonVariables } from '../utils/variables'
 
-const [vars, v] = cssVariables(
-  [
-    'backgroundColor',
-    'hoverBackgroundColor',
-    'textColor',
-    'hoverTextColor',
-    'hoverShadow',
-    'activeShadow',
-  ],
-  'button'
-)
+const { vars, v } = buttonVariables
 
 interface ButtonContainerProps {
   circle: boolean
@@ -75,15 +65,11 @@ export const Button: React.FC<ButtonProps> = (props) => {
   } = props
 
   const computedBackgroundColor =
-    backgroundColor ||
-    (primary
-      ? solvedTheme.color.solvedAc
-      : solvedTheme.color.background.card.main)
+    backgroundColor || (primary ? solvedTheme.color.solvedAc : undefined)
 
-  const computedHoverColor = computeHoverColor(
-    computedBackgroundColor,
-    hoverColor
-  )
+  const computedHoverColor =
+    hoverColor ||
+    (computedBackgroundColor && computeHoverColor(computedBackgroundColor))
 
   return (
     <ButtonContainer
@@ -94,16 +80,17 @@ export const Button: React.FC<ButtonProps> = (props) => {
       style={{
         [vars.backgroundColor]: computedBackgroundColor,
         [vars.hoverBackgroundColor]: computedHoverColor,
-        [vars.textColor]: readableColor(
-          darken(0.2, computedBackgroundColor),
-          solvedTheme
-        ),
-        [vars.hoverTextColor]: readableColor(
-          darken(0.2, computedHoverColor),
-          solvedTheme
-        ),
-        [vars.hoverShadow]: solvedTheme.styles.shadow(computedHoverColor, 8),
-        [vars.activeShadow]: solvedTheme.styles.shadow(computedHoverColor, 4),
+        [vars.textColor]:
+          computedBackgroundColor &&
+          readableColor(computedBackgroundColor, solvedTheme),
+        [vars.hoverTextColor]:
+          computedHoverColor && readableColor(computedHoverColor, solvedTheme),
+        [vars.hoverShadow]:
+          computedHoverColor &&
+          solvedTheme.styles.shadow(computedHoverColor, 8),
+        [vars.activeShadow]:
+          computedHoverColor &&
+          solvedTheme.styles.shadow(computedHoverColor, 4),
         ...style,
       }}
     >

@@ -1,20 +1,11 @@
-import { darken, ellipsis, transparentize } from 'polished'
+import { ellipsis } from 'polished'
 import React from 'react'
 import styled, { css, useTheme } from 'styled-components'
 import { computeHoverColor, readableColor } from '../utils/color'
-import { cssClickable, cssVariables } from '../utils/styles'
+import { cssClickable } from '../utils/styles'
+import { paginationItemVariables } from '../utils/variables'
 
-const [vars, v] = cssVariables(
-  [
-    'backgroundColor',
-    'hoverBackgroundColor',
-    'activeBackgroundColor',
-    'textColor',
-    'hoverTextColor',
-    'activeTextColor',
-  ],
-  'pagination-item'
-)
+const { vars, v } = paginationItemVariables
 
 interface PaginationItemContainerProps {
   current: boolean
@@ -68,37 +59,27 @@ export const PaginationItem: React.FC<PaginationItemProps> = (props) => {
     ...rest
   } = props
 
-  const computedBackgroundColor =
-    backgroundColor || transparentize(1, solvedTheme.color.background.card.main)
+  const computedHoverColor =
+    hoverColor || (backgroundColor && computeHoverColor(backgroundColor))
 
-  const computedHoverColor = backgroundColor
-    ? computeHoverColor(computedBackgroundColor, hoverColor)
-    : hoverColor || solvedTheme.color.background.table.header
-
-  const computedActiveColor = backgroundColor
-    ? computeHoverColor(computedBackgroundColor, activeColor)
-    : activeColor || solvedTheme.color.background.table.header
+  const computedActiveColor =
+    activeColor || (backgroundColor && computeHoverColor(backgroundColor))
 
   return (
     <PaginationItemContainer
       current={current}
       disabled={disabled}
       style={{
-        [vars.backgroundColor]: computedBackgroundColor,
+        [vars.backgroundColor]: backgroundColor,
         [vars.hoverBackgroundColor]: computedHoverColor,
         [vars.activeBackgroundColor]: computedActiveColor,
-        [vars.textColor]: readableColor(
-          darken(0.2, computedBackgroundColor),
-          solvedTheme
-        ),
-        [vars.hoverTextColor]: readableColor(
-          darken(0.2, computedHoverColor),
-          solvedTheme
-        ),
-        [vars.activeTextColor]: readableColor(
-          darken(0.2, computedActiveColor),
-          solvedTheme
-        ),
+        [vars.textColor]:
+          backgroundColor && readableColor(backgroundColor, solvedTheme),
+        [vars.hoverTextColor]:
+          computedHoverColor && readableColor(computedHoverColor, solvedTheme),
+        [vars.activeTextColor]:
+          computedActiveColor &&
+          readableColor(computedActiveColor, solvedTheme),
         ...style,
       }}
       {...rest}

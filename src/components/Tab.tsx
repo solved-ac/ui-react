@@ -1,19 +1,11 @@
-import { darken, ellipsis, transparentize } from 'polished'
+import { ellipsis } from 'polished'
 import React from 'react'
 import styled, { css, useTheme } from 'styled-components'
 import { computeHoverColor, readableColor } from '../utils/color'
-import { cssClickable, cssVariables } from '../utils/styles'
+import { cssClickable } from '../utils/styles'
+import { tabVariables } from '../utils/variables'
 
-const [vars, v] = cssVariables(
-  [
-    'backgroundColor',
-    'hoverBackgroundColor',
-    'textColor',
-    'hoverTextColor',
-    'accentColor',
-  ],
-  'tab'
-)
+const { vars, v } = tabVariables
 
 interface TabContainerProps {
   current: boolean
@@ -73,32 +65,24 @@ export const Tab: React.FC<TabProps> = (props) => {
     ...rest
   } = props
 
-  const computedBackgroundColor =
-    backgroundColor || transparentize(1, solvedTheme.color.background.card.main)
-
   const computedAccentColor =
     accentColor ||
-    readableColor(darken(0.2, computedBackgroundColor), solvedTheme)
+    (backgroundColor && readableColor(backgroundColor, solvedTheme))
 
-  const computedHoverColor = backgroundColor
-    ? computeHoverColor(computedBackgroundColor, hoverColor)
-    : hoverColor || solvedTheme.color.background.card.main
+  const computedHoverColor =
+    hoverColor || (backgroundColor && computeHoverColor(backgroundColor))
 
   return (
     <TabContainer
       disabled={disabled}
       current={current}
       style={{
-        [vars.backgroundColor]: computedBackgroundColor,
+        [vars.backgroundColor]: backgroundColor,
         [vars.hoverBackgroundColor]: computedHoverColor,
-        [vars.textColor]: readableColor(
-          darken(0.2, computedBackgroundColor),
-          solvedTheme
-        ),
-        [vars.hoverTextColor]: readableColor(
-          darken(0.2, computedHoverColor),
-          solvedTheme
-        ),
+        [vars.textColor]:
+          backgroundColor && readableColor(backgroundColor, solvedTheme),
+        [vars.hoverTextColor]:
+          computedHoverColor && readableColor(computedHoverColor, solvedTheme),
         [vars.accentColor]: computedAccentColor,
         ...style,
       }}
