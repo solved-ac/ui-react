@@ -9,8 +9,8 @@ const paddingMap = {
 }
 
 interface EmptyStatePlaceholderContainerProps {
-  fullHeight: boolean
-  padding: 'none' | 'normal' | 'wide'
+  fullHeight?: boolean
+  padding?: 'none' | 'normal' | 'wide'
 }
 
 const EmptyStatePlaceholderContainer = styled.div<EmptyStatePlaceholderContainerProps>`
@@ -23,23 +23,18 @@ const EmptyStatePlaceholderContainer = styled.div<EmptyStatePlaceholderContainer
 `
 
 export interface EmptyStatePlaceholderProps
-  extends HTMLAttributes<HTMLDivElement> {
-  padding?: 'none' | 'normal' | 'wide'
-  fullHeight?: boolean
-}
+  extends HTMLAttributes<HTMLDivElement>,
+    EmptyStatePlaceholderContainerProps {}
 
 export const EmptyStatePlaceholder: React.FC<EmptyStatePlaceholderProps> = (
   props
 ) => {
-  const { padding = 'normal', fullHeight = false, style, ...rest } = props
+  const { padding, fullHeight, ...rest } = props
 
   return (
     <EmptyStatePlaceholderContainer
       fullHeight={fullHeight}
       padding={padding}
-      style={{
-        ...style,
-      }}
       {...rest}
     />
   )
