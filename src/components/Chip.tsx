@@ -1,7 +1,15 @@
 import React from 'react'
 import styled, { useTheme } from 'styled-components'
 import { readableColor } from '../utils/color'
-import { chipVariables } from '../utils/variables'
+import { cssVariables } from '../utils/styles'
+
+export const chipVariables = cssVariables(
+  {
+    backgroundColor: (theme) => theme.color.background.card.dark,
+    textColor: (theme) => theme.color.text.primary.main,
+  },
+  'chip'
+)
 
 const { vars, v } = chipVariables
 

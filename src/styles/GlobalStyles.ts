@@ -6,8 +6,16 @@ import {
     chipVariables,
     paginationItemVariables,
     tabVariables
-} from '../utils/variables'
+} from '../components'
 import { SolvedTheme } from './Themes'
+
+const componentGlobalStyles = [
+  buttonVariables,
+  cardVariables,
+  chipVariables,
+  paginationItemVariables,
+  tabVariables,
+].map(({ styles }) => styles)
 
 export const SolvedGlobalStyles = createGlobalStyle<{ theme: SolvedTheme }>`
     ${normalize()}
@@ -29,11 +37,8 @@ export const SolvedGlobalStyles = createGlobalStyle<{ theme: SolvedTheme }>`
         line-height: 1.6;
         overflow-x: hidden;
         background: ${({ theme }) => theme.color.background.footer};
-        ${({ theme }) => buttonVariables.styles(theme)}
-        ${({ theme }) => cardVariables.styles(theme)}
-        ${({ theme }) => chipVariables.styles(theme)}
-        ${({ theme }) => paginationItemVariables.styles(theme)}
-        ${({ theme }) => tabVariables.styles(theme)}
+        ${({ theme }) =>
+          componentGlobalStyles.map((fn) => fn(theme)).join('\n')}
     }
     
     body {

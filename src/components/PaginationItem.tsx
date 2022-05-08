@@ -1,9 +1,23 @@
-import { ellipsis } from 'polished'
+import { ellipsis, transparentize } from 'polished'
 import React from 'react'
 import styled, { css, useTheme } from 'styled-components'
 import { computeHoverColor, readableColor } from '../utils/color'
-import { cssClickable } from '../utils/styles'
-import { paginationItemVariables } from '../utils/variables'
+import { cssClickable, cssVariables } from '../utils/styles'
+
+export const paginationItemVariables = cssVariables(
+  {
+    backgroundColor: (theme) =>
+      transparentize(1, theme.color.background.card.main),
+    textColor: (theme) => theme.color.text.primary.main,
+    hoverBackgroundColor: (theme) =>
+      computeHoverColor(theme.color.text.primary.main),
+    hoverTextColor: (theme) => theme.color.text.primary.inverted,
+    activeBackgroundColor: (theme) =>
+      computeHoverColor(theme.color.text.primary.main),
+    activeTextColor: (theme) => theme.color.text.primary.inverted,
+  },
+  'pagination-item'
+)
 
 const { vars, v } = paginationItemVariables
 

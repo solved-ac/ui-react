@@ -1,9 +1,22 @@
-import { ellipsis } from 'polished'
+import { ellipsis, transparentize } from 'polished'
 import React from 'react'
 import styled, { css, useTheme } from 'styled-components'
 import { computeHoverColor, readableColor } from '../utils/color'
-import { cssClickable } from '../utils/styles'
-import { tabVariables } from '../utils/variables'
+import { cssClickable, cssVariables } from '../utils/styles'
+
+export const tabVariables = cssVariables(
+  {
+    backgroundColor: (theme) =>
+      transparentize(1, theme.color.background.card.main),
+    textColor: (theme) => theme.color.text.primary.main,
+    hoverBackgroundColor: (theme) =>
+      computeHoverColor(theme.color.background.card.main),
+    hoverTextColor: (theme) => theme.color.text.primary.main,
+    accentColor: (theme) =>
+      computeHoverColor(theme.color.background.table.header),
+  },
+  'tab'
+)
 
 const { vars, v } = tabVariables
 

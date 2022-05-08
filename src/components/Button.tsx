@@ -1,8 +1,25 @@
 import React, { HTMLAttributes } from 'react'
 import styled, { useTheme } from 'styled-components'
 import { computeHoverColor, readableColor } from '../utils/color'
-import { cssClickable } from '../utils/styles'
-import { buttonVariables } from '../utils/variables'
+import { cssClickable, cssVariables } from '../utils/styles'
+import { cardTemplate } from '../utils/variables'
+
+export const buttonVariables = cssVariables(
+  {
+    ...cardTemplate,
+    hoverShadow: (theme) =>
+      theme.styles.shadow(
+        computeHoverColor(theme.color.background.card.main),
+        8
+      ),
+    activeShadow: (theme) =>
+      theme.styles.shadow(
+        computeHoverColor(theme.color.background.card.main),
+        4
+      ),
+  },
+  'button'
+)
 
 const { vars, v } = buttonVariables
 

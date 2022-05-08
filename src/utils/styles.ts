@@ -18,8 +18,12 @@ export const cssVariables = <
   styles: (theme: SolvedTheme) => string
 } => {
   const names = Object.keys(defaults)
+
   const vars = Object.fromEntries(
-    names.map((name) => [name, `--solvedac-${prefix}-${toCssName(name)}`])
+    names.map((name) => [
+      name,
+      `--solvedac-${toCssName(prefix)}-${toCssName(name)}`,
+    ])
   ) as { [key in keyof T]: `--solvedac-${string}` }
 
   const v = Object.fromEntries(
@@ -35,7 +39,7 @@ export const cssVariables = <
     )
       .map(
         ([key, value]) =>
-          `--solvedac-${prefix}-${toCssName(key)}: ${
+          `--solvedac-${toCssName(prefix)}-${toCssName(key)}: ${
             typeof value === 'string' ? value : value(theme)
           };`
       )
