@@ -23,6 +23,12 @@ export const cssVariables = <T extends string[], P extends string>(
   return [vars, v]
 }
 
+export const cssCentering = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
 export const cssClickable = css`
   cursor: pointer;
   user-select: none;

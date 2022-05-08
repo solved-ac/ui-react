@@ -1,8 +1,9 @@
 import React, { HTMLAttributes } from 'react'
 import styled from 'styled-components'
-import { Centering } from './Centering'
+import { cssCentering } from '../utils/styles'
 
-const EmptyStatePlaceholderContainer = styled(Centering)`
+const EmptyStatePlaceholderContainer = styled.div`
+  ${cssCentering}
   width: 100%;
   color: ${({ theme }) => theme.color.text.secondary.main};
   text-align: center;
