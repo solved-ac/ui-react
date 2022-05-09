@@ -12,7 +12,7 @@ interface RenderComponentProps {
   opacity: number
 }
 
-const RenderComponent = styled.div<RenderComponentProps>`
+const CollapseContainer = styled.div<RenderComponentProps>`
   height: ${({ height }) => height};
   transform-origin: top;
   opacity: ${({ opacity }) => opacity};
@@ -54,12 +54,12 @@ export const Collapse: React.FC<CollapseProps> = (props) => {
   }, [shown, contentHeight])
 
   return (
-    <RenderComponent
+    <CollapseContainer
       as={as}
       height={renderHeight}
       opacity={prevShown || shown ? 1 : 0}
     >
       {mountChild ? <div ref={contentsRef}>{children}</div> : null}
-    </RenderComponent>
+    </CollapseContainer>
   )
 }
