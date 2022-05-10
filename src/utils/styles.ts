@@ -2,7 +2,7 @@ import { css } from 'styled-components'
 import { SolvedTheme } from '../styles'
 
 export type MakeKebabCase<S extends string, ReturnQueue extends string = ''> =
-  // Separate string into first character T and rest string U, only works if length > 1
+  // Separate string into first character T and rest string U, only works if length >= 1
   S extends `${infer T}${infer U}`
   // If it's the first character of whole string, just lowercase first character
   ? ReturnQueue extends ''
@@ -12,7 +12,7 @@ export type MakeKebabCase<S extends string, ReturnQueue extends string = ''> =
   ? MakeKebabCase<U, `${ReturnQueue}-${Lowercase<T>}`>
   // or, just append itself
   : MakeKebabCase<U, `${ReturnQueue}${T}`>
-  // It's else branch of the first length > 1 check
+  // It's else branch of the first length >= 1 check
   : `${ReturnQueue}${S}`
 
 export const toCssName = <S extends string>(name: S): MakeKebabCase<S> =>
