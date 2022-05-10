@@ -34,7 +34,7 @@ export const cssVariables = <
   v: { [K in keyof T]: `var(${VariableName<P, K>})` }
   styles: (theme: SolvedTheme) => string
 } => {
-  const names = Object.keys(defaults) 
+  const names = Object.keys(defaults)
 
   const vars = Object.fromEntries(
     names.map((name) => [
