@@ -38,14 +38,14 @@ export const cssVariables = <
 
   const vars = Object.fromEntries(
     names.map((name) => [
-      name ,
-      `--solvedac-${toCssName(prefix)}-${toCssName(name)}` ,
-    ] )
+      name,
+      `--solvedac-${toCssName(prefix)}-${toCssName(name)}`,
+    ])
   ) as { [K in keyof T]: VariableName<P, K> }
 
   const v = Object.fromEntries(
     Object.entries(vars).map(([k, v]) => [k, `var(${v})`])
-  )  as { [K in keyof T]: `var(${VariableName<P, K>})` }
+  ) as { [K in keyof T]: `var(${VariableName<P, K>})` }
 
   const styles = (theme: SolvedTheme): string =>
     (
