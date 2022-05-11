@@ -12,7 +12,7 @@ declare module '*.css' {
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface SvgrComponent
-  extends React.StatelessComponent<React.SVGAttributes<SVGElement>> {}
+  extends React.FunctionComponent<React.SVGAttributes<SVGElement>> {}
 
 declare module '*.svg' {
   const svgUrl: string
@@ -21,7 +21,7 @@ declare module '*.svg' {
   export { svgComponent as ReactComponent }
 }
 
-type CustomProp = { [key in `--${string}`]: string }
+type CustomProp = { [key in `--${string}`]: string | undefined }
 declare module 'react' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
   export interface CSSProperties extends CustomProp {}
