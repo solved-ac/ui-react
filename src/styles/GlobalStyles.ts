@@ -4,6 +4,7 @@ import {
     buttonVariables,
     cardVariables,
     chipVariables,
+    listItemVariables,
     paginationItemVariables,
     tabVariables
 } from '../components'
@@ -13,6 +14,7 @@ const componentGlobalStyles = [
   buttonVariables,
   cardVariables,
   chipVariables,
+  listItemVariables,
   paginationItemVariables,
   tabVariables,
 ].map(({ styles }) => styles)
