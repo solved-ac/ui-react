@@ -1,14 +1,24 @@
-import React from 'react'
+import React, { ElementType } from 'react'
+import { PolymorphicElementProps } from '../types/PolymorphicElementProps'
 
-export interface SpaceProps {
+export type SpaceProps<T extends ElementType> = {
   h?: number | string
   w?: number | string
-}
+} & PolymorphicElementProps<T>
 
-export const Space: React.FC<SpaceProps> = (props) => {
-  const { h: height, w: width } = props
+export const Space = <T extends ElementType>(
+  props: SpaceProps<T>
+): JSX.Element => {
+  const { h: height, w: width, as: RenderComponent = 'div', ...rest } = props
   if (typeof width !== 'undefined') {
-    return <div style={{ display: 'inline-block', width, height }} />
+    return (
+      <RenderComponent
+        style={{ display: 'inline-block', width, height }}
+        {...rest}
+      />
+    )
   }
-  return <div style={{ display: 'block', width, height }} />
+  return (
+    <RenderComponent style={{ display: 'block', width, height }} {...rest} />
+  )
 }

@@ -34,6 +34,13 @@ export default {
       description:
         'The background color of the clickable list item when hovered',
     },
+    as: {
+      control: {
+        type: 'select',
+        options: ['div', 'span', 'button', 'a'],
+      },
+      description: 'The element to render the list item as',
+    },
   },
 } as ComponentMeta<typeof ListItem>
 

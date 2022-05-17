@@ -14,6 +14,10 @@ export default {
       control: 'text',
       description: 'The text to display',
     },
+    as: {
+      control: { type: 'select', options: ['div', 'span', 'button', 'a'] },
+      description: 'The element to render the chip as',
+    },
   },
 } as ComponentMeta<typeof Chip>
 

@@ -39,6 +39,10 @@ export default {
       control: { type: 'select', options: ['none', 'normal'] },
       description: 'The padding of the button',
     },
+    as: {
+      control: { type: 'select', options: ['div', 'span', 'button', 'a'] },
+      description: 'The element to render the button as',
+    },
   },
 } as ComponentMeta<typeof Button>
 

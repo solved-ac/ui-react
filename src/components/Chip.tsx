@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { ElementType } from 'react'
 import styled, { useTheme } from 'styled-components'
+import { PolymorphicElementProps } from '../types/PolymorphicElementProps'
 import { readableColor } from '../utils/color'
 import { cssVariables } from '../utils/styles'
 
@@ -22,16 +23,19 @@ const ChipContainer = styled.div`
   line-height: 1.2;
 `
 
-export interface ChipProps extends React.HTMLAttributes<HTMLDivElement> {
+export type ChipProps<T extends ElementType = 'li'> = {
   backgroundColor?: string
-}
+} & PolymorphicElementProps<T>
 
-export const Chip: React.FC<ChipProps> = (props) => {
+export const Chip = <T extends ElementType>(
+  props: ChipProps<T>
+): JSX.Element => {
   const theme = useTheme()
-  const { backgroundColor, style, ...rest } = props
+  const { backgroundColor, style, as = 'div', ...rest } = props
 
   return (
     <ChipContainer
+      as={as}
       style={{
         [vars.backgroundColor]: backgroundColor,
         [vars.textColor]:

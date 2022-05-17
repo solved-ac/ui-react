@@ -1,5 +1,6 @@
-import React, { HTMLAttributes } from 'react'
+import React, { ElementType } from 'react'
 import styled, { css, useTheme } from 'styled-components'
+import { PolymorphicElementProps } from '../types/PolymorphicElementProps'
 import { computeHoverColor, readableColor } from '../utils/color'
 import { cssClickable, cssVariables } from '../utils/styles'
 import { cardHoverTemplate } from '../utils/variables'
@@ -42,15 +43,17 @@ const CardContainer = styled.div<CardContainerProps>`
   ${({ padding }) => paddingMap[padding]}
 `
 
-export interface CardProps extends HTMLAttributes<HTMLDivElement> {
+export type CardProps<T extends ElementType = 'div'> = {
   backgroundColor?: string
   hoverColor?: string
   clickable?: boolean
   disabled?: boolean
   padding?: 'none' | 'normal' | 'wide'
-}
+} & PolymorphicElementProps<T>
 
-export const Card: React.FC<CardProps> = (props) => {
+export const Card = <T extends ElementType>(
+  props: CardProps<T>
+): JSX.Element => {
   const solvedTheme = useTheme()
 
   const {
@@ -61,6 +64,7 @@ export const Card: React.FC<CardProps> = (props) => {
     padding = 'normal',
     style,
     children,
+    as,
     ...rest
   } = props
 
@@ -69,9 +73,9 @@ export const Card: React.FC<CardProps> = (props) => {
 
   return (
     <CardContainer
+      as={as ?? (clickable ? 'button' : 'div')}
       disabled={disabled && clickable}
       clickable={clickable}
-      as={clickable ? 'button' : 'div'}
       padding={padding}
       style={{
         [vars.backgroundColor]: backgroundColor,

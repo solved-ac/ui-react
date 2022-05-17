@@ -1,5 +1,6 @@
-import React, { HTMLAttributes } from 'react'
+import React, { ElementType } from 'react'
 import styled, { useTheme } from 'styled-components'
+import { PolymorphicElementProps } from '../types/PolymorphicElementProps'
 import { computeHoverColor, readableColor } from '../utils/color'
 import { cssClickable, cssVariables } from '../utils/styles'
 import { cardHoverTemplate } from '../utils/variables'
@@ -55,7 +56,7 @@ const ButtonContainer = styled.button<ButtonContainerProps>`
   }
 `
 
-export interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
+export type ButtonProps<T extends ElementType = 'li'> = {
   backgroundColor?: string
   hoverColor?: string
   primary?: boolean
@@ -63,9 +64,11 @@ export interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
   circle?: boolean
   fullWidth?: boolean
   padding?: 'none' | 'normal'
-}
+} & PolymorphicElementProps<T>
 
-export const Button: React.FC<ButtonProps> = (props) => {
+export const Button = <T extends ElementType>(
+  props: ButtonProps<T>
+): JSX.Element => {
   const solvedTheme = useTheme()
 
   const {
@@ -78,6 +81,7 @@ export const Button: React.FC<ButtonProps> = (props) => {
     padding = 'normal',
     style,
     children,
+    as = 'button',
     ...rest
   } = props
 
@@ -90,6 +94,7 @@ export const Button: React.FC<ButtonProps> = (props) => {
 
   return (
     <ButtonContainer
+      as={as}
       disabled={disabled}
       circle={circle}
       fullWidth={fullWidth}

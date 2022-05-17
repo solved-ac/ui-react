@@ -1,5 +1,6 @@
-import React, { HTMLAttributes } from 'react'
+import React from 'react'
 import styled from 'styled-components'
+import { PolymorphicElementProps } from '../types/PolymorphicElementProps'
 
 interface TabsContainerProps {
   fullWidth: boolean
@@ -13,10 +14,10 @@ const TabsContainer = styled.div<TabsContainerProps>`
   flex-wrap: ${({ multiline }) => (multiline ? 'wrap' : 'nowrap')};
 `
 
-export interface TabsProps extends HTMLAttributes<HTMLDivElement> {
+export type TabsProps = {
   fullWidth?: boolean
   multiline?: boolean
-}
+} & PolymorphicElementProps<'div'>
 
 export const Tabs: React.FC<TabsProps> = (props) => {
   const { fullWidth = false, multiline = false, ...rest } = props

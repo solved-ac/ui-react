@@ -1,6 +1,7 @@
 import { ellipsis } from 'polished'
-import React from 'react'
+import React, { ElementType } from 'react'
 import styled, { css, useTheme } from 'styled-components'
+import { PolymorphicElementProps } from '../types/PolymorphicElementProps'
 import { computeHoverColor, readableColor } from '../utils/color'
 import { cssClickable, cssVariables } from '../utils/styles'
 import { transparentHoverTemplate } from '../utils/variables'
@@ -52,16 +53,17 @@ const PaginationItemContainer = styled.button<PaginationItemContainerProps>`
   ${({ current }) => current && whenCurrent}
 `
 
-export interface PaginationItemProps
-  extends React.HTMLAttributes<HTMLButtonElement> {
+export type PaginationItemProps<T extends ElementType = 'button'> = {
   current?: boolean
   disabled?: boolean
   backgroundColor?: string
   hoverColor?: string
   activeColor?: string
-}
+} & PolymorphicElementProps<T>
 
-export const PaginationItem: React.FC<PaginationItemProps> = (props) => {
+export const PaginationItem = <T extends ElementType>(
+  props: PaginationItemProps<T>
+): JSX.Element => {
   const solvedTheme = useTheme()
 
   const {
@@ -71,6 +73,7 @@ export const PaginationItem: React.FC<PaginationItemProps> = (props) => {
     hoverColor,
     activeColor,
     style,
+    as = 'button',
     ...rest
   } = props
 
@@ -82,6 +85,7 @@ export const PaginationItem: React.FC<PaginationItemProps> = (props) => {
 
   return (
     <PaginationItemContainer
+      as={as}
       current={current}
       disabled={disabled}
       style={{

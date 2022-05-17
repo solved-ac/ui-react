@@ -1,5 +1,6 @@
-import React, { HTMLAttributes } from 'react'
+import React, { ElementType } from 'react'
 import styled from 'styled-components'
+import { PolymorphicElementProps } from '../types/PolymorphicElementProps'
 import { cssCentering } from '../utils/styles'
 
 const paddingMap = {
@@ -22,17 +23,17 @@ const EmptyStatePlaceholderContainer = styled.div<EmptyStatePlaceholderContainer
   text-align: center;
 `
 
-export interface EmptyStatePlaceholderProps
-  extends HTMLAttributes<HTMLDivElement>,
-    EmptyStatePlaceholderContainerProps {}
+export type EmptyStatePlaceholderProps<T extends ElementType = 'div'> =
+  PolymorphicElementProps<T>
 
-export const EmptyStatePlaceholder: React.FC<EmptyStatePlaceholderProps> = (
-  props
-) => {
-  const { padding, fullHeight, ...rest } = props
+export const EmptyStatePlaceholder = <T extends ElementType>(
+  props: EmptyStatePlaceholderProps<T>
+): JSX.Element => {
+  const { padding, fullHeight, as = 'div', ...rest } = props
 
   return (
     <EmptyStatePlaceholderContainer
+      as={as}
       fullHeight={fullHeight}
       padding={padding}
       {...rest}

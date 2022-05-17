@@ -1,18 +1,12 @@
-import React, { ReactHTML, useLayoutEffect, useRef, useState } from 'react'
+import React, { ElementType, useLayoutEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
 
-export interface CollapseProps {
-  shown: boolean
-  children?: React.ReactNode
-  as?: keyof ReactHTML
-}
-
-interface RenderComponentProps {
+interface CollapseContainerProps {
   renderHeight: number | 'auto'
   shown: boolean
 }
 
-const CollapseContainer = styled.div<RenderComponentProps>`
+const CollapseContainer = styled.div<CollapseContainerProps>`
   height: ${({ renderHeight }) =>
     typeof renderHeight === 'number' ? `${renderHeight}px` : renderHeight};
   transform-origin: top;
@@ -22,7 +16,13 @@ const CollapseContainer = styled.div<RenderComponentProps>`
   overflow: 'hidden';
 `
 
-export const Collapse: React.FC<CollapseProps> = (props) => {
+export interface CollapseProps {
+  shown: boolean
+  children?: React.ReactNode
+  as?: ElementType
+}
+
+export const Collapse = (props: CollapseProps): JSX.Element => {
   const { as, shown, children } = props
 
   const contentsRef = useRef<HTMLDivElement>(null)

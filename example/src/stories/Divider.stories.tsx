@@ -13,6 +13,10 @@ export default {
       },
       description: 'The margin of the divider',
     },
+    as: {
+      control: { type: 'select', options: ['div', 'span', 'button', 'a'] },
+      description: 'The element to render the divider as',
+    },
   },
 } as ComponentMeta<typeof Divider>
 

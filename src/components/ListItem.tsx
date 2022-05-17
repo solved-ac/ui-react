@@ -1,5 +1,6 @@
-import React, { HTMLAttributes } from 'react'
+import React, { ElementType } from 'react'
 import styled, { css, useTheme } from 'styled-components'
+import { PolymorphicElementProps } from '../types/PolymorphicElementProps'
 import { computeHoverColor, readableColor } from '../utils/color'
 import { cssClickable, cssVariables } from '../utils/styles'
 import { transparentHoverTemplate } from '../utils/variables'
@@ -20,6 +21,7 @@ const paddingMap = {
 }
 
 const ListItemWrapper = styled.li`
+  display: list-item;
   width: 100%;
   list-style: none;
   border-bottom: ${({ theme }) => theme.styles.border()};
@@ -30,6 +32,7 @@ const ListItemWrapper = styled.li`
 
 interface ListItemContainerProps {
   clickable: boolean
+  disabled?: boolean
   padding: 'none' | 'normal' | 'wide'
 }
 
@@ -44,6 +47,7 @@ const whenClickable = css`
 `
 
 const ListItemContainer = styled.div<ListItemContainerProps>`
+  display: block;
   width: 100%;
   background: ${v.backgroundColor};
   color: ${v.textColor};
@@ -51,15 +55,17 @@ const ListItemContainer = styled.div<ListItemContainerProps>`
   ${({ padding }) => paddingMap[padding]}
 `
 
-export interface ListItemProps extends HTMLAttributes<HTMLLIElement> {
+export type ListItemProps<T extends ElementType = 'li'> = {
   backgroundColor?: string
   hoverColor?: string
   clickable?: boolean
   disabled?: boolean
   padding?: 'none' | 'normal' | 'wide'
-}
+} & PolymorphicElementProps<T>
 
-export const ListItem: React.FC<ListItemProps> = (props) => {
+export const ListItem = <T extends ElementType = 'div'>(
+  props: ListItemProps<T>
+): JSX.Element => {
   const solvedTheme = useTheme()
 
   const {
@@ -70,6 +76,7 @@ export const ListItem: React.FC<ListItemProps> = (props) => {
     padding = 'normal',
     style,
     children,
+    as,
     ...rest
   } = props
 
@@ -90,7 +97,7 @@ export const ListItem: React.FC<ListItemProps> = (props) => {
       {...rest}
     >
       <ListItemContainer
-        as={clickable ? 'button' : 'div'}
+        as={as ?? (clickable ? 'button' : 'div')}
         disabled={disabled && clickable}
         clickable={clickable}
         padding={padding}

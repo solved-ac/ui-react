@@ -30,6 +30,10 @@ export default {
       control: { type: 'select', options: ['none', 'normal', 'wide'] },
       description: 'The padding of the card',
     },
+    as: {
+      control: { type: 'select', options: ['div', 'span', 'button', 'a'] },
+      description: 'The element to render the card as',
+    },
   },
 } as ComponentMeta<typeof Card>
 

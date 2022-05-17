@@ -19,6 +19,10 @@ export default {
       description:
         'Whether the placeholder should take up the full height of its container',
     },
+    as: {
+      control: { type: 'select', options: ['div', 'span', 'button', 'a'] },
+      description: 'The element to render the placeholder as',
+    },
   },
 } as ComponentMeta<typeof EmptyStatePlaceholder>
 

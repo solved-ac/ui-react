@@ -1,6 +1,7 @@
 import { ellipsis } from 'polished'
-import React from 'react'
+import React, { ElementType } from 'react'
 import styled, { css, useTheme } from 'styled-components'
+import { PolymorphicElementProps } from '../types/PolymorphicElementProps'
 import { computeHoverColor, readableColor } from '../utils/color'
 import { cssClickable, cssVariables } from '../utils/styles'
 import { transparentHoverTemplate } from '../utils/variables'
@@ -52,15 +53,15 @@ const TabContainer = styled.button<TabContainerProps>`
   ${({ current }) => current && whenCurrent}
 `
 
-export interface TabProps extends React.HTMLAttributes<HTMLButtonElement> {
+export type TabProps<T extends ElementType = 'button'> = {
   current?: boolean
   disabled?: boolean
   backgroundColor?: string
   hoverColor?: string
   accentColor?: string
-}
+} & PolymorphicElementProps<T>
 
-export const Tab: React.FC<TabProps> = (props) => {
+export const Tab = <T extends ElementType>(props: TabProps<T>): JSX.Element => {
   const solvedTheme = useTheme()
 
   const {
@@ -70,6 +71,7 @@ export const Tab: React.FC<TabProps> = (props) => {
     hoverColor,
     accentColor,
     style,
+    as = 'button',
     ...rest
   } = props
 
@@ -82,6 +84,7 @@ export const Tab: React.FC<TabProps> = (props) => {
 
   return (
     <TabContainer
+      as={as}
       disabled={disabled}
       current={current}
       style={{
