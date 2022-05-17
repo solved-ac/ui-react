@@ -55,7 +55,7 @@ const ListItemContainer = styled.div<ListItemContainerProps>`
   ${({ padding }) => paddingMap[padding]}
 `
 
-export type ListItemProps<T extends ElementType = 'li'> = {
+export type ListItemProps<T extends ElementType = 'div'> = {
   backgroundColor?: string
   hoverColor?: string
   clickable?: boolean
@@ -63,7 +63,7 @@ export type ListItemProps<T extends ElementType = 'li'> = {
   padding?: 'none' | 'normal' | 'wide'
 } & PolymorphicElementProps<T>
 
-export const ListItem = <T extends ElementType = 'div'>(
+export const ListItem = <T extends ElementType>(
   props: ListItemProps<T>
 ): JSX.Element => {
   const solvedTheme = useTheme()
