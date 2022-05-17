@@ -92,15 +92,15 @@ export const ListItem = <T extends ElementType = 'div'>(
           backgroundColor && readableColor(backgroundColor, solvedTheme),
         [vars.hoverTextColor]:
           computedHoverColor && readableColor(computedHoverColor, solvedTheme),
-        ...style,
       }}
-      {...rest}
     >
       <ListItemContainer
         as={as ?? (clickable ? 'button' : 'div')}
         disabled={disabled && clickable}
         clickable={clickable}
         padding={padding}
+        style={style}
+        {...rest}
       >
         {children}
       </ListItemContainer>
