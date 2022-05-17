@@ -36,6 +36,7 @@ const whenClickable = css`
 `
 
 const CardContainer = styled.div<CardContainerProps>`
+  display: block;
   background: ${v.backgroundColor};
   color: ${v.textColor};
   border-radius: 8px;

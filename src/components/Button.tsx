@@ -56,7 +56,7 @@ const ButtonContainer = styled.button<ButtonContainerProps>`
   }
 `
 
-export type ButtonProps<T extends ElementType = 'li'> = {
+export type ButtonProps<T extends ElementType = 'button'> = {
   backgroundColor?: string
   hoverColor?: string
   primary?: boolean

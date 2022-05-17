@@ -23,7 +23,7 @@ const ChipContainer = styled.div`
   line-height: 1.2;
 `
 
-export type ChipProps<T extends ElementType = 'li'> = {
+export type ChipProps<T extends ElementType = 'div'> = {
   backgroundColor?: string
 } & PolymorphicElementProps<T>
 
