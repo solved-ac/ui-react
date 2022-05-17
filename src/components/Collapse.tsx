@@ -8,16 +8,17 @@ export interface CollapseProps {
 }
 
 interface RenderComponentProps {
-  height: number | 'auto'
-  opacity: number
+  renderHeight: number | 'auto'
+  shown: boolean
 }
 
 const CollapseContainer = styled.div<RenderComponentProps>`
-  height: ${({ height }) => height};
+  height: ${({ renderHeight }) =>
+    typeof renderHeight === 'number' ? `${renderHeight}px` : renderHeight};
   transform-origin: top;
-  opacity: ${({ opacity }) => opacity};
+  opacity: ${({ shown }) => (shown ? 1 : 0)};
   transition: height 0.3s ease, opacity 0.3s ease;
-  pointer-events: ${({ opacity }) => (opacity ? 'all' : 'none')};
+  pointer-events: ${({ shown }) => (shown ? 'all' : 'none')};
   overflow: 'hidden';
 `
 
@@ -28,7 +29,6 @@ export const Collapse: React.FC<CollapseProps> = (props) => {
   const [contentHeight, setContentHeight] = useState<number>(0)
   const [renderHeight, setRenderHeight] = useState<number | 'auto'>(0)
   const [mountChild, setMountChild] = useState<boolean>(shown)
-  const [prevShown, setPrevShown] = useState<boolean>(shown)
 
   useLayoutEffect(() => {
     if (contentsRef.current === null || !mountChild) return
@@ -43,7 +43,6 @@ export const Collapse: React.FC<CollapseProps> = (props) => {
       setRenderHeight(shown ? contentHeight : 0)
     }, 30)
     const animationDelay = setTimeout(() => {
-      setPrevShown(shown)
       setRenderHeight(shown ? 'auto' : 0)
       if (!shown) setMountChild(false)
     }, 400)
@@ -54,11 +53,7 @@ export const Collapse: React.FC<CollapseProps> = (props) => {
   }, [shown, contentHeight])
 
   return (
-    <CollapseContainer
-      as={as}
-      height={renderHeight}
-      opacity={prevShown || shown ? 1 : 0}
-    >
+    <CollapseContainer as={as} shown={shown} renderHeight={renderHeight}>
       {mountChild ? <div ref={contentsRef}>{children}</div> : null}
     </CollapseContainer>
   )
