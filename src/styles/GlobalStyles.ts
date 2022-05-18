@@ -57,6 +57,33 @@ export const SolvedGlobalStyles = createGlobalStyle<{ theme: SolvedTheme }>`
           transparentize(0.5, theme.color.text.primary.main)};
     }
 
+    a {
+        color: inherit;
+    }
+
+    b, strong {
+        font-weight: 700;
+    }
+
+    i, em {
+        font-style: italic;
+    }
+
+    sub, sup {
+      font-size: 75%;
+      line-height: 0;
+      position: relative;
+      vertical-align: baseline;
+    }
+
+    sup {
+      top: -0.5em;
+    }
+    
+    sub {
+      bottom: -0.25em;
+    }
+
     ${textInputs()} {
         font-family: inherit;
         line-height: 1.3;
