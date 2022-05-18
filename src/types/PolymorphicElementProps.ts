@@ -1,5 +1,8 @@
 import { ElementType } from 'react'
 
-export type PolymorphicElementProps<T extends ElementType> = {
+export type PolymorphicProps<T extends ElementType> = {
   as?: T
 } & React.ComponentPropsWithoutRef<T>
+
+export type PolymorphicRef<T extends ElementType> =
+  React.ComponentPropsWithRef<T>['ref']

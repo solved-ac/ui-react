@@ -1,6 +1,9 @@
 import React, { ElementType } from 'react'
 import styled, { css, useTheme } from 'styled-components'
-import { PolymorphicElementProps } from '../types/PolymorphicElementProps'
+import {
+  PolymorphicProps,
+  PolymorphicRef
+} from '../types/PolymorphicElementProps'
 import { computeHoverColor, readableColor } from '../utils/color'
 import { cssClickable, cssVariables } from '../utils/styles'
 import { cardHoverTemplate } from '../utils/variables'
@@ -50,46 +53,51 @@ export type CardProps<T extends ElementType = 'div'> = {
   clickable?: boolean
   disabled?: boolean
   padding?: 'none' | 'normal' | 'wide'
-} & PolymorphicElementProps<T>
+} & PolymorphicProps<T>
 
-export const Card = <T extends ElementType>(
-  props: CardProps<T>
-): JSX.Element => {
-  const solvedTheme = useTheme()
+export const Card = React.forwardRef(
+  <T extends ElementType>(
+    props: CardProps<T>,
+    ref?: PolymorphicRef<T>
+  ): JSX.Element => {
+    const solvedTheme = useTheme()
 
-  const {
-    backgroundColor,
-    hoverColor,
-    clickable = false,
-    disabled = false,
-    padding = 'normal',
-    style,
-    children,
-    as,
-    ...rest
-  } = props
+    const {
+      backgroundColor,
+      hoverColor,
+      clickable = false,
+      disabled = false,
+      padding = 'normal',
+      style,
+      children,
+      as,
+      ...rest
+    } = props
 
-  const computedHoverColor =
-    hoverColor || (backgroundColor && computeHoverColor(backgroundColor))
+    const computedHoverColor =
+      hoverColor || (backgroundColor && computeHoverColor(backgroundColor))
 
-  return (
-    <CardContainer
-      as={as ?? (clickable ? 'button' : 'div')}
-      disabled={disabled && clickable}
-      clickable={clickable}
-      padding={padding}
-      style={{
-        [vars.backgroundColor]: backgroundColor,
-        [vars.hoverBackgroundColor]: computedHoverColor,
-        [vars.textColor]:
-          backgroundColor && readableColor(backgroundColor, solvedTheme),
-        [vars.hoverTextColor]:
-          computedHoverColor && readableColor(computedHoverColor, solvedTheme),
-        ...style,
-      }}
-      {...rest}
-    >
-      {children}
-    </CardContainer>
-  )
-}
+    return (
+      <CardContainer
+        ref={ref}
+        as={as ?? (clickable ? 'button' : 'div')}
+        disabled={disabled && clickable}
+        clickable={clickable}
+        padding={padding}
+        style={{
+          [vars.backgroundColor]: backgroundColor,
+          [vars.hoverBackgroundColor]: computedHoverColor,
+          [vars.textColor]:
+            backgroundColor && readableColor(backgroundColor, solvedTheme),
+          [vars.hoverTextColor]:
+            computedHoverColor &&
+            readableColor(computedHoverColor, solvedTheme),
+          ...style,
+        }}
+        {...rest}
+      >
+        {children}
+      </CardContainer>
+    )
+  }
+)

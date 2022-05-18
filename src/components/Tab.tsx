@@ -1,7 +1,10 @@
 import { ellipsis } from 'polished'
 import React, { ElementType } from 'react'
 import styled, { css, useTheme } from 'styled-components'
-import { PolymorphicElementProps } from '../types/PolymorphicElementProps'
+import {
+  PolymorphicProps,
+  PolymorphicRef
+} from '../types/PolymorphicElementProps'
 import { computeHoverColor, readableColor } from '../utils/color'
 import { cssClickable, cssVariables } from '../utils/styles'
 import { transparentHoverTemplate } from '../utils/variables'
@@ -59,45 +62,52 @@ export type TabProps<T extends ElementType = 'button'> = {
   backgroundColor?: string
   hoverColor?: string
   accentColor?: string
-} & PolymorphicElementProps<T>
+} & PolymorphicProps<T>
 
-export const Tab = <T extends ElementType>(props: TabProps<T>): JSX.Element => {
-  const solvedTheme = useTheme()
+export const Tab = React.forwardRef(
+  <T extends ElementType>(
+    props: TabProps<T>,
+    ref?: PolymorphicRef<T>
+  ): JSX.Element => {
+    const solvedTheme = useTheme()
 
-  const {
-    current = false,
-    backgroundColor,
-    disabled = false,
-    hoverColor,
-    accentColor,
-    style,
-    as = 'button',
-    ...rest
-  } = props
+    const {
+      current = false,
+      backgroundColor,
+      disabled = false,
+      hoverColor,
+      accentColor,
+      style,
+      as = 'button',
+      ...rest
+    } = props
 
-  const computedAccentColor =
-    accentColor ||
-    (backgroundColor && readableColor(backgroundColor, solvedTheme))
+    const computedAccentColor =
+      accentColor ||
+      (backgroundColor && readableColor(backgroundColor, solvedTheme))
 
-  const computedHoverColor =
-    hoverColor || (backgroundColor && computeHoverColor(backgroundColor))
+    const computedHoverColor =
+      hoverColor || (backgroundColor && computeHoverColor(backgroundColor))
 
-  return (
-    <TabContainer
-      as={as}
-      disabled={disabled}
-      current={current}
-      style={{
-        [vars.backgroundColor]: backgroundColor,
-        [vars.hoverBackgroundColor]: computedHoverColor,
-        [vars.textColor]:
-          backgroundColor && readableColor(backgroundColor, solvedTheme),
-        [vars.hoverTextColor]:
-          computedHoverColor && readableColor(computedHoverColor, solvedTheme),
-        [vars.accentColor]: computedAccentColor,
-        ...style,
-      }}
-      {...rest}
-    />
-  )
-}
+    return (
+      <TabContainer
+        ref={ref}
+        as={as}
+        disabled={disabled}
+        current={current}
+        style={{
+          [vars.backgroundColor]: backgroundColor,
+          [vars.hoverBackgroundColor]: computedHoverColor,
+          [vars.textColor]:
+            backgroundColor && readableColor(backgroundColor, solvedTheme),
+          [vars.hoverTextColor]:
+            computedHoverColor &&
+            readableColor(computedHoverColor, solvedTheme),
+          [vars.accentColor]: computedAccentColor,
+          ...style,
+        }}
+        {...rest}
+      />
+    )
+  }
+)

@@ -1,7 +1,10 @@
 import { ellipsis } from 'polished'
 import React, { ElementType } from 'react'
 import styled, { css, useTheme } from 'styled-components'
-import { PolymorphicElementProps } from '../types/PolymorphicElementProps'
+import {
+  PolymorphicProps,
+  PolymorphicRef
+} from '../types/PolymorphicElementProps'
 import { computeHoverColor, readableColor } from '../utils/color'
 import { cssClickable, cssVariables } from '../utils/styles'
 import { transparentHoverTemplate } from '../utils/variables'
@@ -59,49 +62,54 @@ export type PaginationItemProps<T extends ElementType = 'button'> = {
   backgroundColor?: string
   hoverColor?: string
   activeColor?: string
-} & PolymorphicElementProps<T>
+} & PolymorphicProps<T>
 
-export const PaginationItem = <T extends ElementType>(
-  props: PaginationItemProps<T>
-): JSX.Element => {
-  const solvedTheme = useTheme()
+export const PaginationItem = React.forwardRef(
+  <T extends ElementType>(
+    props: PaginationItemProps<T>,
+    ref?: PolymorphicRef<T>
+  ): JSX.Element => {
+    const solvedTheme = useTheme()
 
-  const {
-    current = false,
-    disabled = false,
-    backgroundColor,
-    hoverColor,
-    activeColor,
-    style,
-    as = 'button',
-    ...rest
-  } = props
+    const {
+      current = false,
+      disabled = false,
+      backgroundColor,
+      hoverColor,
+      activeColor,
+      style,
+      as = 'button',
+      ...rest
+    } = props
 
-  const computedHoverColor =
-    hoverColor || (backgroundColor && computeHoverColor(backgroundColor))
+    const computedHoverColor =
+      hoverColor || (backgroundColor && computeHoverColor(backgroundColor))
 
-  const computedActiveColor =
-    activeColor || (backgroundColor && computeHoverColor(backgroundColor))
+    const computedActiveColor =
+      activeColor || (backgroundColor && computeHoverColor(backgroundColor))
 
-  return (
-    <PaginationItemContainer
-      as={as}
-      current={current}
-      disabled={disabled}
-      style={{
-        [vars.backgroundColor]: backgroundColor,
-        [vars.hoverBackgroundColor]: computedHoverColor,
-        [vars.activeBackgroundColor]: computedActiveColor,
-        [vars.textColor]:
-          backgroundColor && readableColor(backgroundColor, solvedTheme),
-        [vars.hoverTextColor]:
-          computedHoverColor && readableColor(computedHoverColor, solvedTheme),
-        [vars.activeTextColor]:
-          computedActiveColor &&
-          readableColor(computedActiveColor, solvedTheme),
-        ...style,
-      }}
-      {...rest}
-    />
-  )
-}
+    return (
+      <PaginationItemContainer
+        ref={ref}
+        as={as}
+        current={current}
+        disabled={disabled}
+        style={{
+          [vars.backgroundColor]: backgroundColor,
+          [vars.hoverBackgroundColor]: computedHoverColor,
+          [vars.activeBackgroundColor]: computedActiveColor,
+          [vars.textColor]:
+            backgroundColor && readableColor(backgroundColor, solvedTheme),
+          [vars.hoverTextColor]:
+            computedHoverColor &&
+            readableColor(computedHoverColor, solvedTheme),
+          [vars.activeTextColor]:
+            computedActiveColor &&
+            readableColor(computedActiveColor, solvedTheme),
+          ...style,
+        }}
+        {...rest}
+      />
+    )
+  }
+)

@@ -1,6 +1,9 @@
 import React, { ElementType } from 'react'
 import styled, { css, useTheme } from 'styled-components'
-import { PolymorphicElementProps } from '../types/PolymorphicElementProps'
+import {
+    PolymorphicProps,
+    PolymorphicRef
+} from '../types/PolymorphicElementProps'
 import { computeHoverColor, readableColor } from '../utils/color'
 import { cssClickable, cssVariables } from '../utils/styles'
 import { transparentHoverTemplate } from '../utils/variables'
@@ -61,49 +64,54 @@ export type ListItemProps<T extends ElementType = 'div'> = {
   clickable?: boolean
   disabled?: boolean
   padding?: 'none' | 'normal' | 'wide'
-} & PolymorphicElementProps<T>
+} & PolymorphicProps<T>
 
-export const ListItem = <T extends ElementType>(
-  props: ListItemProps<T>
-): JSX.Element => {
-  const solvedTheme = useTheme()
+export const ListItem = React.forwardRef(
+  <T extends ElementType>(
+    props: ListItemProps<T>,
+    ref?: PolymorphicRef<T>
+  ): JSX.Element => {
+    const solvedTheme = useTheme()
 
-  const {
-    backgroundColor,
-    hoverColor,
-    clickable = false,
-    disabled = false,
-    padding = 'normal',
-    style,
-    children,
-    as,
-    ...rest
-  } = props
+    const {
+      backgroundColor,
+      hoverColor,
+      clickable = false,
+      disabled = false,
+      padding = 'normal',
+      style,
+      children,
+      as,
+      ...rest
+    } = props
 
-  const computedHoverColor =
-    hoverColor || (backgroundColor && computeHoverColor(backgroundColor))
+    const computedHoverColor =
+      hoverColor || (backgroundColor && computeHoverColor(backgroundColor))
 
-  return (
-    <ListItemWrapper
-      style={{
-        [vars.backgroundColor]: backgroundColor,
-        [vars.hoverBackgroundColor]: computedHoverColor,
-        [vars.textColor]:
-          backgroundColor && readableColor(backgroundColor, solvedTheme),
-        [vars.hoverTextColor]:
-          computedHoverColor && readableColor(computedHoverColor, solvedTheme),
-      }}
-    >
-      <ListItemContainer
-        as={as ?? (clickable ? 'button' : 'div')}
-        disabled={disabled && clickable}
-        clickable={clickable}
-        padding={padding}
-        style={style}
-        {...rest}
+    return (
+      <ListItemWrapper
+        style={{
+          [vars.backgroundColor]: backgroundColor,
+          [vars.hoverBackgroundColor]: computedHoverColor,
+          [vars.textColor]:
+            backgroundColor && readableColor(backgroundColor, solvedTheme),
+          [vars.hoverTextColor]:
+            computedHoverColor &&
+            readableColor(computedHoverColor, solvedTheme),
+        }}
       >
-        {children}
-      </ListItemContainer>
-    </ListItemWrapper>
-  )
-}
+        <ListItemContainer
+          ref={ref}
+          as={as ?? (clickable ? 'button' : 'div')}
+          disabled={disabled && clickable}
+          clickable={clickable}
+          padding={padding}
+          style={style}
+          {...rest}
+        >
+          {children}
+        </ListItemContainer>
+      </ListItemWrapper>
+    )
+  }
+)

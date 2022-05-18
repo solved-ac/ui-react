@@ -1,6 +1,9 @@
 import React, { ElementType } from 'react'
 import styled from 'styled-components'
-import { PolymorphicElementProps } from '../types/PolymorphicElementProps'
+import {
+  PolymorphicProps,
+  PolymorphicRef
+} from '../types/PolymorphicElementProps'
 import { cssCentering } from '../utils/styles'
 
 const paddingMap = {
@@ -24,19 +27,23 @@ const EmptyStatePlaceholderContainer = styled.div<EmptyStatePlaceholderContainer
 `
 
 export type EmptyStatePlaceholderProps<T extends ElementType = 'div'> =
-  PolymorphicElementProps<T>
+  PolymorphicProps<T>
 
-export const EmptyStatePlaceholder = <T extends ElementType>(
-  props: EmptyStatePlaceholderProps<T>
-): JSX.Element => {
-  const { padding, fullHeight, as = 'div', ...rest } = props
+export const EmptyStatePlaceholder = React.forwardRef(
+  <T extends ElementType>(
+    props: EmptyStatePlaceholderProps<T>,
+    ref?: PolymorphicRef<T>
+  ): JSX.Element => {
+    const { padding, fullHeight, as = 'div', ...rest } = props
 
-  return (
-    <EmptyStatePlaceholderContainer
-      as={as}
-      fullHeight={fullHeight}
-      padding={padding}
-      {...rest}
-    />
-  )
-}
+    return (
+      <EmptyStatePlaceholderContainer
+        as={as}
+        ref={ref}
+        fullHeight={fullHeight}
+        padding={padding}
+        {...rest}
+      />
+    )
+  }
+)

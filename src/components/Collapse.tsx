@@ -1,5 +1,9 @@
 import React, { ElementType, useLayoutEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
+import {
+  PolymorphicProps,
+  PolymorphicRef
+} from '../types/PolymorphicElementProps'
 
 interface CollapseContainerProps {
   renderHeight: number | 'auto'
@@ -16,45 +20,54 @@ const CollapseContainer = styled.div<CollapseContainerProps>`
   overflow: 'hidden';
 `
 
-export interface CollapseProps {
+export type CollapseProps<T extends ElementType = 'div'> = {
   shown: boolean
   children?: React.ReactNode
-  as?: ElementType
-}
+} & PolymorphicProps<T>
 
-export const Collapse = (props: CollapseProps): JSX.Element => {
-  const { as, shown, children } = props
+export const Collapse = React.forwardRef(
+  <T extends ElementType>(
+    props: CollapseProps<T>,
+    ref?: PolymorphicRef<T>
+  ): JSX.Element => {
+    const { as = 'div', shown, children } = props
 
-  const contentsRef = useRef<HTMLDivElement>(null)
-  const [contentHeight, setContentHeight] = useState<number>(0)
-  const [renderHeight, setRenderHeight] = useState<number | 'auto'>(0)
-  const [mountChild, setMountChild] = useState<boolean>(shown)
+    const contentsRef = useRef<HTMLDivElement>(null)
+    const [contentHeight, setContentHeight] = useState<number>(0)
+    const [renderHeight, setRenderHeight] = useState<number | 'auto'>(0)
+    const [mountChild, setMountChild] = useState<boolean>(shown)
 
-  useLayoutEffect(() => {
-    if (contentsRef.current === null || !mountChild) return
-    setContentHeight(contentsRef.current?.clientHeight ?? 0)
-  }, [children, mountChild])
+    useLayoutEffect(() => {
+      if (contentsRef.current === null || !mountChild) return
+      setContentHeight(contentsRef.current?.clientHeight ?? 0)
+    }, [children, mountChild])
 
-  useLayoutEffect(() => {
-    if (shown) setMountChild(true)
+    useLayoutEffect(() => {
+      if (shown) setMountChild(true)
 
-    setRenderHeight(shown ? 0 : contentHeight)
-    const renderHeightDelay = setTimeout(() => {
-      setRenderHeight(shown ? contentHeight : 0)
-    }, 30)
-    const animationDelay = setTimeout(() => {
-      setRenderHeight(shown ? 'auto' : 0)
-      if (!shown) setMountChild(false)
-    }, 400)
-    return () => {
-      clearTimeout(renderHeightDelay)
-      clearTimeout(animationDelay)
-    }
-  }, [shown, contentHeight])
+      setRenderHeight(shown ? 0 : contentHeight)
+      const renderHeightDelay = setTimeout(() => {
+        setRenderHeight(shown ? contentHeight : 0)
+      }, 30)
+      const animationDelay = setTimeout(() => {
+        setRenderHeight(shown ? 'auto' : 0)
+        if (!shown) setMountChild(false)
+      }, 400)
+      return () => {
+        clearTimeout(renderHeightDelay)
+        clearTimeout(animationDelay)
+      }
+    }, [shown, contentHeight])
 
-  return (
-    <CollapseContainer as={as} shown={shown} renderHeight={renderHeight}>
-      {mountChild ? <div ref={contentsRef}>{children}</div> : null}
-    </CollapseContainer>
-  )
-}
+    return (
+      <CollapseContainer
+        as={as}
+        ref={ref}
+        shown={shown}
+        renderHeight={renderHeight}
+      >
+        {mountChild ? <div ref={contentsRef}>{children}</div> : null}
+      </CollapseContainer>
+    )
+  }
+)

@@ -1,6 +1,9 @@
 import React, { ElementType } from 'react'
 import styled, { useTheme } from 'styled-components'
-import { PolymorphicElementProps } from '../types/PolymorphicElementProps'
+import {
+  PolymorphicProps,
+  PolymorphicRef
+} from '../types/PolymorphicElementProps'
 import { readableColor } from '../utils/color'
 import { cssVariables } from '../utils/styles'
 
@@ -25,24 +28,28 @@ const ChipContainer = styled.div`
 
 export type ChipProps<T extends ElementType = 'div'> = {
   backgroundColor?: string
-} & PolymorphicElementProps<T>
+} & PolymorphicProps<T>
 
-export const Chip = <T extends ElementType>(
-  props: ChipProps<T>
-): JSX.Element => {
-  const theme = useTheme()
-  const { backgroundColor, style, as = 'div', ...rest } = props
+export const Chip = React.forwardRef(
+  <T extends ElementType>(
+    props: ChipProps<T>,
+    ref?: PolymorphicRef<T>
+  ): JSX.Element => {
+    const theme = useTheme()
+    const { backgroundColor, style, as = 'div', ...rest } = props
 
-  return (
-    <ChipContainer
-      as={as}
-      style={{
-        [vars.backgroundColor]: backgroundColor,
-        [vars.textColor]:
-          backgroundColor && readableColor(backgroundColor, theme),
-        ...style,
-      }}
-      {...rest}
-    />
-  )
-}
+    return (
+      <ChipContainer
+        ref={ref}
+        as={as}
+        style={{
+          [vars.backgroundColor]: backgroundColor,
+          [vars.textColor]:
+            backgroundColor && readableColor(backgroundColor, theme),
+          ...style,
+        }}
+        {...rest}
+      />
+    )
+  }
+)

@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { ElementType } from 'react'
 import styled from 'styled-components'
-import { PolymorphicElementProps } from '../types/PolymorphicElementProps'
+import {
+  PolymorphicProps,
+  PolymorphicRef
+} from '../types/PolymorphicElementProps'
 
 interface TabsContainerProps {
   fullWidth: boolean
@@ -14,12 +17,25 @@ const TabsContainer = styled.div<TabsContainerProps>`
   flex-wrap: ${({ multiline }) => (multiline ? 'wrap' : 'nowrap')};
 `
 
-export type TabsProps = {
+export type TabsProps<T extends ElementType = 'div'> = {
   fullWidth?: boolean
   multiline?: boolean
-} & PolymorphicElementProps<'div'>
+} & PolymorphicProps<T>
 
-export const Tabs: React.FC<TabsProps> = (props) => {
-  const { fullWidth = false, multiline = false, ...rest } = props
-  return <TabsContainer fullWidth={fullWidth} multiline={multiline} {...rest} />
-}
+export const Tabs = React.forwardRef(
+  <T extends ElementType>(
+    props: TabsProps<T>,
+    ref?: PolymorphicRef<T>
+  ): JSX.Element => {
+    const { fullWidth = false, multiline = false, as = 'div', ...rest } = props
+    return (
+      <TabsContainer
+        ref={ref}
+        as={as}
+        fullWidth={fullWidth}
+        multiline={multiline}
+        {...rest}
+      />
+    )
+  }
+)
