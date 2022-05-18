@@ -1,5 +1,6 @@
-import { buttons, normalize, textInputs, transparentize } from 'polished'
+import { buttons, textInputs, transparentize } from 'polished'
 import { createGlobalStyle } from 'styled-components'
+import reset from 'styled-reset'
 import {
     buttonVariables,
     cardVariables,
@@ -20,7 +21,7 @@ const componentGlobalStyles = [
 ].map(({ styles }) => styles)
 
 export const SolvedGlobalStyles = createGlobalStyle<{ theme: SolvedTheme }>`
-    ${normalize()}
+    ${reset}
 
     * {
         box-sizing: border-box;
@@ -31,12 +32,7 @@ export const SolvedGlobalStyles = createGlobalStyle<{ theme: SolvedTheme }>`
     html {
         font-family: ${({ theme }) => theme.typography.paragraph};
         font-weight: 400;
-        -ms-text-size-adjust: 100%;
-        -webkit-text-size-adjust: 100%;
-        margin: 0;
-        padding: 0;
         width: 100%;
-        line-height: 1.6;
         overflow-x: hidden;
         background: ${({ theme }) => theme.color.background.footer};
         ${({ theme }) =>
@@ -46,6 +42,7 @@ export const SolvedGlobalStyles = createGlobalStyle<{ theme: SolvedTheme }>`
     body {
         margin: 0;
         width: 100%;
+        line-height: 1.6;
         overflow-x: hidden;
         color: ${({ theme }) => theme.color.text.primary.main};
         background: ${({ theme }) => theme.color.background.page};
@@ -54,33 +51,16 @@ export const SolvedGlobalStyles = createGlobalStyle<{ theme: SolvedTheme }>`
   theme.color.background.page};
     }
 
-    h1, h2, h3, h4, h5, h6 {
-        margin: 0;
-    }
-
     ::selection {
         color: ${({ theme }) => theme.color.background.page};
         background: ${({ theme }) =>
           transparentize(0.5, theme.color.text.primary.main)};
     }
 
-    textarea,
-    input,
-    select {
+    ${textInputs()} {
         font-family: inherit;
         line-height: 1.3;
         font-size: 1rem;
-    }
-
-    textarea {
-        padding: 8px;
-        background: ${({ theme }) => theme.color.background.footer};
-        color: ${({ theme }) => theme.color.text.primary.main};
-        border: ${({ theme }) => theme.styles.border()};
-        border-radius: 8px;
-    }
-    
-    ${textInputs()} {
         width: 100%;
         max-width: 400px;
         height: auto;
@@ -98,42 +78,6 @@ export const SolvedGlobalStyles = createGlobalStyle<{ theme: SolvedTheme }>`
         text-align: inherit;
     }
     
-    option {
-        color: ${({ theme }) => theme.color.text.primary.main};
-    }
-    
-    code,
-    pre {
-        font-family: ${({ theme }) => theme.typography.code};
-        background: ${({ theme }) => theme.color.background.footer};
-    }
-    
-    pre {
-        padding: 16px;
-        font-size: 0.9em;
-        overflow-x: auto;
-    }
-    
-    pre code {
-        background: initial;
-    }
-    
-    blockquote {
-        margin: 0;
-        padding: 0 1em;
-        color: #60666d;
-        border-left: 3px solid #ebebee;
-    }
-    
-    iframe {
-        max-width: 100%;
-    }
-    
-    /* TODO remove named classes */
-    .pc_hidden {
-        display: none;
-    }
-    
     /* TODO remove named classes */
     img.emoji {
         height: 1em;
@@ -145,60 +89,6 @@ export const SolvedGlobalStyles = createGlobalStyle<{ theme: SolvedTheme }>`
     /* TODO remove named classes */
     .noscroll {
         overflow: hidden !important;
-    }
-    
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        th {
-            background: ${({ theme }) => theme.color.background.table.header};
-            color: ${({ theme }) => theme.color.text.primary.inverted};
-            padding: 8px;
-        }
-        td {
-            padding: 8px;
-        }
-        tr {
-            &:nth-child(odd) {
-                background: ${({ theme }) => theme.color.background.page};
-            }
-            &:nth-child(even) {
-                background: ${({ theme }) => theme.color.background.table.main};
-            }
-        }
-    }
-    
-    a {
-        color: inherit;
-        &.nounderline {
-            text-decoration: none;
-        }
-        &.hover_underline {
-            text-decoration: none;
-            &:hover {
-                text-decoration: underline;
-            }
-        }
-    }
-
-    ul {
-        list-style-type: "✓ ";
-        & > li::marker {
-            color: ${({ theme }) => theme.color.solvedAc};
-        }
-    }
-    
-    /* TODO remove named classes */
-    .nounderline a {
-        text-decoration: none;
-    }
-    
-    /* TODO remove named classes */
-    .hover_underline a {
-        text-decoration: none;
-        &:hover {
-            text-decoration: underline;
-        }
     }
     
     /* TODO remove named classes */
@@ -260,11 +150,6 @@ export const SolvedGlobalStyles = createGlobalStyle<{ theme: SolvedTheme }>`
         color: #b300e0;
     }
     
-    /* TODO remove named classes */
-    .description {
-        color: ${({ theme }) => theme.color.text.secondary.main};
-    }
-
     ::-webkit-scrollbar {
         width: 12px;
     }
