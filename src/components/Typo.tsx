@@ -10,6 +10,21 @@ const variants = {
   description: css`
     color: ${({ theme }) => theme.color.text.secondary.main};
   `,
+  error: css`
+    color: ${({ theme }) => theme.color.status.error};
+  `,
+  info: css`
+    color: ${({ theme }) => theme.color.status.info};
+  `,
+  progress: css`
+    color: ${({ theme }) => theme.color.status.progress};
+  `,
+  success: css`
+    color: ${({ theme }) => theme.color.status.success};
+  `,
+  warn: css`
+    color: ${({ theme }) => theme.color.status.warn};
+  `,
   h1: css`
     display: block;
     font-weight: 800;
@@ -83,6 +98,9 @@ const variants = {
   `,
   'no-ligatures': css`
     font-variant-ligatures: none;
+  `,
+  'no-margin': css`
+    margin: 0;
   `,
 } as const
 
