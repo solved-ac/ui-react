@@ -1,9 +1,6 @@
 import React, { ElementType } from 'react'
 import styled, { useTheme } from 'styled-components'
-import {
-  PolymorphicProps,
-  PolymorphicRef
-} from '../types/PolymorphicElementProps'
+import { PC, PP, PR } from '../types/PolymorphicElementProps'
 import { readableColor } from '../utils/color'
 import { cssVariables } from '../utils/styles'
 
@@ -26,15 +23,12 @@ const ChipContainer = styled.div`
   line-height: 1.2;
 `
 
-export type ChipProps<T extends ElementType = 'div'> = {
+export interface ChipProps {
   backgroundColor?: string
-} & PolymorphicProps<T>
+}
 
-export const Chip = React.forwardRef(
-  <T extends ElementType>(
-    props: ChipProps<T>,
-    ref?: PolymorphicRef<T>
-  ): JSX.Element => {
+export const Chip: PC<'div', ChipProps> = React.forwardRef(
+  <T extends ElementType>(props: PP<T, ChipProps>, ref?: PR<T>) => {
     const theme = useTheme()
     const { backgroundColor, style, as = 'div', ...rest } = props
 

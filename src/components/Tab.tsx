@@ -1,10 +1,7 @@
 import { ellipsis } from 'polished'
 import React, { ElementType } from 'react'
 import styled, { css, useTheme } from 'styled-components'
-import {
-  PolymorphicProps,
-  PolymorphicRef
-} from '../types/PolymorphicElementProps'
+import { PC, PP, PR } from '../types/PolymorphicElementProps'
 import { computeHoverColor, readableColor } from '../utils/color'
 import { cssClickable, cssVariables } from '../utils/styles'
 import { transparentHoverTemplate } from '../utils/variables'
@@ -56,19 +53,16 @@ const TabContainer = styled.button<TabContainerProps>`
   ${({ current }) => current && whenCurrent}
 `
 
-export type TabProps<T extends ElementType = 'button'> = {
+export interface TabProps {
   current?: boolean
   disabled?: boolean
   backgroundColor?: string
   hoverColor?: string
   accentColor?: string
-} & PolymorphicProps<T>
+}
 
-export const Tab = React.forwardRef(
-  <T extends ElementType>(
-    props: TabProps<T>,
-    ref?: PolymorphicRef<T>
-  ): JSX.Element => {
+export const Tab: PC<'a', TabProps> = React.forwardRef(
+  <T extends ElementType>(props: PP<T, TabProps>, ref?: PR<T>) => {
     const solvedTheme = useTheme()
 
     const {
@@ -78,7 +72,7 @@ export const Tab = React.forwardRef(
       hoverColor,
       accentColor,
       style,
-      as = 'div',
+      as = 'a',
       ...rest
     } = props
 

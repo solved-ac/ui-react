@@ -1,9 +1,6 @@
 import React, { ElementType } from 'react'
 import styled from 'styled-components'
-import {
-  PolymorphicProps,
-  PolymorphicRef
-} from '../types/PolymorphicElementProps'
+import { PC, PP, PR } from '../types/PolymorphicElementProps'
 
 interface TabsContainerProps {
   fullWidth: boolean
@@ -17,16 +14,13 @@ const TabsContainer = styled.nav<TabsContainerProps>`
   flex-wrap: ${({ multiline }) => (multiline ? 'wrap' : 'nowrap')};
 `
 
-export type TabsProps<T extends ElementType = 'nav'> = {
+export interface TabsProps {
   fullWidth?: boolean
   multiline?: boolean
-} & PolymorphicProps<T>
+}
 
-export const Tabs = React.forwardRef(
-  <T extends ElementType>(
-    props: TabsProps<T>,
-    ref?: PolymorphicRef<T>
-  ): JSX.Element => {
+export const Tabs: PC<'nav', TabsProps> = React.forwardRef(
+  <T extends ElementType>(props: PP<T, TabsProps>, ref?: PR<T>) => {
     const { fullWidth = false, multiline = false, as = 'nav', ...rest } = props
     return (
       <TabsContainer

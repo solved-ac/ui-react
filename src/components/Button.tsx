@@ -1,9 +1,6 @@
 import React, { ElementType } from 'react'
 import styled, { useTheme } from 'styled-components'
-import {
-  PolymorphicProps,
-  PolymorphicRef
-} from '../types/PolymorphicElementProps'
+import { PC, PP, PR } from '../types/PolymorphicElementProps'
 import { computeHoverColor, readableColor } from '../utils/color'
 import { cssClickable, cssVariables } from '../utils/styles'
 import { cardHoverTemplate } from '../utils/variables'
@@ -65,7 +62,7 @@ const ButtonContainer = styled.button<ButtonContainerProps>`
   }
 `
 
-export type ButtonProps<T extends ElementType = 'button'> = {
+export interface ButtonProps {
   backgroundColor?: string
   hoverColor?: string
   primary?: boolean
@@ -73,13 +70,10 @@ export type ButtonProps<T extends ElementType = 'button'> = {
   circle?: boolean
   fullWidth?: boolean
   padding?: 'none' | 'normal'
-} & PolymorphicProps<T>
+}
 
-export const Button = React.forwardRef(
-  <T extends ElementType>(
-    props: ButtonProps<T>,
-    ref?: PolymorphicRef<T>
-  ): JSX.Element => {
+export const Button: PC<'button', ButtonProps> = React.forwardRef(
+  <T extends ElementType>(props: PP<T, ButtonProps>, ref?: PR<T>) => {
     const solvedTheme = useTheme()
 
     const {

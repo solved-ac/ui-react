@@ -1,9 +1,6 @@
 import React, { ElementType, useLayoutEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
-import {
-  PolymorphicProps,
-  PolymorphicRef
-} from '../types/PolymorphicElementProps'
+import { PC, PP, PR } from '../types/PolymorphicElementProps'
 
 interface CollapseContainerProps {
   renderHeight: number | 'auto'
@@ -20,16 +17,12 @@ const CollapseContainer = styled.div<CollapseContainerProps>`
   overflow: 'hidden';
 `
 
-export type CollapseProps<T extends ElementType = 'div'> = {
+export interface CollapseProps {
   shown: boolean
-  children?: React.ReactNode
-} & PolymorphicProps<T>
+}
 
-export const Collapse = React.forwardRef(
-  <T extends ElementType>(
-    props: CollapseProps<T>,
-    ref?: PolymorphicRef<T>
-  ): JSX.Element => {
+export const Collapse: PC<'div', CollapseProps> = React.forwardRef(
+  <T extends ElementType>(props: PP<T, CollapseProps>, ref?: PR<T>) => {
     const { as = 'div', shown, children } = props
 
     const contentsRef = useRef<HTMLDivElement>(null)

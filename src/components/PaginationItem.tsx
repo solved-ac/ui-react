@@ -1,10 +1,7 @@
 import { ellipsis } from 'polished'
 import React, { ElementType } from 'react'
 import styled, { css, useTheme } from 'styled-components'
-import {
-  PolymorphicProps,
-  PolymorphicRef
-} from '../types/PolymorphicElementProps'
+import { PC, PP, PR } from '../types/PolymorphicElementProps'
 import { computeHoverColor, readableColor } from '../utils/color'
 import { cssClickable, cssVariables } from '../utils/styles'
 import { transparentHoverTemplate } from '../utils/variables'
@@ -56,19 +53,16 @@ const PaginationItemContainer = styled.button<PaginationItemContainerProps>`
   ${({ current }) => current && whenCurrent}
 `
 
-export type PaginationItemProps<T extends ElementType = 'button'> = {
+export interface PaginationItemProps {
   current?: boolean
   disabled?: boolean
   backgroundColor?: string
   hoverColor?: string
   activeColor?: string
-} & PolymorphicProps<T>
+}
 
-export const PaginationItem = React.forwardRef(
-  <T extends ElementType>(
-    props: PaginationItemProps<T>,
-    ref?: PolymorphicRef<T>
-  ): JSX.Element => {
+export const PaginationItem: PC<'a', PaginationItemProps> = React.forwardRef(
+  <T extends ElementType>(props: PP<T, PaginationItemProps>, ref?: PR<T>) => {
     const solvedTheme = useTheme()
 
     const {
@@ -78,7 +72,7 @@ export const PaginationItem = React.forwardRef(
       hoverColor,
       activeColor,
       style,
-      as = 'div',
+      as = 'a',
       ...rest
     } = props
 

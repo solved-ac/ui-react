@@ -1,19 +1,13 @@
 import React, { ElementType } from 'react'
-import {
-  PolymorphicProps,
-  PolymorphicRef
-} from '../types/PolymorphicElementProps'
+import { PC, PP, PR } from '../types/PolymorphicElementProps'
 
-export type SpaceProps<T extends ElementType> = {
+export interface SpaceProps {
   h?: number | string
   w?: number | string
-} & PolymorphicProps<T>
+}
 
-export const Space = React.forwardRef(
-  <T extends ElementType>(
-    props: SpaceProps<T>,
-    ref?: PolymorphicRef<T>
-  ): JSX.Element => {
+export const Space: PC<'div', SpaceProps> = React.forwardRef(
+  <T extends ElementType>(props: PP<T, SpaceProps>, ref?: PR<T>) => {
     const { h: height, w: width, as: RenderComponent = 'div', ...rest } = props
     if (typeof width !== 'undefined') {
       return (

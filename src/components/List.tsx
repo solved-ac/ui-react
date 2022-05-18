@@ -1,9 +1,6 @@
 import React, { ElementType } from 'react'
 import styled from 'styled-components'
-import {
-  PolymorphicProps,
-  PolymorphicRef
-} from '../types/PolymorphicElementProps'
+import { PC, PP, PR } from '../types/PolymorphicElementProps'
 
 const paddingMap = {
   none: 'padding: 0;',
@@ -20,15 +17,12 @@ const ListContainer = styled.ul<ListContainerProps>`
   list-style: none;
 `
 
-export type ListProps<T extends ElementType = 'ul'> = {
+export interface ListProps {
   padding?: 'none' | 'normal' | 'wide'
-} & PolymorphicProps<T>
+}
 
-export const List = React.forwardRef(
-  <T extends ElementType>(
-    props: ListProps<T>,
-    ref?: PolymorphicRef<T>
-  ): JSX.Element => {
+export const List: PC<'ul', ListProps> = React.forwardRef(
+  <T extends ElementType>(props: PP<T, ListProps>, ref?: PR<T>) => {
     const { padding = 'normal', children, as = 'ul', ...rest } = props
 
     return (

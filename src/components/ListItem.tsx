@@ -1,9 +1,6 @@
 import React, { ElementType } from 'react'
 import styled, { css, useTheme } from 'styled-components'
-import {
-    PolymorphicProps,
-    PolymorphicRef
-} from '../types/PolymorphicElementProps'
+import { PC, PP, PR } from '../types/PolymorphicElementProps'
 import { computeHoverColor, readableColor } from '../utils/color'
 import { cssClickable, cssVariables } from '../utils/styles'
 import { transparentHoverTemplate } from '../utils/variables'
@@ -58,19 +55,16 @@ const ListItemContainer = styled.div<ListItemContainerProps>`
   ${({ padding }) => paddingMap[padding]}
 `
 
-export type ListItemProps<T extends ElementType = 'div'> = {
+export interface ListItemProps {
   backgroundColor?: string
   hoverColor?: string
   clickable?: boolean
   disabled?: boolean
   padding?: 'none' | 'normal' | 'wide'
-} & PolymorphicProps<T>
+}
 
-export const ListItem = React.forwardRef(
-  <T extends ElementType>(
-    props: ListItemProps<T>,
-    ref?: PolymorphicRef<T>
-  ): JSX.Element => {
+export const ListItem: PC<'div', ListItemProps> = React.forwardRef(
+  <T extends ElementType>(props: PP<T, ListItemProps>, ref?: PR<T>) => {
     const solvedTheme = useTheme()
 
     const {

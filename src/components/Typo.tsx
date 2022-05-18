@@ -1,9 +1,6 @@
 import React, { ElementType } from 'react'
 import styled, { css } from 'styled-components'
-import {
-    PolymorphicProps,
-    PolymorphicRef
-} from '../types/PolymorphicElementProps'
+import { PC, PP, PR } from '../types/PolymorphicElementProps'
 
 const variants = {
   default: css``,
@@ -128,9 +125,9 @@ const TypoContainer = styled.span<TypoContainerProps>`
       : variant.map((v) => variants[v])}
 `
 
-export type TypoProps<T extends ElementType = 'span'> = {
+export interface TypoProps {
   variant?: TypoVariant | TypoVariant[]
-} & PolymorphicProps<T>
+}
 
 const firstVariant = (
   variant?: TypoVariant | TypoVariant[]
@@ -140,13 +137,11 @@ const firstVariant = (
   return undefined
 }
 
-export const Typo = React.forwardRef(
-  <T extends ElementType>(
-    props: TypoProps<T>,
-    ref?: PolymorphicRef<T>
-  ): JSX.Element => {
+export const Typo: PC<'span', TypoProps> = React.forwardRef(
+  <T extends ElementType>(props: PP<T, TypoProps>, ref?: PR<T>) => {
     const { variant = [], as, ...rest } = props
 
+    // TODO types are wrong when `as` in inferred by variant
     const calculatedAs =
       as || asMap[firstVariant(variant) ?? 'default'] || 'span'
 

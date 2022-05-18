@@ -1,9 +1,6 @@
 import React, { ElementType } from 'react'
 import styled, { css, useTheme } from 'styled-components'
-import {
-  PolymorphicProps,
-  PolymorphicRef
-} from '../types/PolymorphicElementProps'
+import { PC, PP, PR } from '../types/PolymorphicElementProps'
 import { computeHoverColor, readableColor } from '../utils/color'
 import { cssClickable, cssVariables } from '../utils/styles'
 import { cardHoverTemplate } from '../utils/variables'
@@ -47,19 +44,16 @@ const CardContainer = styled.div<CardContainerProps>`
   ${({ padding }) => paddingMap[padding]}
 `
 
-export type CardProps<T extends ElementType = 'div'> = {
+export interface CardProps {
   backgroundColor?: string
   hoverColor?: string
   clickable?: boolean
   disabled?: boolean
   padding?: 'none' | 'normal' | 'wide'
-} & PolymorphicProps<T>
+}
 
-export const Card = React.forwardRef(
-  <T extends ElementType>(
-    props: CardProps<T>,
-    ref?: PolymorphicRef<T>
-  ): JSX.Element => {
+export const Card: PC<'div', CardProps> = React.forwardRef(
+  <T extends ElementType>(props: PP<T, CardProps>, ref?: PR<T>) => {
     const solvedTheme = useTheme()
 
     const {
