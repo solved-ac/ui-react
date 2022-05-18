@@ -5,6 +5,8 @@ import {
     buttonVariables,
     cardVariables,
     chipVariables,
+    containerVariables,
+    footerVariables,
     listItemVariables,
     paginationItemVariables,
     tabVariables
@@ -15,6 +17,8 @@ const componentGlobalStyles = [
   buttonVariables,
   cardVariables,
   chipVariables,
+  containerVariables,
+  footerVariables,
   listItemVariables,
   paginationItemVariables,
   tabVariables,
@@ -70,28 +74,34 @@ export const SolvedGlobalStyles = createGlobalStyle<{ theme: SolvedTheme }>`
     }
 
     sub, sup {
-      font-size: 75%;
-      line-height: 0;
-      position: relative;
-      vertical-align: baseline;
+        font-size: 75%;
+        line-height: 0;
+        position: relative;
+        vertical-align: baseline;
     }
 
     sup {
-      top: -0.5em;
+        top: -0.5em;
     }
     
     sub {
-      bottom: -0.25em;
+        bottom: -0.25em;
+    }
+
+    small {
+        font-size: 75%;
+    }
+
+    pre, code {
+        font-family: ${({ theme }) => theme.typography.code};
     }
 
     ${textInputs()} {
         font-family: inherit;
-        line-height: 1.3;
-        font-size: 1rem;
-        width: 100%;
-        max-width: 400px;
         height: auto;
         line-height: normal;
+        font-size: 1rem;
+        width: 100%;
         padding: 0.8em 0.5em;
         background: ${({ theme }) => theme.color.background.footer};
         color: ${({ theme }) => theme.color.text.primary.main};
