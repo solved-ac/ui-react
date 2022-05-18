@@ -23,8 +23,9 @@ const EmptyStatePlaceholderContainer = styled.div<EmptyStatePlaceholderContainer
   text-align: center;
 `
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface EmptyStatePlaceholderProps {}
+export interface EmptyStatePlaceholderProps {
+  padding?: 'none' | 'normal' | 'wide'
+}
 
 export const EmptyStatePlaceholder: PC<'div', EmptyStatePlaceholderProps> =
   React.forwardRef(
