@@ -1,5 +1,6 @@
-import React, { HTMLAttributes } from 'react'
+import React, { ElementType } from 'react'
 import styled from 'styled-components'
+import { PolymorphicElementProps } from '../types/PolymorphicElementProps'
 
 const paddingMap = {
   none: 'padding: 0;',
@@ -16,11 +17,13 @@ const ListContainer = styled.ul<ListContainerProps>`
   list-style: none;
 `
 
-export interface ListProps extends HTMLAttributes<HTMLUListElement> {
+export type ListProps<T extends ElementType = 'ul'> = {
   padding?: 'none' | 'normal' | 'wide'
-}
+} & PolymorphicElementProps<T>
 
-export const List: React.FC<ListProps> = (props) => {
+export const List = <T extends ElementType>(
+  props: ListProps<T>
+): JSX.Element => {
   const { padding = 'normal', children, ...rest } = props
 
   return (
