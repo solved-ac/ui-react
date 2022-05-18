@@ -27,19 +27,25 @@ export const buttonVariables = cssVariables(
 
 const { vars, v } = buttonVariables
 
+const paddingMap = {
+  none: 'padding: 0;',
+  normal: 'padding: 12px 16px;',
+}
+
 interface ButtonContainerProps {
   circle: boolean
   fullWidth: boolean
+  padding: 'none' | 'normal'
 }
 
 const ButtonContainer = styled.button<ButtonContainerProps>`
   ${cssClickable}
   ${({ fullWidth }) => fullWidth && 'width: 100%;'}
+  ${({ padding }) => paddingMap[padding]}
   display: inline-block;
   vertical-align: middle;
   text-align: center;
   background: ${v.backgroundColor};
-  padding: 0;
   color: ${v.textColor};
   transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease,
     box-shadow 0.3s ease;
@@ -104,6 +110,7 @@ export const Button = React.forwardRef(
         disabled={disabled}
         circle={circle}
         fullWidth={fullWidth}
+        padding={padding}
         style={{
           [vars.backgroundColor]: computedBackgroundColor,
           [vars.hoverBackgroundColor]: computedHoverColor,
@@ -123,9 +130,7 @@ export const Button = React.forwardRef(
         }}
         {...rest}
       >
-        <div style={{ padding: padding === 'none' ? 'unset' : '12px 16px' }}>
-          {children}
-        </div>
+        <div>{children}</div>
       </ButtonContainer>
     )
   }

@@ -96,7 +96,7 @@ export const Card = React.forwardRef(
         }}
         {...rest}
       >
-        {children}
+        <div>{children}</div>
       </CardContainer>
     )
   }
