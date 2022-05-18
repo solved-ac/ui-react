@@ -11,4 +11,5 @@ export * from './PaginationItem'
 export * from './Space'
 export * from './Tab'
 export * from './Tabs'
+export * from './Typo'
 
