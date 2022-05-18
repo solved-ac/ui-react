@@ -78,7 +78,7 @@ export const PaginationItem = React.forwardRef(
       hoverColor,
       activeColor,
       style,
-      as = 'button',
+      as = 'div',
       ...rest
     } = props
 
@@ -92,6 +92,8 @@ export const PaginationItem = React.forwardRef(
       <PaginationItemContainer
         ref={ref}
         as={as}
+        role="button"
+        tabindex={0}
         current={current}
         disabled={disabled}
         style={{

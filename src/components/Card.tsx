@@ -70,7 +70,7 @@ export const Card = React.forwardRef(
       padding = 'normal',
       style,
       children,
-      as,
+      as = 'div',
       ...rest
     } = props
 
@@ -80,7 +80,9 @@ export const Card = React.forwardRef(
     return (
       <CardContainer
         ref={ref}
-        as={as ?? (clickable ? 'button' : 'div')}
+        as={as}
+        role={clickable ? 'button' : undefined}
+        tabindex={clickable ? 0 : undefined}
         disabled={disabled && clickable}
         clickable={clickable}
         padding={padding}
@@ -96,7 +98,7 @@ export const Card = React.forwardRef(
         }}
         {...rest}
       >
-        <div>{children}</div>
+        {children}
       </CardContainer>
     )
   }

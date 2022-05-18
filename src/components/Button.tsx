@@ -106,6 +106,8 @@ export const Button = React.forwardRef(
     return (
       <ButtonContainer
         as={as}
+        role="button"
+        tabindex={0}
         ref={ref}
         disabled={disabled}
         circle={circle}
@@ -130,7 +132,7 @@ export const Button = React.forwardRef(
         }}
         {...rest}
       >
-        <div>{children}</div>
+        {children}
       </ButtonContainer>
     )
   }

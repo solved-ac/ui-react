@@ -78,7 +78,7 @@ export const Tab = React.forwardRef(
       hoverColor,
       accentColor,
       style,
-      as = 'button',
+      as = 'div',
       ...rest
     } = props
 
@@ -93,6 +93,8 @@ export const Tab = React.forwardRef(
       <TabContainer
         ref={ref}
         as={as}
+        role="button"
+        tabindex={0}
         disabled={disabled}
         current={current}
         style={{
