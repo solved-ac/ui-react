@@ -18,6 +18,10 @@ export default {
       control: { type: 'select', options: ['none', 'normal', 'wide'] },
       description: 'The padding of the container',
     },
+    topBarPadding: {
+      control: 'boolean',
+      description: 'Whether to include top navigation bar padding or not',
+    },
     as: {
       control: { type: 'select', options: ['div', 'span', 'button', 'a'] },
       description: 'The element to render the container as',

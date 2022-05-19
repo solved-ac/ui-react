@@ -37,7 +37,6 @@ export const SolvedGlobalStyles = createGlobalStyle<{ theme: SolvedTheme }>`
         font-family: ${({ theme }) => theme.typography.paragraph};
         font-weight: 400;
         width: 100%;
-        overflow-x: hidden;
         background: ${({ theme }) => theme.color.background.footer};
         ${({ theme }) =>
           componentGlobalStyles.map((fn) => fn(theme)).join('\n')}
@@ -47,7 +46,6 @@ export const SolvedGlobalStyles = createGlobalStyle<{ theme: SolvedTheme }>`
         margin: 0;
         width: 100%;
         line-height: 1.6;
-        overflow-x: hidden;
         color: ${({ theme }) => theme.color.text.primary.main};
         background: ${({ theme }) => theme.color.background.page};
         scrollbar-width: thin;
@@ -128,30 +126,6 @@ export const SolvedGlobalStyles = createGlobalStyle<{ theme: SolvedTheme }>`
         overflow: hidden !important;
     }
     
-    /* TODO remove named classes */
-    .contents {
-        position: relative;
-        margin: 48px auto 0px auto;
-        padding: 16px;
-        max-width: min(100vw, 1200px);
-        @media screen and (max-width: 540px) {
-            padding: 16px 12px;
-        }
-        &.no_top_margin {
-            margin-top: 0;
-        }
-        &.no-padding {
-            padding: 0;
-        }
-    }
-    
-    /* TODO remove named classes */
-    .solvedac-centering {
-        position: relative;
-        margin: 0 auto;
-        max-width: 1200px;
-    }
-
     /* TODO remove named classes */
     .bronze {
         color: #ad5600;
