@@ -8,7 +8,7 @@ const TableContainerContainer = styled.div`
 
 export const TableContainer: PC<'div'> = React.forwardRef(
   <T extends ElementType>(props: PP<T>, ref?: PR<T>) => {
-    const { as = 'table', ...rest } = props
+    const { as = 'div', ...rest } = props
 
     return (
       <TableContainerContainer
