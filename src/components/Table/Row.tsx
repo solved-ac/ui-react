@@ -28,7 +28,7 @@ export const Row: PC<'tr', RowProps> = React.forwardRef(
     } = props
 
     return (
-      <TableContext.Provider value={{ padding }}>
+      <TableContext.Provider value={{ ...tableContext, padding }}>
         <RowContainer header={header} ref={ref} as={as} {...rest} />
       </TableContext.Provider>
     )

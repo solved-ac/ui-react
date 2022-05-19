@@ -1,21 +1,42 @@
-import React, { ElementType } from 'react'
+import React, { ElementType, useContext } from 'react'
 import styled from 'styled-components'
 import { PC, PP, PR } from '../../types/PolymorphicElementProps'
+import { TableContext } from './TableContext'
 import { TableRowGroupContext } from './TableRowGroupContext'
 
-const TableHeadContainer = styled.thead`
+export interface TableHeadContainerProps {
+  sticky: boolean | number | string
+}
+
+const getStickyValue = (sticky: boolean | number | string): string => {
+  if (typeof sticky === 'number') {
+    return `${sticky}px`
+  }
+  if (typeof sticky === 'string') {
+    return sticky
+  }
+  return '0'
+}
+
+const TableHeadContainer = styled.thead<TableHeadContainerProps>`
   display: table-header-group;
-  text-align: center;
-  font-weight: 700;
+  ${({ sticky }) =>
+    (typeof sticky !== 'boolean' || sticky === true) &&
+    `position: sticky; top: ${getStickyValue(sticky)};`}
 `
 
-export const TableHead: PC<'thead'> = React.forwardRef(
-  <T extends ElementType>(props: PP<T>, ref?: PR<T>) => {
-    const { as = 'thead', ...rest } = props
+export interface TableHeadProps {
+  sticky?: boolean | number | string
+}
+
+export const TableHead: PC<'thead', TableHeadProps> = React.forwardRef(
+  <T extends ElementType>(props: PP<T, TableHeadProps>, ref?: PR<T>) => {
+    const tableContext = useContext(TableContext)
+    const { sticky = tableContext.sticky, as = 'thead', ...rest } = props
 
     return (
       <TableRowGroupContext.Provider value={{ header: true }}>
-        <TableHeadContainer ref={ref} as={as} {...rest} />
+        <TableHeadContainer sticky={sticky} ref={ref} as={as} {...rest} />
       </TableRowGroupContext.Provider>
     )
   }

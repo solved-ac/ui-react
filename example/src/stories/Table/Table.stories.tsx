@@ -24,6 +24,12 @@ export default {
       description:
         'Whether the table should take up the full width of the container',
     },
+    sticky: {
+      control: {
+        type: 'string',
+      },
+      description: 'Whether the table should be sticky',
+    },
   },
 } as ComponentMeta<typeof Table>
 

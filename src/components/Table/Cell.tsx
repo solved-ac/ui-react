@@ -1,5 +1,5 @@
 import React, { ElementType, useContext } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import { PC, PP, PR } from '../../types/PolymorphicElementProps'
 import { TableContext } from './TableContext'
 import { TableRowGroupContext } from './TableRowGroupContext'
@@ -14,7 +14,13 @@ const paddingMap = {
 interface CellContainerProps {
   padding: 'none' | 'dense' | 'normal' | 'wide'
   numeric: boolean
+  header: boolean
 }
+
+const whenHeader = css`
+  text-align: center;
+  font-weight: 700;
+`
 
 const CellContainer = styled.td<CellContainerProps>`
   display: table-cell;
@@ -22,10 +28,12 @@ const CellContainer = styled.td<CellContainerProps>`
   ${({ padding }) => paddingMap[padding]}
   ${({ numeric }) =>
     numeric && "text-align: right; font-feature-settings: 'tnum';"}
+  ${({ header }) => header && whenHeader}
 `
 
 export interface CellProps {
   padding?: 'none' | 'dense' | 'normal' | 'wide'
+  header?: boolean
   numeric?: boolean
 }
 
@@ -35,17 +43,21 @@ export const Cell: PC<'td', CellProps> = React.forwardRef(
     const tableRowGroupContext = useContext(TableRowGroupContext)
     const {
       padding = tableContext.padding,
-      as = tableRowGroupContext.header ? 'th' : 'td',
+      header = tableRowGroupContext.header,
+      as,
       numeric = false,
       ...rest
     } = props
+
+    const calculatedAs = as || (header ? 'th' : 'td')
 
     return (
       <CellContainer
         padding={padding}
         numeric={numeric}
+        header={header}
         ref={ref}
-        as={as}
+        as={calculatedAs}
         {...rest}
       />
     )

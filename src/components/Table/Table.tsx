@@ -15,6 +15,7 @@ const TableContainer = styled.table<TableContainerProps>`
 
 export interface TableProps {
   fullWidth?: boolean
+  sticky?: boolean | number | string
   padding?: 'none' | 'dense' | 'normal' | 'wide'
 }
 
@@ -23,12 +24,13 @@ export const Table: PC<'table', TableProps> = React.forwardRef(
     const {
       fullWidth = false,
       padding = 'normal',
+      sticky = false,
       as = 'table',
       ...rest
     } = props
 
     return (
-      <TableContext.Provider value={{ padding }}>
+      <TableContext.Provider value={{ padding, sticky }}>
         <TableRowGroupContext.Provider value={{ header: false }}>
           <TableContainer fullWidth={fullWidth} ref={ref} as={as} {...rest} />
         </TableRowGroupContext.Provider>
