@@ -1,7 +1,7 @@
 import React from 'react'
 
 export interface TableContextProps {
-  padding: 'none' | 'normal' | 'wide'
+  padding: 'none' | 'dense' | 'normal' | 'wide'
 }
 
 export const TableContext = React.createContext<TableContextProps>({

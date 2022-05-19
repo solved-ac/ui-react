@@ -6,22 +6,27 @@ import { TableRowGroupContext } from './TableRowGroupContext'
 
 const paddingMap = {
   none: 'padding: 0;',
+  dense: 'padding: 8px;',
   normal: 'padding: 16px;',
   wide: 'padding: 32px;',
 }
 
 interface CellContainerProps {
-  padding: 'none' | 'normal' | 'wide'
+  padding: 'none' | 'dense' | 'normal' | 'wide'
+  numeric: boolean
 }
 
 const CellContainer = styled.td<CellContainerProps>`
   display: table-cell;
   border-bottom: ${({ theme }) => theme.styles.border()};
   ${({ padding }) => paddingMap[padding]}
+  ${({ numeric }) =>
+    numeric && "text-align: right; font-feature-settings: 'tnum';"}
 `
 
 export interface CellProps {
-  padding?: 'none' | 'normal' | 'wide'
+  padding?: 'none' | 'dense' | 'normal' | 'wide'
+  numeric?: boolean
 }
 
 export const Cell: PC<'td', CellProps> = React.forwardRef(
@@ -31,9 +36,18 @@ export const Cell: PC<'td', CellProps> = React.forwardRef(
     const {
       padding = tableContext.padding,
       as = tableRowGroupContext.header ? 'th' : 'td',
+      numeric = false,
       ...rest
     } = props
 
-    return <CellContainer padding={padding} ref={ref} as={as} {...rest} />
+    return (
+      <CellContainer
+        padding={padding}
+        numeric={numeric}
+        ref={ref}
+        as={as}
+        {...rest}
+      />
+    )
   }
 )

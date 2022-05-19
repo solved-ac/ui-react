@@ -13,7 +13,7 @@ export default {
     padding: {
       control: {
         type: 'select',
-        options: ['none', 'normal', 'wide'],
+        options: ['none', 'dense', 'normal', 'wide'],
       },
       description: 'The padding of the cell',
     },

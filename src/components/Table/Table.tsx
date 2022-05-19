@@ -15,7 +15,7 @@ const TableContainer = styled.table<TableContainerProps>`
 
 export interface TableProps {
   fullWidth?: boolean
-  padding?: 'none' | 'normal' | 'wide'
+  padding?: 'none' | 'dense' | 'normal' | 'wide'
 }
 
 export const Table: PC<'table', TableProps> = React.forwardRef(

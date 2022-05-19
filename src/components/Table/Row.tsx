@@ -14,7 +14,7 @@ const RowContainer = styled.tr<RowContainerProps>`
 
 export interface RowProps {
   header?: boolean
-  padding?: 'none' | 'normal' | 'wide'
+  padding?: 'none' | 'dense' | 'normal' | 'wide'
 }
 
 export const Row: PC<'tr', RowProps> = React.forwardRef(
