@@ -94,17 +94,15 @@ export const SolvedGlobalStyles = createGlobalStyle<{ theme: SolvedTheme }>`
         font-family: ${({ theme }) => theme.typography.code};
     }
 
+    /* @keepallvillain */
+    :lang(ko) { 
+        h1, h2, h3 {
+            word-break: keep-all;
+        }
+    }
+
     ${textInputs()} {
-        font-family: inherit;
-        height: auto;
-        line-height: normal;
-        font-size: 1rem;
-        width: 100%;
-        padding: 0.8em 0.5em;
-        background: ${({ theme }) => theme.color.background.footer};
-        color: ${({ theme }) => theme.color.text.primary.main};
-        border: ${({ theme }) => theme.styles.border()};
-        border-radius: 8px;
+        font: inherit;
     }
     
     ${buttons()} {

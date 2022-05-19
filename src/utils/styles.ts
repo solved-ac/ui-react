@@ -77,12 +77,16 @@ export const cssCentering = css`
   justify-content: center;
 `
 
-export const cssClickable = css`
-  text-decoration: none;
-  cursor: pointer;
-  user-select: none;
+export const cssDisablable = css`
   &:disabled {
     cursor: not-allowed;
     opacity: 0.5;
   }
+`
+
+export const cssClickable = css`
+  text-decoration: none;
+  cursor: pointer;
+  user-select: none;
+  ${cssDisablable}
 `

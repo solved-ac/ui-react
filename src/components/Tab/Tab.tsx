@@ -44,6 +44,7 @@ const TabContainer = styled.button<TabContainerProps>`
     border-color 0.3s ease;
   background: ${v.backgroundColor};
   color: ${v.textColor};
+  vertical-align: bottom;
   &:not([disabled]):hover,
   &:not([disabled]):active {
     color: ${v.hoverTextColor};
