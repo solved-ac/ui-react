@@ -141,7 +141,7 @@ export const Typo: PC<'span', TypoProps> = React.forwardRef(
   <T extends ElementType>(props: PP<T, TypoProps>, ref?: PR<T>) => {
     const { variant = [], as, ...rest } = props
 
-    // TODO types are wrong when `as` in inferred by variant
+    // TODO types are wrong when `as` is inferred by variant
     const calculatedAs =
       as || asMap[firstVariant(variant) ?? 'default'] || 'span'
 

@@ -1,6 +1,8 @@
-import React, { ElementType } from 'react'
+import React, { ElementType, useContext } from 'react'
 import styled from 'styled-components'
 import { PC, PP, PR } from '../../types/PolymorphicElementProps'
+import { TableContext } from './TableContext'
+import { TableRowGroupContext } from './TableRowGroupContext'
 
 const paddingMap = {
   none: 'padding: 0;',
@@ -24,7 +26,13 @@ export interface CellProps {
 
 export const Cell: PC<'td', CellProps> = React.forwardRef(
   <T extends ElementType>(props: PP<T, CellProps>, ref?: PR<T>) => {
-    const { padding = 'normal', as = 'td', ...rest } = props
+    const tableContext = useContext(TableContext)
+    const tableRowGroupContext = useContext(TableRowGroupContext)
+    const {
+      padding = tableContext.padding,
+      as = tableRowGroupContext.header ? 'th' : 'td',
+      ...rest
+    } = props
 
     return <CellContainer padding={padding} ref={ref} as={as} {...rest} />
   }
