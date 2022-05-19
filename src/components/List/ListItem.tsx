@@ -1,9 +1,9 @@
 import React, { ElementType } from 'react'
 import styled, { css, useTheme } from 'styled-components'
-import { PC, PP, PR } from '../types/PolymorphicElementProps'
-import { computeHoverColor, readableColor } from '../utils/color'
-import { cssClickable, cssVariables } from '../utils/styles'
-import { transparentHoverTemplate } from '../utils/variables'
+import { PC, PP, PR } from '../../types/PolymorphicElementProps'
+import { computeHoverColor, readableColor } from '../../utils/color'
+import { cssClickable, cssVariables } from '../../utils/styles'
+import { transparentHoverTemplate } from '../../utils/variables'
 
 export const listItemVariables = cssVariables(
   {

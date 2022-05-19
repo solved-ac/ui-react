@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 
 export default {
-  title: 'Tabs',
+  title: 'Components/Tab/Tabs',
   component: Tabs,
   argTypes: {
     children: {

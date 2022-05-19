@@ -1,6 +1,6 @@
 import React, { ElementType } from 'react'
 import styled from 'styled-components'
-import { PC, PP, PR } from '../types/PolymorphicElementProps'
+import { PC, PP, PR } from '../../types/PolymorphicElementProps'
 
 const paddingMap = {
   none: 'padding: 0;',

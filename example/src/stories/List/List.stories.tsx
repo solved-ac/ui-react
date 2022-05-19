@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 
 export default {
-  title: 'List',
+  title: 'Components/List/List',
   component: List,
   argTypes: {
     children: {

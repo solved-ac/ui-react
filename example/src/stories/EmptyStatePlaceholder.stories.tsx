@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 
 export default {
-  title: 'EmptyStatePlaceholder',
+  title: 'Components/EmptyStatePlaceholder',
   component: EmptyStatePlaceholder,
   argTypes: {
     children: {

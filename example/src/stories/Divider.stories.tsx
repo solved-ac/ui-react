@@ -3,7 +3,7 @@ import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 
 export default {
-  title: 'Divider',
+  title: 'Components/Divider',
   component: Divider,
   argTypes: {
     margin: {
