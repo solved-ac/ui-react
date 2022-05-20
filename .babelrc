@@ -16,14 +16,6 @@
         "publicPath": "./",
         "outputPath": "./dist/assets"
       }
-    ],
-    [
-      "babel-plugin-styled-components",
-      {
-        "namespace": "solvedac-",
-        "displayName": false,
-        "fileName": false
-      }
     ]
   ]
 }

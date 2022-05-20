@@ -215,7 +215,7 @@ export const solvedThemes = {
   palette: defaultPalette,
 }
 
-declare module 'styled-components' {
+declare module '@emotion/react' {
   // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  export interface DefaultTheme extends SolvedTheme {}
+  export interface Theme extends SolvedTheme {}
 }

@@ -11,31 +11,22 @@ Do not use this package in production! Almost every commit will be a breaking ch
 ## Install
 
 ```bash
-yarn add @solved-ac/ui-react styled-components
+yarn add @solved-ac/ui-react @emotion/react @emotion/styled
 ```
 
 or, with npm:
 
 ```bash
-npm install --save @solved-ac/ui-react styled-components
+npm install --save @solved-ac/ui-react @emotion/react @emotion/styled
 ```
 
-### SSR
+## Usage
 
-Setup module alias. Please refer to: https://styled-components.com/docs/faqs#linking-in-an-ssr-scenario
-
-### Next.js
-
-Modify `tsconfig.json` to setup module alias.
-
-```json
-{
-  "compilerOptions": {
-    "paths": {
-      "styled-components": ["./node_modules/styled-components"]
-    }
-  }
-}
+```jsx
+<ThemeProvider theme={solvedThemes.light}>
+  <SolvedGlobalStyles />
+  <Component />
+</ThemeProvider>
 ```
 
 ## Contribute

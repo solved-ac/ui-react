@@ -1,5 +1,6 @@
+import { css } from '@emotion/react'
+import styled from '@emotion/styled'
 import React, { ElementType, useContext } from 'react'
-import styled, { css } from 'styled-components'
 import { PC, PP, PR } from '../../types/PolymorphicElementProps'
 import { TableContext } from './TableContext'
 import { TableRowGroupContext } from './TableRowGroupContext'

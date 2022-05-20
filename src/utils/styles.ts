@@ -1,4 +1,4 @@
-import { css } from 'styled-components'
+import { css } from '@emotion/react'
 import { SolvedTheme } from '../styles'
 
 export type MakeKebabCase<S extends string, ReturnQueue extends string = ''> =

@@ -1,5 +1,5 @@
+import styled from '@emotion/styled'
 import React, { ElementType } from 'react'
-import styled from 'styled-components'
 import { PC, PP, PR } from '../../types/PolymorphicElementProps'
 
 const TableBodyContainer = styled.tbody`
