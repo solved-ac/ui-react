@@ -124,8 +124,8 @@ interface TypoContainerProps {
 const TypoContainer = styled.span<TypoContainerProps>`
   ${({ theme, variant }) =>
     typeof variant === 'string'
-      ? variants[variant]
-      : variant.map((v) => variants[v](theme))}
+      ? variants(theme)[variant]
+      : variant.map((v) => variants(theme)[v])}
 `
 
 export interface TypoProps {
