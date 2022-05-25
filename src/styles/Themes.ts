@@ -196,7 +196,6 @@ const Black: SolvedTheme = {
       footer: defaultPalette.gray[900],
       progress: defaultPalette.gray[700],
     },
-    border: defaultPalette.gray[900],
   },
   styles: {
     border: (color?: string) =>
