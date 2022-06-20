@@ -22,6 +22,10 @@ export default {
       control: 'boolean',
       description: 'Whether the button should be styled as a primary button',
     },
+    transparent: {
+      control: 'boolean',
+      description: 'Whether the button should be transparent',
+    },
     disabled: {
       control: 'boolean',
       description: 'Whether the button should be disabled',
