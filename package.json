@@ -1,6 +1,6 @@
 {
   "name": "@solved-ac/ui-react",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "React component library used by solved.ac",
   "author": "shiftpsh",
   "license": "MIT",
@@ -21,14 +21,15 @@
     "test:lint": "eslint .",
     "test:unit": "cross-env CI=1 react-scripts test --env=jsdom",
     "test:watch": "react-scripts test --env=jsdom",
+    "postversion": "git push --tags && yarn publish . --tag $npm_package_version && git push && echo \"Successfully released version $npm_package_version!\"",
     "predeploy": "cd example && yarn install && yarn run build",
     "deploy": "gh-pages -d example/build"
   },
   "peerDependencies": {
-    "react": ">=17",
-    "react-dom": ">=17",
     "@emotion/react": ">=11",
-    "@emotion/styled": ">=11"
+    "@emotion/styled": ">=11",
+    "react": ">=17",
+    "react-dom": ">=17"
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.17.9",

@@ -1,5 +1,6 @@
 import { useTheme } from '@emotion/react'
 import styled from '@emotion/styled'
+import { transparentize } from 'polished'
 import React, { ElementType } from 'react'
 import { PC, PP, PR } from '../types/PolymorphicElementProps'
 import { computeHoverColor, readableColor } from '../utils/color'
@@ -67,10 +68,34 @@ export interface ButtonProps {
   backgroundColor?: string
   hoverColor?: string
   primary?: boolean
+  transparent?: boolean
   disabled?: boolean
   circle?: boolean
   fullWidth?: boolean
   padding?: 'none' | 'normal'
+}
+
+const useComputedBackgroundColor = (props: ButtonProps): string | undefined => {
+  const solvedTheme = useTheme()
+  const { backgroundColor, primary, transparent } = props
+
+  if (transparent)
+    return transparentize(1, cardHoverTemplate.backgroundColor(solvedTheme))
+  if (backgroundColor) return backgroundColor
+  if (primary) return solvedTheme.color.solvedAc
+  return undefined
+}
+
+const useComputedHoverColor = (props: ButtonProps): string | undefined => {
+  const solvedTheme = useTheme()
+  const { backgroundColor, hoverColor, primary, transparent } = props
+
+  if (hoverColor) return hoverColor
+  if (backgroundColor) return computeHoverColor(backgroundColor)
+  if (primary) return computeHoverColor(solvedTheme.color.solvedAc)
+  if (transparent)
+    return computeHoverColor(cardHoverTemplate.backgroundColor(solvedTheme))
+  return undefined
 }
 
 export const Button: PC<'button', ButtonProps> = React.forwardRef(
@@ -78,9 +103,6 @@ export const Button: PC<'button', ButtonProps> = React.forwardRef(
     const solvedTheme = useTheme()
 
     const {
-      backgroundColor,
-      hoverColor,
-      primary = false,
       disabled = false,
       circle = false,
       fullWidth = false,
@@ -91,12 +113,8 @@ export const Button: PC<'button', ButtonProps> = React.forwardRef(
       ...rest
     } = props
 
-    const computedBackgroundColor =
-      backgroundColor || (primary ? solvedTheme.color.solvedAc : undefined)
-
-    const computedHoverColor =
-      hoverColor ||
-      (computedBackgroundColor && computeHoverColor(computedBackgroundColor))
+    const computedBackgroundColor = useComputedBackgroundColor(props)
+    const computedHoverColor = useComputedHoverColor(props)
 
     return (
       <ButtonContainer
