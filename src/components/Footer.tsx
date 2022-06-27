@@ -3,15 +3,13 @@ import React, { ElementType } from 'react'
 import { PC, PP, PR } from '../types/PolymorphicElementProps'
 import { cssVariables } from '../utils/styles'
 
-export const footerVariables = cssVariables(
+const { vars, v, styles } = cssVariables(
   {
     backgroundColor: (theme) => theme.color.background.footer,
     textColor: (theme) => theme.color.text.secondary.main,
   },
   'footer'
 )
-
-const { vars, v } = footerVariables
 
 const paddingMap = {
   none: 'padding: 0;',
@@ -24,6 +22,7 @@ interface FooterContainerProps {
 }
 
 const FooterContainer = styled.nav<FooterContainerProps>`
+  ${({ theme }) => styles(theme)}
   background: ${v.backgroundColor};
   color: ${v.textColor};
   ${({ padding }) => paddingMap[padding]}
