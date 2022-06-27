@@ -7,7 +7,7 @@ import { computeHoverColor, readableColor } from '../utils/color'
 import { cssClickable, cssVariables } from '../utils/styles'
 import { cardHoverTemplate } from '../utils/variables'
 
-export const buttonVariables = cssVariables(
+const { vars, v, styles } = cssVariables(
   {
     ...cardHoverTemplate,
     hoverShadow: (theme) =>
@@ -24,8 +24,6 @@ export const buttonVariables = cssVariables(
   'button'
 )
 
-const { vars, v } = buttonVariables
-
 const paddingMap = {
   none: 'padding: 0;',
   normal: 'padding: 12px 16px;',
@@ -38,6 +36,7 @@ interface ButtonContainerProps {
 }
 
 const ButtonContainer = styled.button<ButtonContainerProps>`
+  ${({ theme }) => styles(theme)}
   ${cssClickable}
   ${({ fullWidth }) => fullWidth && 'width: 100%;'}
   ${({ padding }) => paddingMap[padding]}

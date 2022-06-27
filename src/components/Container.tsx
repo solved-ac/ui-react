@@ -3,14 +3,12 @@ import React, { ElementType } from 'react'
 import { PC, PP, PR } from '../types/PolymorphicElementProps'
 import { cssVariables } from '../utils/styles'
 
-export const containerVariables = cssVariables(
+const { vars, v, styles } = cssVariables(
   {
     width: '1200px',
   },
   'container'
 )
-
-const { vars, v } = containerVariables
 
 const paddingMap = {
   none: 'padding: 0;',
@@ -24,6 +22,7 @@ interface ContainerContainerProps {
 }
 
 const ContainerContainer = styled.nav<ContainerContainerProps>`
+  ${({ theme }) => styles(theme)}
   max-width: ${v.width};
   ${({ padding }) => paddingMap[padding]}
   ${({ topBarPadding }) => topBarPadding && 'padding-top: 48px;'}

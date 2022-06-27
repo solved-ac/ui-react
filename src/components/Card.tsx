@@ -6,14 +6,12 @@ import { computeHoverColor, readableColor } from '../utils/color'
 import { cssClickable, cssVariables } from '../utils/styles'
 import { cardHoverTemplate } from '../utils/variables'
 
-export const cardVariables = cssVariables(
+const { vars, v, styles } = cssVariables(
   {
     ...cardHoverTemplate,
   },
   'card'
 )
-
-const { vars, v } = cardVariables
 
 const paddingMap = {
   none: 'padding: 0;',
@@ -37,6 +35,7 @@ const whenClickable = css`
 `
 
 const CardContainer = styled.div<CardContainerProps>`
+  ${({ theme }) => styles(theme)}
   display: block;
   background: ${v.backgroundColor};
   color: ${v.textColor};

@@ -85,10 +85,10 @@ const variants = (theme: SolvedTheme) =>
       margin-inline-end: 0px;
     `,
     small: css`
-      font-size: small;
+      font-size: 75%;
     `,
     smaller: css`
-      font-size: smaller;
+      font-size: 65%;
     `,
     tabular: css`
       font-feature-settings: 'tnum';

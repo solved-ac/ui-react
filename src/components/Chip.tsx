@@ -5,7 +5,7 @@ import { PC, PP, PR } from '../types/PolymorphicElementProps'
 import { readableColor } from '../utils/color'
 import { cssVariables } from '../utils/styles'
 
-export const chipVariables = cssVariables(
+const { vars, v, styles } = cssVariables(
   {
     backgroundColor: (theme) => theme.color.background.card.dark,
     textColor: (theme) => theme.color.text.primary.main,
@@ -13,9 +13,8 @@ export const chipVariables = cssVariables(
   'chip'
 )
 
-const { vars, v } = chipVariables
-
 const ChipContainer = styled.div`
+  ${({ theme }) => styles(theme)}
   background-color: ${v.backgroundColor};
   color: ${v.textColor};
   padding: 8px 12px;

@@ -7,15 +7,13 @@ import { computeHoverColor, readableColor } from '../../utils/color'
 import { cssClickable, cssVariables } from '../../utils/styles'
 import { transparentHoverTemplate } from '../../utils/variables'
 
-export const tabVariables = cssVariables(
+const { vars, v, styles } = cssVariables(
   {
     ...transparentHoverTemplate,
     accentColor: (theme) => theme.color.background.table.header,
   },
   'tab'
 )
-
-const { vars, v } = tabVariables
 
 interface TabContainerProps {
   current: boolean
@@ -30,6 +28,7 @@ const whenCurrent = css`
 `
 
 const TabContainer = styled.button<TabContainerProps>`
+  ${({ theme }) => styles(theme)}
   ${cssClickable}
   ${ellipsis()}
   flex: 1 0 0;
