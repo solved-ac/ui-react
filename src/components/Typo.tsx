@@ -133,7 +133,7 @@ const TypoContainer = styled.span<TypoContainerProps>`
 
 export type TypoProps = {
   variant?: TypoVariant | TypoVariant[]
-} & OptionalVariables
+} & Partial<OptionalVariables>
 
 const firstVariant = (variant?: TypoVariant[]): TypoVariant | undefined => {
   if (typeof variant === 'string') return variant
