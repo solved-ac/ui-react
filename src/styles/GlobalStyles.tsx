@@ -2,28 +2,7 @@ import { css, Global, SerializedStyles, useTheme } from '@emotion/react'
 import emotionReset from 'emotion-reset'
 import { buttons, textInputs, transparentize } from 'polished'
 import React from 'react'
-import {
-  buttonVariables,
-  cardVariables,
-  chipVariables,
-  containerVariables,
-  footerVariables,
-  listItemVariables,
-  paginationItemVariables,
-  tabVariables
-} from '../components'
 import { SolvedTheme } from './Themes'
-
-const componentGlobalStyles = [
-  buttonVariables,
-  cardVariables,
-  chipVariables,
-  containerVariables,
-  footerVariables,
-  listItemVariables,
-  paginationItemVariables,
-  tabVariables,
-].map(({ styles }) => styles)
 
 const globalCss = (theme: SolvedTheme): SerializedStyles => css`
   ${emotionReset}
@@ -39,7 +18,6 @@ const globalCss = (theme: SolvedTheme): SerializedStyles => css`
     font-weight: 400;
     width: 100%;
     background: ${theme.color.background.footer};
-    ${componentGlobalStyles.map((fn) => fn(theme)).join('\n')}
   }
 
   body {

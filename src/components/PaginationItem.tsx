@@ -7,7 +7,7 @@ import { computeHoverColor, readableColor } from '../utils/color'
 import { cssClickable, cssVariables } from '../utils/styles'
 import { transparentHoverTemplate } from '../utils/variables'
 
-export const paginationItemVariables = cssVariables(
+const { vars, v, styles } = cssVariables(
   {
     ...transparentHoverTemplate,
     activeBackgroundColor: (theme) =>
@@ -16,8 +16,6 @@ export const paginationItemVariables = cssVariables(
   },
   'pagination-item'
 )
-
-const { vars, v } = paginationItemVariables
 
 interface PaginationItemContainerProps {
   current: boolean
@@ -35,6 +33,7 @@ const whenCurrent = css`
 `
 
 const PaginationItemContainer = styled.button<PaginationItemContainerProps>`
+  ${({ theme }) => styles(theme)}
   ${ellipsis()}
   ${cssClickable}
   flex: 1 0 0;

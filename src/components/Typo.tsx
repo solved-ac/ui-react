@@ -1,7 +1,7 @@
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import React, { ElementType } from 'react'
-import { SolvedTheme } from '../styles'
+import { SolvedTheme, solvedThemes } from '../styles'
 import { PC, PP, PR } from '../types/PolymorphicElementProps'
 
 const variants = (theme: SolvedTheme) =>
@@ -85,10 +85,10 @@ const variants = (theme: SolvedTheme) =>
       margin-inline-end: 0px;
     `,
     small: css`
-      font-size: small;
+      font-size: 75%;
     `,
     smaller: css`
-      font-size: smaller;
+      font-size: 65%;
     `,
     tabular: css`
       font-feature-settings: 'tnum';
@@ -104,7 +104,13 @@ const variants = (theme: SolvedTheme) =>
     `,
   } as const)
 
-export type TypoVariant = keyof ReturnType<typeof variants>
+const variantKeys = Object.keys(variants(solvedThemes.light))
+
+type VariantsObject = ReturnType<typeof variants>
+type OptionalVariables = {
+  [key in keyof VariantsObject]: boolean
+}
+export type TypoVariant = keyof VariantsObject
 
 const asMap = {
   h1: 'h1',
@@ -118,23 +124,18 @@ const asMap = {
 } as const
 
 interface TypoContainerProps {
-  variant: TypoVariant | TypoVariant[]
+  variant: TypoVariant[]
 }
 
 const TypoContainer = styled.span<TypoContainerProps>`
-  ${({ theme, variant }) =>
-    typeof variant === 'string'
-      ? variants(theme)[variant]
-      : variant.map((v) => variants(theme)[v])}
+  ${({ theme, variant }) => variant.map((v) => variants(theme)[v])}
 `
 
-export interface TypoProps {
+export type TypoProps = {
   variant?: TypoVariant | TypoVariant[]
-}
+} & OptionalVariables
 
-const firstVariant = (
-  variant?: TypoVariant | TypoVariant[]
-): TypoVariant | undefined => {
+const firstVariant = (variant?: TypoVariant[]): TypoVariant | undefined => {
   if (typeof variant === 'string') return variant
   if (Array.isArray(variant) && variant.length > 0) return variant[0]
   return undefined
@@ -144,12 +145,30 @@ export const Typo: PC<'span', TypoProps> = React.forwardRef(
   <T extends ElementType>(props: PP<T, TypoProps>, ref?: PR<T>) => {
     const { variant = [], as, ...rest } = props
 
+    const calculatedVariants = [
+      ...(typeof variant === 'string' ? [variant] : variant),
+      ...Object.entries(rest)
+        .filter(
+          ([k, v]) => variantKeys.includes(k) && typeof v === 'boolean' && v
+        )
+        .map(([k]) => k),
+    ] as TypoVariant[]
+
     // TODO types are wrong when `as` is inferred by variant
     const calculatedAs =
-      as || asMap[firstVariant(variant) ?? 'default'] || 'span'
+      as || asMap[firstVariant(calculatedVariants) ?? 'default'] || 'span'
+
+    const filteredRest = Object.fromEntries(
+      Object.entries(rest).filter(([k]) => !variantKeys.includes(k))
+    )
 
     return (
-      <TypoContainer ref={ref} as={calculatedAs} variant={variant} {...rest} />
+      <TypoContainer
+        ref={ref}
+        as={calculatedAs}
+        variant={calculatedVariants}
+        {...filteredRest}
+      />
     )
   }
 )

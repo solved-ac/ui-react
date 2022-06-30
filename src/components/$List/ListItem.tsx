@@ -6,14 +6,12 @@ import { computeHoverColor, readableColor } from '../../utils/color'
 import { cssClickable, cssVariables } from '../../utils/styles'
 import { transparentHoverTemplate } from '../../utils/variables'
 
-export const listItemVariables = cssVariables(
+const { vars, v, styles } = cssVariables(
   {
     ...transparentHoverTemplate,
   },
   'listItem'
 )
-
-const { vars, v } = listItemVariables
 
 const paddingMap = {
   none: 'padding: 0;',
@@ -48,6 +46,7 @@ const whenClickable = css`
 `
 
 const ListItemContainer = styled.div<ListItemContainerProps>`
+  ${({ theme }) => styles(theme)}
   display: block;
   width: 100%;
   background: ${v.backgroundColor};

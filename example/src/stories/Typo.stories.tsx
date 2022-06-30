@@ -13,7 +13,7 @@ export default {
     variant: {
       control: {
         type: 'select',
-        optopns: [
+        options: [
           'default',
           'description',
           'error',
