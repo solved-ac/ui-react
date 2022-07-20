@@ -32,7 +32,12 @@ CustomRender.args = {
   items: ['kr', 'gb', 'us', 'jp'],
   render: (s: string) => (
     <>
-      <img src={`https://flagicons.lipis.dev/flags/4x3/${s}.svg`} alt={s} /> {s}
+      <img
+        src={`https://flagicons.lipis.dev/flags/4x3/${s}.svg`}
+        alt={s}
+        style={{ height: '1em' }}
+      />{' '}
+      {s}
     </>
   ),
 }

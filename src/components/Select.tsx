@@ -1,3 +1,4 @@
+import styled from '@emotion/styled'
 import {
     autoUpdate,
     flip,
@@ -26,6 +27,25 @@ import React, {
     useState
 } from 'react'
 import { PC, PP } from '../types/PolymorphicElementProps'
+import { cssDisablable } from '../utils/styles'
+
+interface SelectDisplayProps {
+  fullWidth: boolean
+}
+
+const SelectDisplay = styled.div<SelectDisplayProps>`
+  ${cssDisablable}
+  font-family: inherit;
+  height: auto;
+  line-height: normal;
+  font-size: 1rem;
+  padding: 0.8em 0.5em;
+  background: ${({ theme }) => theme.color.background.footer};
+  color: ${({ theme }) => theme.color.text.primary.main};
+  border: ${({ theme }) => theme.styles.border()};
+  border-radius: 8px;
+  width: ${({ fullWidth }) => (fullWidth ? '100%' : 'auto')};
+`
 
 // Adopted from https://codesandbox.io/s/shy-snowflake-kp6479?file=/src/Select.tsx:5939-5954
 
@@ -70,7 +90,6 @@ export const Select: PC<'button', SelectProps> = React.forwardRef(
     const [innerOffset, setInnerOffset] = useState(0)
     const [controlledScrolling, setControlledScrolling] = useState(false)
     const [touch, setTouch] = useState(false)
-    const [blockSelection, setBlockSelection] = useState(false)
 
     useEffect(() => {
       if (onChange) onChange(items[selectedIndex])
@@ -159,12 +178,9 @@ export const Select: PC<'button', SelectProps> = React.forwardRef(
       allowMouseUpRef.current = true
       setInnerOffset(0)
       setFallback(false)
-      setBlockSelection(false)
       return undefined
     }, [open])
 
-    // Replacement for `useDismiss` as the arrows are outside of the floating
-    // element DOM tree.
     useLayoutEffect(() => {
       const onPointerDown = (e: PointerEvent): void => {
         const target = e.target as Node
@@ -186,8 +202,6 @@ export const Select: PC<'button', SelectProps> = React.forwardRef(
       return undefined
     }, [open, refs])
 
-    // Scroll the `activeIndex` item into view only in "controlledScrolling"
-    // (keyboard nav) mode.
     useLayoutEffect(() => {
       if (open && controlledScrolling) {
         requestAnimationFrame(() => {
@@ -198,7 +212,6 @@ export const Select: PC<'button', SelectProps> = React.forwardRef(
       }
     }, [open, refs, controlledScrolling, activeIndex])
 
-    // Scroll the `selectedIndex` into view upon opening the floating element.
     useLayoutEffect(() => {
       if (open && fallback) {
         requestAnimationFrame(() => {
@@ -209,8 +222,6 @@ export const Select: PC<'button', SelectProps> = React.forwardRef(
       }
     }, [open, fallback, selectedIndex])
 
-    // Unset the height limiting for fallback mode. This gets executed prior to
-    // the positioning call.
     useLayoutEffect(() => {
       if (refs.floating.current && fallback) {
         refs.floating.current.style.maxHeight = ''
@@ -221,7 +232,10 @@ export const Select: PC<'button', SelectProps> = React.forwardRef(
 
     return (
       <React.Fragment>
-        <button
+        <SelectDisplay
+          fullWidth={fullWidth}
+          role="button"
+          tabIndex={0}
           type="button"
           ref={reference}
           {...getReferenceProps({
@@ -237,13 +251,12 @@ export const Select: PC<'button', SelectProps> = React.forwardRef(
           {...rest}
         >
           {selected ? render(selected) : null}
-        </button>
+        </SelectDisplay>
         {open && (
           <FloatingOverlay lockScroll={!touch} style={{ zIndex: 1 }}>
             <FloatingFocusManager context={context} preventTabbing>
               <div
                 ref={floating}
-                className="MacSelect"
                 style={{
                   position: strategy,
                   top: y ?? 0,
@@ -263,14 +276,11 @@ export const Select: PC<'button', SelectProps> = React.forwardRef(
               >
                 {items.map((item, i) => {
                   return (
-                    <button
-                      type="button"
+                    <div
                       key={typeof item === 'string' ? item : item.value}
-                      // Prevent immediate selection on touch devices when
-                      // pressing the ScrollArrows
-                      disabled={blockSelection}
-                      aria-selected={selectedIndex === i}
                       role="option"
+                      tabIndex={0}
+                      aria-selected={selectedIndex === i}
                       style={{
                         // background:
                         //   activeIndex === i
@@ -309,8 +319,6 @@ export const Select: PC<'button', SelectProps> = React.forwardRef(
                             setOpen(false)
                           }
 
-                          // On touch devices, prevent the element from
-                          // immediately closing `onClick` by deferring it
                           clearTimeout(selectTimeoutRef.current)
                           selectTimeoutRef.current = setTimeout(() => {
                             allowSelectRef.current = true
@@ -319,7 +327,7 @@ export const Select: PC<'button', SelectProps> = React.forwardRef(
                       })}
                     >
                       {render(item)}
-                    </button>
+                    </div>
                   )
                 })}
               </div>
