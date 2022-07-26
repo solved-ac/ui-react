@@ -1,5 +1,6 @@
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
+import { ellipsis } from 'polished'
 import React, { ElementType } from 'react'
 import { SolvedTheme, solvedThemes } from '../styles'
 import { PC, PP, PR } from '../types/PolymorphicElementProps'
@@ -27,6 +28,7 @@ const variants = (theme: SolvedTheme) =>
     `,
     h1: css`
       display: block;
+      word-break: keep-all;
       font-weight: 800;
       font-size: 2em;
       letter-spacing: -0.04ch;
@@ -37,6 +39,7 @@ const variants = (theme: SolvedTheme) =>
     `,
     h2: css`
       display: block;
+      word-break: keep-all;
       font-weight: 800;
       font-size: 1.5em;
       letter-spacing: -0.02ch;
@@ -47,6 +50,7 @@ const variants = (theme: SolvedTheme) =>
     `,
     h3: css`
       display: block;
+      word-break: keep-all;
       font-weight: 800;
       font-size: 1.2em;
       margin-block-start: 1em;
@@ -101,6 +105,9 @@ const variants = (theme: SolvedTheme) =>
     `,
     'no-margin': css`
       margin: 0;
+    `,
+    ellipsis: css`
+      ${ellipsis()}
     `,
   } as const)
 

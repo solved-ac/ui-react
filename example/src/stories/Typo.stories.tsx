@@ -33,6 +33,7 @@ export default {
           'readable',
           'no-ligatures',
           'no-margin',
+          'ellipsis',
         ],
       },
       description: 'The variant of the text',
