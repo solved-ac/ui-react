@@ -22,11 +22,12 @@ import React, {
   ElementType,
   ReactNode,
   useEffect,
+  useImperativeHandle,
   useLayoutEffect,
   useRef,
   useState
 } from 'react'
-import { PC, PP } from '../types/PolymorphicElementProps'
+import { PC, PP, PR } from '../types/PolymorphicElementProps'
 import { cssClickable, cssDisablable } from '../utils/styles'
 import { ListItem } from './$List'
 
@@ -43,6 +44,8 @@ const SelectDisplay = styled.div<SelectDisplayProps>`
   line-height: normal;
   font-size: 1rem;
   padding: 0.8em 0.5em;
+  padding-right: 48px;
+  max-width: 100%;
   background: ${({ theme }) => theme.color.background.footer};
   color: ${({ theme }) => theme.color.text.primary.main};
   border: ${({ theme }) => theme.styles.border()};
@@ -71,8 +74,8 @@ export interface SelectProps<T extends SelectItemNode = string> {
 
 export const Select: PC<'button', SelectProps> = React.forwardRef(
   <T extends ElementType, E extends SelectItemNode>(
-    props: PP<T, SelectProps<E>>
-    // ref?: PR<T>
+    props: PP<T, SelectProps<E>>,
+    ref?: PR<T>
   ) => {
     const {
       fullWidth = false,
@@ -149,6 +152,8 @@ export const Select: PC<'button', SelectProps> = React.forwardRef(
             offset({ crossAxis: -4 }),
           ],
     })
+
+    useImperativeHandle(ref, () => reference)
 
     const { getReferenceProps, getFloatingProps, getItemProps } =
       useInteractions([
