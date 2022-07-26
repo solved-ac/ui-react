@@ -1,33 +1,34 @@
 import styled from '@emotion/styled'
 import {
-    autoUpdate,
-    flip,
-    FloatingFocusManager,
-    FloatingOverlay,
-    inner,
-    offset,
-    shift,
-    SideObject,
-    size,
-    useClick,
-    useDismiss,
-    useFloating,
-    useInnerOffset,
-    useInteractions,
-    useListNavigation,
-    useRole,
-    useTypeahead
+  autoUpdate,
+  flip,
+  FloatingFocusManager,
+  FloatingOverlay,
+  inner,
+  offset,
+  shift,
+  SideObject,
+  size,
+  useClick,
+  useDismiss,
+  useFloating,
+  useInnerOffset,
+  useInteractions,
+  useListNavigation,
+  useRole,
+  useTypeahead
 } from '@floating-ui/react-dom-interactions'
 import React, {
-    ElementType,
-    ReactNode,
-    useEffect,
-    useLayoutEffect,
-    useRef,
-    useState
+  ElementType,
+  ReactNode,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState
 } from 'react'
 import { PC, PP } from '../types/PolymorphicElementProps'
-import { cssDisablable } from '../utils/styles'
+import { cssClickable, cssDisablable } from '../utils/styles'
+import { ListItem } from './$List'
 
 interface SelectDisplayProps {
   fullWidth: boolean
@@ -35,6 +36,8 @@ interface SelectDisplayProps {
 
 const SelectDisplay = styled.div<SelectDisplayProps>`
   ${cssDisablable}
+  ${cssClickable}
+  display: inline-block;
   font-family: inherit;
   height: auto;
   line-height: normal;
@@ -45,6 +48,13 @@ const SelectDisplay = styled.div<SelectDisplayProps>`
   border: ${({ theme }) => theme.styles.border()};
   border-radius: 8px;
   width: ${({ fullWidth }) => (fullWidth ? '100%' : 'auto')};
+`
+
+const SelectItemsWrapper = styled.div`
+  background: ${({ theme }) => theme.color.background.page};
+  border: ${({ theme }) => theme.styles.border()};
+  border-radius: 8px;
+  overflow-y: auto;
 `
 
 // Adopted from https://codesandbox.io/s/shy-snowflake-kp6479?file=/src/Select.tsx:5939-5954
@@ -80,8 +90,6 @@ export const Select: PC<'button', SelectProps> = React.forwardRef(
     const allowSelectRef = useRef(false)
     const allowMouseUpRef = useRef(true)
     const selectTimeoutRef = useRef<any>()
-    const upArrowRef = useRef<HTMLDivElement | null>(null)
-    const downArrowRef = useRef<HTMLDivElement | null>(null)
 
     const [open, setOpen] = useState(false)
     const [selectedIndex, setSelectedIndex] = useState(0)
@@ -114,16 +122,17 @@ export const Select: PC<'button', SelectProps> = React.forwardRef(
             offset(5),
             ...[
               touch
-                ? shift({ crossAxis: true, padding: 10 })
-                : flip({ padding: 10 }),
+                ? shift({ crossAxis: true, padding: 8 })
+                : flip({ padding: 8 }),
             ],
             size({
-              apply({ elements, availableHeight }) {
+              apply({ elements, availableHeight, rects }) {
                 Object.assign(elements.floating.style, {
                   maxHeight: `${availableHeight}px`,
+                  width: `${rects.reference.width}px`,
                 })
               },
-              padding: 10,
+              padding: 8,
             }),
           ]
         : [
@@ -133,7 +142,7 @@ export const Select: PC<'button', SelectProps> = React.forwardRef(
               index: selectedIndex,
               offset: innerOffset,
               onFallbackChange: setFallback,
-              padding: 10,
+              padding: 8,
               minItemsVisible: touch ? 10 : 4,
               referenceOverflowThreshold: 20,
             }),
@@ -184,11 +193,7 @@ export const Select: PC<'button', SelectProps> = React.forwardRef(
     useLayoutEffect(() => {
       const onPointerDown = (e: PointerEvent): void => {
         const target = e.target as Node
-        if (
-          !refs.floating.current?.contains(target) &&
-          !upArrowRef.current?.contains(target) &&
-          !downArrowRef.current?.contains(target)
-        ) {
+        if (!refs.floating.current?.contains(target)) {
           setOpen(false)
         }
       }
@@ -255,12 +260,13 @@ export const Select: PC<'button', SelectProps> = React.forwardRef(
         {open && (
           <FloatingOverlay lockScroll={!touch} style={{ zIndex: 1 }}>
             <FloatingFocusManager context={context} preventTabbing>
-              <div
+              <SelectItemsWrapper
                 ref={floating}
                 style={{
                   position: strategy,
                   top: y ?? 0,
                   left: x ?? 0,
+                  width: fullWidth ? '100%' : undefined,
                 }}
                 {...getFloatingProps({
                   onKeyDown() {
@@ -276,7 +282,8 @@ export const Select: PC<'button', SelectProps> = React.forwardRef(
               >
                 {items.map((item, i) => {
                   return (
-                    <div
+                    <ListItem<'div'>
+                      clickable
                       key={typeof item === 'string' ? item : item.value}
                       role="option"
                       tabIndex={0}
@@ -300,8 +307,12 @@ export const Select: PC<'button', SelectProps> = React.forwardRef(
                           allowSelectRef.current = true
                           allowMouseUpRef.current = false
                         },
-                        onKeyDown() {
+                        onKeyDown(e) {
                           allowSelectRef.current = true
+                          if (e.key === 'Enter' && allowSelectRef.current) {
+                            setSelectedIndex(i)
+                            setOpen(false)
+                          }
                         },
                         onClick() {
                           if (allowSelectRef.current) {
@@ -327,10 +338,10 @@ export const Select: PC<'button', SelectProps> = React.forwardRef(
                       })}
                     >
                       {render(item)}
-                    </div>
+                    </ListItem>
                   )
                 })}
-              </div>
+              </SelectItemsWrapper>
             </FloatingFocusManager>
           </FloatingOverlay>
         )}

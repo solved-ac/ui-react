@@ -13,6 +13,11 @@ export default {
     items: {
       control: 'none',
     },
+    fullWidth: {
+      control: 'boolean',
+      description:
+        'Whether the selector should take up the full width of its container',
+    },
   },
 } as ComponentMeta<typeof Select>
 
@@ -22,6 +27,14 @@ export const Default = Template.bind({})
 Default.args = {
   value: 'Select',
   items: Array(10)
+    .fill(undefined)
+    .map((_, i) => `Item ${i}`),
+}
+
+export const LongEntries = Template.bind({})
+LongEntries.args = {
+  value: 'Select',
+  items: Array(256)
     .fill(undefined)
     .map((_, i) => `Item ${i}`),
 }
