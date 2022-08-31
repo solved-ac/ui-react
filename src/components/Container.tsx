@@ -25,7 +25,7 @@ const ContainerContainer = styled.nav<ContainerContainerProps>`
   ${({ theme }) => styles(theme)}
   max-width: ${v.width};
   ${({ padding }) => paddingMap[padding]}
-  ${({ topBarPadding }) => topBarPadding && 'padding-top: 48px;'}
+  ${({ topBarPadding }) => topBarPadding && 'padding-top: 72px;'}
   margin: 0 auto;
 `
 
