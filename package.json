@@ -29,13 +29,19 @@
     "@emotion/react": ">=11",
     "@emotion/styled": ">=11",
     "react": ">=17",
-    "react-dom": ">=17"
+    "react-dom": ">=17",
+    "@floating-ui/react-dom-interactions": "^0.8.0"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.1.5",
+    "@emotion/styled": "^11.1.5",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "@floating-ui/react-dom-interactions": "^0.8.0"
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.17.9",
     "@babel/plugin-proposal-optional-chaining": "^7.16.7",
-    "@emotion/react": "^11.9.0",
-    "@emotion/styled": "^11.8.1",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
@@ -69,8 +75,6 @@
     "npm-run-all": "^4.1.5",
     "polished": "^4.2.2",
     "prettier": "^2.6.2",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
     "react-scripts": "^5.0.1",
     "typescript": "^4.6.4",
     "@floating-ui/react-dom-interactions": "^0.8.0"
