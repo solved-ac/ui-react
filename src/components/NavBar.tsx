@@ -17,7 +17,7 @@ const { vars, v } = navBarVariables
 
 const NavbarContainer = styled.header`
   width: 100%;
-  height: 48px;
+  height: 72px;
   background-color: ${v.backgroundColor};
   color: ${v.textColor};
   border-bottom: ${({ theme }) => theme.styles.border()};

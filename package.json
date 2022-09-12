@@ -1,6 +1,6 @@
 {
   "name": "@solved-ac/ui-react",
-  "version": "0.2.9",
+  "version": "0.2.11",
   "description": "React component library used by solved.ac",
   "author": "shiftpsh",
   "license": "MIT",
@@ -76,7 +76,8 @@
     "polished": "^4.2.2",
     "prettier": "^2.6.2",
     "react-scripts": "^5.0.1",
-    "typescript": "^4.6.4"
+    "typescript": "^4.6.4",
+    "@floating-ui/react-dom-interactions": "^0.8.0"
   },
   "files": [
     "dist"
