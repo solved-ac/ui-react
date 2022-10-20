@@ -17,5 +17,6 @@ export * from './Paragraph'
 export * from './Select'
 export * from './Space'
 export * from './TextField'
+export * from './Tooltip'
 export * from './Typo'
 
