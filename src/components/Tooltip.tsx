@@ -4,6 +4,7 @@ import {
   arrow,
   autoUpdate,
   flip,
+  FloatingPortal,
   offset,
   shift,
   useFloating,
@@ -121,46 +122,49 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
       >
         {children}
       </TooltipWrapper>
-      <ThemeProvider theme={theme || solvedThemes.dark}>
-        <AnimatePresence>
-          {isOpen && (
-            <React.Fragment>
-              <RenderComponent
-                {...getFloatingProps({
-                  ref: floating,
-                  style: {
-                    position: strategy,
-                    top: y || 0,
-                    left: x || 0,
-                  },
-                })}
-                {...cardProps}
-                transition={{ duration: 0.2, ease: 'easeInOut' }}
-                initial={{ opacity: 0, y: 0, scale: 0.9 }}
-                animate={{ opacity: 1, y: 8, scale: 1 }}
-                exit={{ opacity: 0, y: 0, scale: 0.9 }}
-              >
-                {title}
-                <Arrow
-                  ref={arrowRef}
-                  style={
-                    arrowPosition === 'bottom'
-                      ? {
-                          left: arrowX ?? undefined,
-                          [arrowPosition]: -16,
-                          transform: `scaleY(-1)`,
-                        }
-                      : {
-                          top: arrowY !== null ? (arrowY || 0) - 16 : undefined,
-                          left: arrowX ?? undefined,
-                        }
-                  }
-                />
-              </RenderComponent>
-            </React.Fragment>
-          )}
-        </AnimatePresence>
-      </ThemeProvider>
+      <FloatingPortal>
+        <ThemeProvider theme={theme || solvedThemes.dark}>
+          <AnimatePresence>
+            {isOpen && (
+              <React.Fragment>
+                <RenderComponent
+                  {...getFloatingProps({
+                    ref: floating,
+                    style: {
+                      position: strategy,
+                      top: y || 0,
+                      left: x || 0,
+                    },
+                  })}
+                  {...cardProps}
+                  transition={{ duration: 0.2, ease: 'easeInOut' }}
+                  initial={{ opacity: 0, y: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 8, scale: 1 }}
+                  exit={{ opacity: 0, y: 0, scale: 0.9 }}
+                >
+                  {title}
+                  <Arrow
+                    ref={arrowRef}
+                    style={
+                      arrowPosition === 'bottom'
+                        ? {
+                            left: arrowX ?? undefined,
+                            [arrowPosition]: -16,
+                            transform: `scaleY(-1)`,
+                          }
+                        : {
+                            top:
+                              arrowY !== null ? (arrowY || 0) - 16 : undefined,
+                            left: arrowX ?? undefined,
+                          }
+                    }
+                  />
+                </RenderComponent>
+              </React.Fragment>
+            )}
+          </AnimatePresence>
+        </ThemeProvider>
+      </FloatingPortal>
     </React.Fragment>
   )
 }
