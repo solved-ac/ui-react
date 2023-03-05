@@ -1,4 +1,4 @@
-import { Select } from '@solved-ac/ui-react'
+import { Centering, Select } from '@solved-ac/ui-react'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import React from 'react'
 
@@ -18,17 +18,25 @@ export default {
       description:
         'Whether the selector should take up the full width of its container',
     },
+    disableEllipsis: {
+      control: 'boolean',
+      description: 'Whether the selector should disable ellipsis',
+    },
   },
 } as ComponentMeta<typeof Select>
 
-const Template: ComponentStory<typeof Select> = (args) => <Select {...args} />
+const Template: ComponentStory<typeof Select> = (args) => (
+  <Centering>
+    <Select {...args} />
+  </Centering>
+)
 
 export const Default = Template.bind({})
 Default.args = {
   value: 'Select',
   items: Array(10)
     .fill(undefined)
-    .map((_, i) => `Item ${i}`),
+    .map((_, i) => `Item ${i + 1}`),
 }
 
 export const LongEntries = Template.bind({})
@@ -36,7 +44,15 @@ LongEntries.args = {
   value: 'Select',
   items: Array(256)
     .fill(undefined)
-    .map((_, i) => `Item ${i}`),
+    .map((_, i) => `Item ${i + 1}`),
+}
+
+export const LongContents = Template.bind({})
+LongContents.args = {
+  value: 'Select',
+  items: Array(256)
+    .fill(undefined)
+    .map((_, i) => `Item ${i + 1} `.repeat(i + 1)),
 }
 
 export const CustomRender = Template.bind({})

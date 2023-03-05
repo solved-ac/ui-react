@@ -31,7 +31,7 @@
   "peerDependencies": {
     "@emotion/react": ">=11",
     "@emotion/styled": ">=11",
-    "@floating-ui/react-dom-interactions": "^0.8.0",
+    "@floating-ui/react-dom-interactions": "^0.13.3",
     "framer-motion": "6.x",
     "react": ">=17",
     "react-dom": ">=17"
@@ -41,7 +41,7 @@
     "@babel/plugin-proposal-optional-chaining": "^7.16.7",
     "@emotion/react": "^11.1.5",
     "@emotion/styled": "^11.1.5",
-    "@floating-ui/react-dom-interactions": "^0.8.0",
+    "@floating-ui/react-dom-interactions": "^0.13.3",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",

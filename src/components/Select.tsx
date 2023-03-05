@@ -1,9 +1,11 @@
+import { useTheme } from '@emotion/react'
 import styled from '@emotion/styled'
 import {
   autoUpdate,
   flip,
   FloatingFocusManager,
   FloatingOverlay,
+  FloatingPortal,
   inner,
   offset,
   shift,
@@ -18,6 +20,8 @@ import {
   useRole,
   useTypeahead
 } from '@floating-ui/react-dom-interactions'
+import { AnimatePresence, motion } from 'framer-motion'
+import { ellipsis } from 'polished'
 import React, {
   ElementType,
   ReactNode,
@@ -29,15 +33,17 @@ import React, {
 } from 'react'
 import { PC, PP, PR } from '../types/PolymorphicElementProps'
 import { cssClickable, cssDisablable } from '../utils/styles'
-import { ListItem } from './$List'
+import { ListItem, ListItemProps } from './$List'
 
 interface SelectDisplayProps {
   fullWidth: boolean
+  ellipsis: boolean
 }
 
 const SelectDisplay = styled.div<SelectDisplayProps>`
   ${cssDisablable}
   ${cssClickable}
+  ${({ ellipsis: enableEllipsis }) => enableEllipsis && ellipsis()}
   display: inline-block;
   font-family: inherit;
   height: auto;
@@ -46,6 +52,7 @@ const SelectDisplay = styled.div<SelectDisplayProps>`
   padding: 0.8em 0.5em;
   padding-right: 48px;
   max-width: 100%;
+  min-width: 74px;
   background: ${({ theme }) => theme.color.background.footer};
   color: ${({ theme }) => theme.color.text.primary.main};
   border: ${({ theme }) => theme.styles.border()};
@@ -53,11 +60,13 @@ const SelectDisplay = styled.div<SelectDisplayProps>`
   width: ${({ fullWidth }) => (fullWidth ? '100%' : 'auto')};
 `
 
-const SelectItemsWrapper = styled.div`
+const SelectItemsWrapper = styled(motion.div)`
   background: ${({ theme }) => theme.color.background.page};
   border: ${({ theme }) => theme.styles.border()};
   border-radius: 8px;
   overflow-y: auto;
+  box-shadow: ${({ theme }) => theme.styles.shadow(undefined, 16)};
+  max-width: 100vw;
 `
 
 // Adopted from https://codesandbox.io/s/shy-snowflake-kp6479?file=/src/Select.tsx:5939-5954
@@ -66,10 +75,12 @@ type SelectItemNode = string | { value: string }
 
 export interface SelectProps<T extends SelectItemNode = string> {
   fullWidth?: boolean
+  disableEllipsis?: boolean
   items?: T[]
   value?: string | null
   onChange?: (value: T) => void
   render?: (value: T) => ReactNode
+  ListItemProps?: Partial<PP<'div', ListItemProps>>
 }
 
 export const Select: PC<'button', SelectProps> = React.forwardRef(
@@ -79,13 +90,16 @@ export const Select: PC<'button', SelectProps> = React.forwardRef(
   ) => {
     const {
       fullWidth = false,
+      disableEllipsis = false,
       items = [],
       value,
       onChange,
       render = (e) => (typeof e === 'string' ? e : e.value),
       as,
+      ListItemProps,
       ...rest
     } = props
+    const theme = useTheme()
 
     const listRef = useRef<Array<HTMLElement | null>>([])
     const listContentRef = useRef<Array<string | null>>([])
@@ -116,23 +130,27 @@ export const Select: PC<'button', SelectProps> = React.forwardRef(
     }, [value])
 
     const { x, y, reference, floating, strategy, context, refs } = useFloating({
-      placement: 'bottom-start',
+      placement: 'bottom',
       open,
       onOpenChange: setOpen,
-      whileElementsMounted: autoUpdate,
+      whileElementsMounted: (reference, floating, update) =>
+        autoUpdate(reference, floating, update, {
+          animationFrame: true,
+        }),
       middleware: fallback
         ? [
-            offset(5),
+            offset(8),
             ...[
               touch
                 ? shift({ crossAxis: true, padding: 8 })
                 : flip({ padding: 8 }),
             ],
             size({
-              apply({ elements, availableHeight, rects }) {
+              apply({ elements, availableHeight, availableWidth, rects }) {
                 Object.assign(elements.floating.style, {
                   maxHeight: `${availableHeight}px`,
-                  width: `${rects.reference.width}px`,
+                  minWidth: `${rects.reference.width}px`,
+                  maxWidth: `${availableWidth}px`,
                 })
               },
               padding: 8,
@@ -157,8 +175,8 @@ export const Select: PC<'button', SelectProps> = React.forwardRef(
 
     const { getReferenceProps, getFloatingProps, getItemProps } =
       useInteractions([
-        useClick(context, { pointerDown: true }),
-        useDismiss(context, { outsidePointerDown: false }),
+        useClick(context),
+        useDismiss(context),
         useRole(context, { role: 'listbox' }),
         useInnerOffset(context, {
           enabled: !fallback,
@@ -244,6 +262,7 @@ export const Select: PC<'button', SelectProps> = React.forwardRef(
       <React.Fragment>
         <SelectDisplay
           fullWidth={fullWidth}
+          ellipsis={!disableEllipsis}
           role="button"
           tabIndex={0}
           type="button"
@@ -262,94 +281,114 @@ export const Select: PC<'button', SelectProps> = React.forwardRef(
         >
           {selected ? render(selected) : null}
         </SelectDisplay>
-        {open && (
-          <FloatingOverlay lockScroll={!touch} style={{ zIndex: 1 }}>
-            <FloatingFocusManager context={context} preventTabbing>
-              <SelectItemsWrapper
-                ref={floating}
-                style={{
-                  position: strategy,
-                  top: y ?? 0,
-                  left: x ?? 0,
-                  width: fullWidth ? '100%' : undefined,
-                }}
-                {...getFloatingProps({
-                  onKeyDown() {
-                    setControlledScrolling(true)
-                  },
-                  onPointerMove() {
-                    setControlledScrolling(false)
-                  },
-                  onContextMenu(e) {
-                    e.preventDefault()
-                  },
-                })}
-              >
-                {items.map((item, i) => {
-                  return (
-                    <ListItem<'div'>
-                      clickable
-                      key={typeof item === 'string' ? item : item.value}
-                      role="option"
-                      tabIndex={0}
-                      aria-selected={selectedIndex === i}
-                      style={{
-                        // background:
-                        //   activeIndex === i
-                        //     ? 'rgba(0,200,255,0.2)'
-                        //     : i === selectedIndex
-                        //     ? 'rgba(0,0,50,0.05)'
-                        //     : 'transparent',
-                        fontWeight: i === selectedIndex ? 'bold' : 'normal',
-                      }}
-                      ref={(node) => {
-                        listRef.current[i] = node
-                        listContentRef.current[i] =
-                          typeof item === 'string' ? item : item.value
-                      }}
-                      {...getItemProps({
-                        onTouchStart() {
-                          allowSelectRef.current = true
-                          allowMouseUpRef.current = false
-                        },
-                        onKeyDown(e) {
-                          allowSelectRef.current = true
-                          if (e.key === 'Enter' && allowSelectRef.current) {
-                            setSelectedIndex(i)
-                            setOpen(false)
+        <FloatingPortal>
+          <AnimatePresence>
+            {open && (
+              <FloatingOverlay lockScroll={!touch} style={{ zIndex: 1 }}>
+                <FloatingFocusManager context={context}>
+                  <SelectItemsWrapper
+                    ref={floating}
+                    style={{
+                      position: strategy,
+                      top: y ?? 0,
+                      left: x ?? 0,
+                      originX: 0.5,
+                      originY: 0,
+                    }}
+                    {...getFloatingProps({
+                      onKeyDown() {
+                        setControlledScrolling(true)
+                      },
+                      onPointerMove() {
+                        setControlledScrolling(false)
+                      },
+                      onContextMenu(e) {
+                        e.preventDefault()
+                      },
+                    })}
+                    transition={{
+                      duration: 0.2,
+                      ease: 'easeInOut',
+                    }}
+                    initial={{ opacity: 0, y: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, y: 8, scale: 1 }}
+                    exit={{ opacity: 0, y: 0, scale: 0.9 }}
+                  >
+                    {items.map((item, i) => {
+                      return (
+                        <ListItem<'div'>
+                          clickable
+                          key={typeof item === 'string' ? item : item.value}
+                          role="option"
+                          tabIndex={0}
+                          aria-selected={selectedIndex === i}
+                          backgroundColor={
+                            i === selectedIndex
+                              ? theme.color.background.card.main
+                              : undefined
                           }
-                        },
-                        onClick() {
-                          if (allowSelectRef.current) {
-                            setSelectedIndex(i)
-                            setOpen(false)
-                          }
-                        },
-                        onMouseUp() {
-                          if (!allowMouseUpRef.current) {
-                            return
-                          }
+                          style={{
+                            ...(disableEllipsis
+                              ? {}
+                              : {
+                                  textOverflow: 'ellipsis',
+                                  overflow: 'hidden',
+                                  whiteSpace: 'nowrap',
+                                }),
+                            ...(ListItemProps?.style || {}),
+                            fontWeight: i === selectedIndex ? 'bold' : 'normal',
+                          }}
+                          ref={(node) => {
+                            listRef.current[i] = node
+                            listContentRef.current[i] =
+                              typeof item === 'string' ? item : item.value
+                          }}
+                          {...getItemProps({
+                            onTouchStart() {
+                              allowSelectRef.current = true
+                              allowMouseUpRef.current = false
+                            },
+                            onKeyDown(e) {
+                              allowSelectRef.current = true
+                              if (e.key === 'Enter' && allowSelectRef.current) {
+                                setSelectedIndex(i)
+                                setOpen(false)
+                              }
+                            },
+                            onClick() {
+                              if (allowSelectRef.current) {
+                                setSelectedIndex(i)
+                                setOpen(false)
+                              }
+                            },
+                            onMouseUp() {
+                              if (!allowMouseUpRef.current) {
+                                return
+                              }
 
-                          if (allowSelectRef.current) {
-                            setSelectedIndex(i)
-                            setOpen(false)
-                          }
+                              if (allowSelectRef.current) {
+                                setSelectedIndex(i)
+                                setOpen(false)
+                              }
 
-                          clearTimeout(selectTimeoutRef.current)
-                          selectTimeoutRef.current = setTimeout(() => {
-                            allowSelectRef.current = true
-                          })
-                        },
-                      })}
-                    >
-                      {render(item)}
-                    </ListItem>
-                  )
-                })}
-              </SelectItemsWrapper>
-            </FloatingFocusManager>
-          </FloatingOverlay>
-        )}
+                              clearTimeout(selectTimeoutRef.current)
+                              selectTimeoutRef.current = setTimeout(() => {
+                                allowSelectRef.current = true
+                              })
+                            },
+                          })}
+                          {...ListItemProps}
+                        >
+                          {render(item)}
+                        </ListItem>
+                      )
+                    })}
+                  </SelectItemsWrapper>
+                </FloatingFocusManager>
+              </FloatingOverlay>
+            )}
+          </AnimatePresence>
+        </FloatingPortal>
       </React.Fragment>
     )
   }
