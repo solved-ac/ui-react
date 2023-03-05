@@ -22,10 +22,12 @@
     "@types/jest": "link:../node_modules/@types/jest",
     "@types/node": "link:../node_modules/@types/node",
     "@types/react-dom": "link:../node_modules/@types/react-dom",
+    "@types/react-icons": "link:../node_modules/@types/react-icons",
     "@types/react": "link:../node_modules/@types/react",
     "framer-motion": "link:../node_modules/framer-motion",
     "react-dom": "link:../node_modules/react-dom",
     "react-scripts": "link:../node_modules/react-scripts",
+    "react-icons": "link:../node_modules/react-icons",
     "react": "link:../node_modules/react",
     "typescript": "link:../node_modules/typescript"
   },

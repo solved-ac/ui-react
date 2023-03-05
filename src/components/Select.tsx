@@ -31,19 +31,24 @@ import React, {
   useRef,
   useState
 } from 'react'
+import { IoChevronDown } from 'react-icons/io5'
 import { PC, PP, PR } from '../types/PolymorphicElementProps'
 import { cssClickable, cssDisablable } from '../utils/styles'
 import { ListItem, ListItemProps } from './$List'
+import { Centering } from './Centering'
 
 interface SelectDisplayProps {
   fullWidth: boolean
   ellipsis: boolean
 }
 
+// TODO add style variables
+
 const SelectDisplay = styled.div<SelectDisplayProps>`
   ${cssDisablable}
   ${cssClickable}
   ${({ ellipsis: enableEllipsis }) => enableEllipsis && ellipsis()}
+  position: relative;
   display: inline-block;
   font-family: inherit;
   height: auto;
@@ -67,6 +72,15 @@ const SelectItemsWrapper = styled(motion.div)`
   overflow-y: auto;
   box-shadow: ${({ theme }) => theme.styles.shadow(undefined, 16)};
   max-width: 100vw;
+`
+
+const SelectInputAdornment = styled(Centering)`
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 48px;
+  color: ${({ theme }) => theme.color.text.secondary.main};
 `
 
 // Adopted from https://codesandbox.io/s/shy-snowflake-kp6479?file=/src/Select.tsx:5939-5954
@@ -280,6 +294,9 @@ export const Select: PC<'button', SelectProps> = React.forwardRef(
           {...rest}
         >
           {selected ? render(selected) : null}
+          <SelectInputAdornment>
+            <IoChevronDown />
+          </SelectInputAdornment>
         </SelectDisplay>
         <FloatingPortal>
           <AnimatePresence>
