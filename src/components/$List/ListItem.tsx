@@ -83,17 +83,7 @@ export const ListItem: PC<'div', ListItemProps> = React.forwardRef(
       hoverColor || (backgroundColor && computeHoverColor(backgroundColor))
 
     return (
-      <ListItemWrapper
-        style={{
-          [vars.backgroundColor]: backgroundColor,
-          [vars.hoverBackgroundColor]: computedHoverColor,
-          [vars.textColor]:
-            backgroundColor && readableColor(backgroundColor, solvedTheme),
-          [vars.hoverTextColor]:
-            computedHoverColor &&
-            readableColor(computedHoverColor, solvedTheme),
-        }}
-      >
+      <ListItemWrapper>
         <ListItemContainer
           ref={ref}
           as={as}
@@ -102,7 +92,16 @@ export const ListItem: PC<'div', ListItemProps> = React.forwardRef(
           disabled={disabled && clickable}
           clickable={clickable}
           padding={padding}
-          style={style}
+          style={{
+            [vars.backgroundColor]: backgroundColor,
+            [vars.hoverBackgroundColor]: computedHoverColor,
+            [vars.textColor]:
+              backgroundColor && readableColor(backgroundColor, solvedTheme),
+            [vars.hoverTextColor]:
+              computedHoverColor &&
+              readableColor(computedHoverColor, solvedTheme),
+            ...style,
+          }}
           {...rest}
         >
           {children}
