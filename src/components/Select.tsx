@@ -32,7 +32,7 @@ import React, {
   useState
 } from 'react'
 import { IoChevronDown } from 'react-icons/io5'
-import { PC, PP, PR } from '../types/PolymorphicElementProps'
+import { PP, PR } from '../types/PolymorphicElementProps'
 import { cssClickable, cssDisablable } from '../utils/styles'
 import { ListItem, ListItemProps } from './$List'
 import { Centering } from './Centering'
@@ -87,7 +87,7 @@ const SelectInputAdornment = styled(Centering)`
 
 type SelectItemNode = string | { value: string }
 
-export interface SelectProps<T extends SelectItemNode = string> {
+export interface SelectProps<T extends SelectItemNode> {
   fullWidth?: boolean
   disableEllipsis?: boolean
   items?: T[]
@@ -97,7 +97,7 @@ export interface SelectProps<T extends SelectItemNode = string> {
   ListItemProps?: Partial<PP<'div', ListItemProps>>
 }
 
-export const Select: PC<'button', SelectProps> = React.forwardRef(
+export const Select = React.forwardRef(
   <T extends ElementType, E extends SelectItemNode>(
     props: PP<T, SelectProps<E>>,
     ref?: PR<T>

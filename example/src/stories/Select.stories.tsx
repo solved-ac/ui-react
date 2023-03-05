@@ -70,3 +70,35 @@ CustomRender.args = {
     </>
   ),
 }
+
+export const CustomTypes = Template.bind({})
+CustomTypes.args = {
+  value: 'Select',
+  items: [
+    {
+      value: 'kr',
+      icon: 'https://flagicons.lipis.dev/flags/4x3/kr.svg',
+      label: 'Korea',
+    },
+    {
+      value: 'gb',
+      icon: 'https://flagicons.lipis.dev/flags/4x3/gb.svg',
+      label: 'United Kingdom',
+    },
+    {
+      value: 'us',
+      icon: 'https://flagicons.lipis.dev/flags/4x3/us.svg',
+      label: 'United States',
+    },
+    {
+      value: 'jp',
+      icon: 'https://flagicons.lipis.dev/flags/4x3/jp.svg',
+      label: 'Japan',
+    },
+  ],
+  render: (s: { value: string; icon: string; label: string }) => (
+    <>
+      <img src={s.icon} alt={s.label} style={{ height: '1em' }} /> {s.label}
+    </>
+  ),
+}
