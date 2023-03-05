@@ -30,6 +30,7 @@ import React, {
 } from 'react'
 import { IoChevronDown } from 'react-icons/io5'
 import { PP, PR } from '../types/PolymorphicElementProps'
+import { forwardRefWithGenerics } from '../utils/ref'
 import { cssClickable, cssDisablable } from '../utils/styles'
 import { ListItem, ListItemProps } from './$List'
 import { Centering } from './Centering'
@@ -94,7 +95,7 @@ export interface SelectProps<T extends SelectItemNode> {
   ListItemProps?: Partial<PP<'div', ListItemProps>>
 }
 
-export const Select = React.forwardRef(
+export const Select = forwardRefWithGenerics(
   <T extends ElementType, E extends SelectItemNode>(
     props: PP<T, SelectProps<E>>,
     ref?: PR<T>

@@ -1,6 +1,7 @@
 import styled from '@emotion/styled'
 import React, { ElementType, useContext } from 'react'
 import { PC, PP, PR } from '../../types/PolymorphicElementProps'
+import { forwardRefWithGenerics } from '../../utils/ref'
 import { TableContext } from './TableContext'
 
 interface RowContainerProps {
@@ -17,7 +18,7 @@ export interface RowProps {
   padding?: 'none' | 'dense' | 'normal' | 'wide'
 }
 
-export const Row: PC<'tr', RowProps> = React.forwardRef(
+export const Row: PC<'tr', RowProps> = forwardRefWithGenerics(
   <T extends ElementType>(props: PP<T, RowProps>, ref?: PR<T>) => {
     const tableContext = useContext(TableContext)
     const {

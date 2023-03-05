@@ -1,6 +1,7 @@
 import styled from '@emotion/styled'
 import React, { ElementType } from 'react'
 import { PC, PP, PR } from '../../types/PolymorphicElementProps'
+import { forwardRefWithGenerics } from '../../utils/ref'
 
 const TableFootContainer = styled.tfoot`
   display: table-footer-group;
@@ -8,7 +9,7 @@ const TableFootContainer = styled.tfoot`
   font-weight: 700;
 `
 
-export const TableFoot: PC<'tfoot'> = React.forwardRef(
+export const TableFoot: PC<'tfoot'> = forwardRefWithGenerics(
   <T extends ElementType>(props: PP<T>, ref?: PR<T>) => {
     const { as = 'tfoot', ...rest } = props
 

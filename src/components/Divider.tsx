@@ -1,6 +1,7 @@
 import styled from '@emotion/styled'
 import React, { ElementType } from 'react'
 import { PC, PP, PR } from '../types/PolymorphicElementProps'
+import { forwardRefWithGenerics } from '../utils/ref'
 import { Space } from './Space'
 
 const DividerItem = styled.div`
@@ -11,7 +12,7 @@ export interface DividerProps {
   margin?: 'none' | 'normal' | 'wide'
 }
 
-export const Divider: PC<'div', DividerProps> = React.forwardRef(
+export const Divider: PC<'div', DividerProps> = forwardRefWithGenerics(
   <T extends ElementType>(props: PP<T, DividerProps>, ref?: PR<T>) => {
     const { margin = 'normal', as = 'div', ...rest } = props
 

@@ -1,8 +1,8 @@
 import React, {
-    ComponentPropsWithoutRef,
-    ComponentPropsWithRef,
-    ElementType,
-    JSXElementConstructor
+  ComponentPropsWithoutRef,
+  ComponentPropsWithRef,
+  ElementType,
+  JSXElementConstructor
 } from 'react'
 
 // from: https://codesandbox.io/s/9dxyq?file=/src/PolymorphicComponent.tsx

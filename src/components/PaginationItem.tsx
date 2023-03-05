@@ -4,6 +4,7 @@ import { ellipsis } from 'polished'
 import React, { ElementType } from 'react'
 import { PC, PP, PR } from '../types/PolymorphicElementProps'
 import { computeHoverColor, readableColor } from '../utils/color'
+import { forwardRefWithGenerics } from '../utils/ref'
 import { cssClickable, cssVariables } from '../utils/styles'
 import { transparentHoverTemplate } from '../utils/variables'
 
@@ -61,7 +62,7 @@ export interface PaginationItemProps {
   activeColor?: string
 }
 
-export const PaginationItem: PC<'a', PaginationItemProps> = React.forwardRef(
+export const PaginationItem: PC<'a', PaginationItemProps> = forwardRefWithGenerics(
   <T extends ElementType>(props: PP<T, PaginationItemProps>, ref?: PR<T>) => {
     const solvedTheme = useTheme()
 

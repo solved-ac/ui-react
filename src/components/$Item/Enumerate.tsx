@@ -1,6 +1,7 @@
 import styled from '@emotion/styled'
 import React, { ElementType, useContext } from 'react'
 import { PC, PP, PR } from '../../types/PolymorphicElementProps'
+import { forwardRefWithGenerics } from '../../utils/ref'
 import { ItemizeContext } from './ItemizeContext'
 
 const marginMap = {
@@ -31,7 +32,7 @@ export interface EnumerateProps {
   margin?: 'none' | 'normal' | 'wide'
 }
 
-export const Enumerate: PC<'ol', EnumerateProps> = React.forwardRef(
+export const Enumerate: PC<'ol', EnumerateProps> = forwardRefWithGenerics(
   <T extends ElementType>(props: PP<T, EnumerateProps>, ref?: PR<T>) => {
     const itemizeContext = useContext(ItemizeContext)
     const {

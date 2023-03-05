@@ -1,6 +1,7 @@
 import styled from '@emotion/styled'
 import React, { ElementType } from 'react'
 import { PC, PP, PR } from '../types/PolymorphicElementProps'
+import { forwardRefWithGenerics } from '../utils/ref'
 import { cssCentering } from '../utils/styles'
 
 const paddingMap = {
@@ -28,7 +29,7 @@ export interface EmptyStatePlaceholderProps {
 }
 
 export const EmptyStatePlaceholder: PC<'div', EmptyStatePlaceholderProps> =
-  React.forwardRef(
+  forwardRefWithGenerics(
     <T extends ElementType>(
       props: PP<T, EmptyStatePlaceholderProps>,
       ref?: PR<T>
