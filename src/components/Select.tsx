@@ -6,15 +6,12 @@ import {
   FloatingFocusManager,
   FloatingOverlay,
   FloatingPortal,
-  inner,
   offset,
   shift,
-  SideObject,
   size,
   useClick,
   useDismiss,
   useFloating,
-  useInnerOffset,
   useInteractions,
   useListNavigation,
   useRole,
@@ -117,7 +114,6 @@ export const Select = React.forwardRef(
 
     const listRef = useRef<Array<HTMLElement | null>>([])
     const listContentRef = useRef<Array<string | null>>([])
-    const overflowRef = useRef<null | SideObject>(null)
     const allowSelectRef = useRef(false)
     const allowMouseUpRef = useRef(true)
     const selectTimeoutRef = useRef<any>()
@@ -125,8 +121,6 @@ export const Select = React.forwardRef(
     const [open, setOpen] = useState(false)
     const [selectedIndex, setSelectedIndex] = useState(0)
     const [activeIndex, setActiveIndex] = useState<number | null>(null)
-    const [fallback, setFallback] = useState(false)
-    const [innerOffset, setInnerOffset] = useState(0)
     const [controlledScrolling, setControlledScrolling] = useState(false)
     const [touch, setTouch] = useState(false)
 
@@ -151,38 +145,22 @@ export const Select = React.forwardRef(
         autoUpdate(reference, floating, update, {
           animationFrame: true,
         }),
-      middleware: fallback
-        ? [
-            offset(8),
-            ...[
-              touch
-                ? shift({ crossAxis: true, padding: 8 })
-                : flip({ padding: 8 }),
-            ],
-            size({
-              apply({ elements, availableHeight, availableWidth, rects }) {
-                Object.assign(elements.floating.style, {
-                  maxHeight: `${availableHeight}px`,
-                  minWidth: `${rects.reference.width}px`,
-                  maxWidth: `${availableWidth}px`,
-                })
-              },
-              padding: 8,
-            }),
-          ]
-        : [
-            inner({
-              listRef,
-              overflowRef,
-              index: selectedIndex,
-              offset: innerOffset,
-              onFallbackChange: setFallback,
-              padding: 8,
-              minItemsVisible: touch ? 10 : 4,
-              referenceOverflowThreshold: 20,
-            }),
-            offset({ crossAxis: -4 }),
-          ],
+      middleware: [
+        offset(8),
+        ...[
+          touch ? shift({ crossAxis: true, padding: 8 }) : flip({ padding: 8 }),
+        ],
+        size({
+          apply({ elements, availableHeight, availableWidth, rects }) {
+            Object.assign(elements.floating.style, {
+              maxHeight: `${availableHeight}px`,
+              minWidth: `${rects.reference.width}px`,
+              maxWidth: `${availableWidth}px`,
+            })
+          },
+          padding: 8,
+        }),
+      ],
     })
 
     useImperativeHandle(ref, () => reference)
@@ -192,11 +170,6 @@ export const Select = React.forwardRef(
         useClick(context),
         useDismiss(context),
         useRole(context, { role: 'listbox' }),
-        useInnerOffset(context, {
-          enabled: !fallback,
-          onChange: setInnerOffset,
-          overflowRef,
-        }),
         useListNavigation(context, {
           listRef,
           activeIndex,
@@ -222,8 +195,6 @@ export const Select = React.forwardRef(
       }
       allowSelectRef.current = false
       allowMouseUpRef.current = true
-      setInnerOffset(0)
-      setFallback(false)
       return undefined
     }, [open])
 
@@ -255,20 +226,20 @@ export const Select = React.forwardRef(
     }, [open, refs, controlledScrolling, activeIndex])
 
     useLayoutEffect(() => {
-      if (open && fallback) {
+      if (open) {
         requestAnimationFrame(() => {
           if (selectedIndex != null) {
             listRef.current[selectedIndex]?.scrollIntoView({ block: 'nearest' })
           }
         })
       }
-    }, [open, fallback, selectedIndex])
+    }, [open, selectedIndex])
 
     useLayoutEffect(() => {
-      if (refs.floating.current && fallback) {
+      if (refs.floating.current) {
         refs.floating.current.style.maxHeight = ''
       }
-    }, [refs, fallback])
+    }, [refs])
 
     const selected = selectedIndex < items.length ? items[selectedIndex] : null
 
