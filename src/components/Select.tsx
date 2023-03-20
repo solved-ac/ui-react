@@ -106,7 +106,6 @@ export const Select = React.forwardRef(
       value,
       onChange,
       render = (e) => (typeof e === 'string' ? e : e.value),
-      as,
       ListItemProps,
       ...rest
     } = props
@@ -124,9 +123,13 @@ export const Select = React.forwardRef(
     const [controlledScrolling, setControlledScrolling] = useState(false)
     const [touch, setTouch] = useState(false)
 
-    useEffect(() => {
-      if (onChange) onChange(items[selectedIndex])
-    }, [selectedIndex])
+    const handleCommit = (index: number): void => {
+      setSelectedIndex(index)
+      if (onChange) {
+        onChange(items[index])
+      }
+      setOpen(false)
+    }
 
     useEffect(() => {
       const idx = items.findIndex((it) =>
@@ -179,7 +182,7 @@ export const Select = React.forwardRef(
         useTypeahead(context, {
           listRef: listContentRef,
           activeIndex,
-          onMatch: open ? setActiveIndex : setSelectedIndex,
+          onMatch: open ? setActiveIndex : handleCommit,
         }),
       ])
 
@@ -339,14 +342,12 @@ export const Select = React.forwardRef(
                             onKeyDown(e) {
                               allowSelectRef.current = true
                               if (e.key === 'Enter' && allowSelectRef.current) {
-                                setSelectedIndex(i)
-                                setOpen(false)
+                                handleCommit(i)
                               }
                             },
                             onClick() {
                               if (allowSelectRef.current) {
-                                setSelectedIndex(i)
-                                setOpen(false)
+                                handleCommit(i)
                               }
                             },
                             onMouseUp() {
@@ -355,8 +356,7 @@ export const Select = React.forwardRef(
                               }
 
                               if (allowSelectRef.current) {
-                                setSelectedIndex(i)
-                                setOpen(false)
+                                handleCommit(i)
                               }
 
                               clearTimeout(selectTimeoutRef.current)
