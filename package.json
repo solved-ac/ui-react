@@ -1,6 +1,6 @@
 {
   "name": "@solved-ac/ui-react",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "React component library used by solved.ac",
   "author": "shiftpsh",
   "license": "MIT",
@@ -32,7 +32,6 @@
     "@emotion/react": ">=11",
     "@emotion/styled": ">=11",
     "@floating-ui/react-dom-interactions": "^0.13.3",
-    "@tabler/icons-react": "^2.11.0",
     "framer-motion": "6.x",
     "react": ">=17",
     "react-dom": ">=17"
