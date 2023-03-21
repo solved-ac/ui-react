@@ -17,6 +17,7 @@ import {
   useRole,
   useTypeahead
 } from '@floating-ui/react-dom-interactions'
+import { IconChevronDown } from '@tabler/icons-react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ellipsis } from 'polished'
 import React, {
@@ -28,7 +29,6 @@ import React, {
   useRef,
   useState
 } from 'react'
-import { IoChevronDown } from 'react-icons/io5'
 import { PP, PR } from '../types/PolymorphicElementProps'
 import { cssClickable, cssDisablable } from '../utils/styles'
 import { ListItem, ListItemProps } from './$List'
@@ -269,7 +269,7 @@ export const Select = React.forwardRef(
         >
           {selected ? render(selected) : null}
           <SelectInputAdornment>
-            <IoChevronDown />
+            <IconChevronDown />
           </SelectInputAdornment>
         </SelectDisplay>
         <FloatingPortal>
