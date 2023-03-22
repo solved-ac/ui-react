@@ -15,6 +15,7 @@
   "files": [
     "dist"
   ],
+  "sideEffects": false,
   "scripts": {
     "build": "rimraf --no-glob ./dist && microbundle --no-compress --format modern,cjs --jsx React.createElement",
     "start": "rimraf --no-glob ./dist && microbundle watch --no-compress --format modern,cjs --jsx React.createElement",
