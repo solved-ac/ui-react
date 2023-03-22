@@ -1,6 +1,6 @@
 {
   "name": "@solved-ac/ui-react",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "React component library used by solved.ac",
   "author": "shiftpsh",
   "license": "MIT",
@@ -15,6 +15,7 @@
   "files": [
     "dist"
   ],
+  "sideEffects": false,
   "scripts": {
     "build": "rimraf --no-glob ./dist && microbundle --no-compress --format modern,cjs --jsx React.createElement",
     "start": "rimraf --no-glob ./dist && microbundle watch --no-compress --format modern,cjs --jsx React.createElement",
