@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import React, { ForwardedRef, ReactElement, RefAttributes } from 'react'
 
 export const forwardRefWithGenerics: <T, P = {}>(

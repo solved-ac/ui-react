@@ -50,12 +50,10 @@ export const TextField: PC<'input', TextFieldProps> = forwardRefWithGenerics(
       multiline = false,
       disabled = false,
       resizable = false,
-      as,
+      // TODO types are wrong when `as` is inferred by variant
+      as = multiline ? 'textarea' : 'input',
       ...rest
     } = props
-
-    // TODO types are wrong when `as` is inferred by variant
-    const calculatedAs = as || (multiline ? 'textarea' : 'input')
 
     return (
       <TextFieldContainer
@@ -63,7 +61,7 @@ export const TextField: PC<'input', TextFieldProps> = forwardRefWithGenerics(
         disabled={disabled}
         resizable={getResizable(resizable)}
         ref={ref}
-        as={calculatedAs}
+        as={as}
         {...rest}
       />
     )

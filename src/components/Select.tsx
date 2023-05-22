@@ -15,7 +15,7 @@ import {
   useInteractions,
   useListNavigation,
   useRole,
-  useTypeahead
+  useTypeahead,
 } from '@floating-ui/react-dom-interactions'
 import { IconChevronDown } from '@tabler/icons-react'
 import { AnimatePresence, motion } from 'framer-motion'
@@ -27,9 +27,10 @@ import React, {
   useImperativeHandle,
   useLayoutEffect,
   useRef,
-  useState
+  useState,
 } from 'react'
 import { PP, PR } from '../types/PolymorphicElementProps'
+import { Timeout } from '../types/Timeout'
 import { forwardRefWithGenerics } from '../utils/ref'
 import { cssClickable, cssDisablable } from '../utils/styles'
 import { ListItem, ListItemProps } from './$List'
@@ -116,7 +117,7 @@ export const Select = forwardRefWithGenerics(
     const listContentRef = useRef<Array<string | null>>([])
     const allowSelectRef = useRef(false)
     const allowMouseUpRef = useRef(true)
-    const selectTimeoutRef = useRef<any>()
+    const selectTimeoutRef = useRef<Timeout>()
 
     const [open, setOpen] = useState(false)
     const [selectedIndex, setSelectedIndex] = useState(0)
