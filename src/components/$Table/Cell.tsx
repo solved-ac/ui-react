@@ -2,6 +2,7 @@ import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import React, { ElementType, useContext } from 'react'
 import { PC, PP, PR } from '../../types/PolymorphicElementProps'
+import { forwardRefWithGenerics } from '../../utils/ref'
 import { TableContext } from './TableContext'
 import { TableRowGroupContext } from './TableRowGroupContext'
 
@@ -38,7 +39,7 @@ export interface CellProps {
   numeric?: boolean
 }
 
-export const Cell: PC<'td', CellProps> = React.forwardRef(
+export const Cell: PC<'td', CellProps> = forwardRefWithGenerics(
   <T extends ElementType>(props: PP<T, CellProps>, ref?: PR<T>) => {
     const tableContext = useContext(TableContext)
     const tableRowGroupContext = useContext(TableRowGroupContext)

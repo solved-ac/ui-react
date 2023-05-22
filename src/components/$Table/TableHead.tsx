@@ -1,6 +1,7 @@
 import styled from '@emotion/styled'
 import React, { ElementType, useContext } from 'react'
 import { PC, PP, PR } from '../../types/PolymorphicElementProps'
+import { forwardRefWithGenerics } from '../../utils/ref'
 import { TableContext } from './TableContext'
 import { TableRowGroupContext } from './TableRowGroupContext'
 
@@ -29,7 +30,7 @@ export interface TableHeadProps {
   sticky?: boolean | number | string
 }
 
-export const TableHead: PC<'thead', TableHeadProps> = React.forwardRef(
+export const TableHead: PC<'thead', TableHeadProps> = forwardRefWithGenerics(
   <T extends ElementType>(props: PP<T, TableHeadProps>, ref?: PR<T>) => {
     const tableContext = useContext(TableContext)
     const { sticky = tableContext.sticky, as = 'thead', ...rest } = props

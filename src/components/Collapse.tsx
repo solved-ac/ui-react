@@ -1,6 +1,7 @@
 import styled from '@emotion/styled'
 import React, { ElementType, useLayoutEffect, useRef, useState } from 'react'
 import { PC, PP, PR } from '../types/PolymorphicElementProps'
+import { forwardRefWithGenerics } from '../utils/ref'
 
 interface CollapseContainerProps {
   renderHeight: number | 'auto'
@@ -21,7 +22,7 @@ export interface CollapseProps {
   shown: boolean
 }
 
-export const Collapse: PC<'div', CollapseProps> = React.forwardRef(
+export const Collapse: PC<'div', CollapseProps> = forwardRefWithGenerics(
   <T extends ElementType>(props: PP<T, CollapseProps>, ref?: PR<T>) => {
     const { as = 'div', shown, children } = props
 

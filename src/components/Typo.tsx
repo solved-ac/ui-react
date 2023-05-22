@@ -4,6 +4,7 @@ import { ellipsis } from 'polished'
 import React, { ElementType } from 'react'
 import { SolvedTheme, solvedThemes } from '../styles'
 import { PC, PP, PR } from '../types/PolymorphicElementProps'
+import { forwardRefWithGenerics } from '../utils/ref'
 
 const variants = (theme: SolvedTheme) =>
   ({
@@ -148,7 +149,7 @@ const firstVariant = (variant?: TypoVariant[]): TypoVariant | undefined => {
   return undefined
 }
 
-export const Typo: PC<'span', TypoProps> = React.forwardRef(
+export const Typo: PC<'span', TypoProps> = forwardRefWithGenerics(
   <T extends ElementType>(props: PP<T, TypoProps>, ref?: PR<T>) => {
     const { variant = [], as, ...rest } = props
 

@@ -3,6 +3,7 @@ import styled from '@emotion/styled'
 import React, { ElementType } from 'react'
 import { PC, PP, PR } from '../../types/PolymorphicElementProps'
 import { computeHoverColor, readableColor } from '../../utils/color'
+import { forwardRefWithGenerics } from '../../utils/ref'
 import { cssClickable, cssVariables } from '../../utils/styles'
 import { transparentHoverTemplate } from '../../utils/variables'
 
@@ -63,7 +64,7 @@ export interface ListItemProps {
   padding?: 'none' | 'normal' | 'wide'
 }
 
-export const ListItem: PC<'div', ListItemProps> = React.forwardRef(
+export const ListItem: PC<'div', ListItemProps> = forwardRefWithGenerics(
   <T extends ElementType>(props: PP<T, ListItemProps>, ref?: PR<T>) => {
     const solvedTheme = useTheme()
 

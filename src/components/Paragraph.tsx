@@ -1,6 +1,7 @@
 import styled from '@emotion/styled'
 import React, { ElementType } from 'react'
 import { PC, PP, PR } from '../types/PolymorphicElementProps'
+import { forwardRefWithGenerics } from '../utils/ref'
 
 const marginMap = {
   none: '0',
@@ -23,7 +24,7 @@ export interface ParagraphProps {
   margin?: 'none' | 'normal' | 'wide'
 }
 
-export const Paragraph: PC<'p', ParagraphProps> = React.forwardRef(
+export const Paragraph: PC<'p', ParagraphProps> = forwardRefWithGenerics(
   <T extends ElementType>(props: PP<T, ParagraphProps>, ref?: PR<T>) => {
     const { margin = 'normal', as = 'p', ...rest } = props
 

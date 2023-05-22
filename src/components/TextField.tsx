@@ -1,6 +1,7 @@
 import styled from '@emotion/styled'
 import React, { ElementType } from 'react'
 import { PC, PP, PR } from '../types/PolymorphicElementProps'
+import { forwardRefWithGenerics } from '../utils/ref'
 import { cssDisablable } from '../utils/styles'
 
 interface TextFieldContainerProps {
@@ -42,19 +43,17 @@ const getResizable = (
   return resizable
 }
 
-export const TextField: PC<'input', TextFieldProps> = React.forwardRef(
+export const TextField: PC<'input', TextFieldProps> = forwardRefWithGenerics(
   <T extends ElementType>(props: PP<T, TextFieldProps>, ref?: PR<T>) => {
     const {
       fullWidth = false,
       multiline = false,
       disabled = false,
       resizable = false,
-      as,
+      // TODO types are wrong when `as` is inferred by variant
+      as = multiline ? 'textarea' : 'input',
       ...rest
     } = props
-
-    // TODO types are wrong when `as` is inferred by variant
-    const calculatedAs = as || (multiline ? 'textarea' : 'input')
 
     return (
       <TextFieldContainer
@@ -62,7 +61,7 @@ export const TextField: PC<'input', TextFieldProps> = React.forwardRef(
         disabled={disabled}
         resizable={getResizable(resizable)}
         ref={ref}
-        as={calculatedAs}
+        as={as}
         {...rest}
       />
     )

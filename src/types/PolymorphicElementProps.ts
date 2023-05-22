@@ -1,8 +1,8 @@
 import React, {
-    ComponentPropsWithoutRef,
-    ComponentPropsWithRef,
-    ElementType,
-    JSXElementConstructor
+  ComponentPropsWithoutRef,
+  ComponentPropsWithRef,
+  ElementType,
+  JSXElementConstructor,
 } from 'react'
 
 // from: https://codesandbox.io/s/9dxyq?file=/src/PolymorphicComponent.tsx
@@ -16,10 +16,15 @@ type PropsOf<
   C extends keyof JSX.IntrinsicElements | JSXElementConstructor<any>
 > = JSX.LibraryManagedAttributes<C, ComponentPropsWithoutRef<C>>
 
+// https://github.com/microsoft/TypeScript/issues/44596#issuecomment-1447648600
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type OmitFix<T> = T extends any ? T : never
+
 type ExtendableProps<
   ExtendedProps = Record<string, unknown>,
   OverrideProps = Record<string, unknown>
-> = OverrideProps & Omit<ExtendedProps, keyof OverrideProps>
+> = OverrideProps & OmitFix<Omit<ExtendedProps, keyof OverrideProps>>
 
 type InheritableElementProps<
   C extends ElementType,

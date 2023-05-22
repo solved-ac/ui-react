@@ -4,6 +4,7 @@ import { transparentize } from 'polished'
 import React, { ElementType } from 'react'
 import { PC, PP, PR } from '../types/PolymorphicElementProps'
 import { computeHoverColor, readableColor } from '../utils/color'
+import { forwardRefWithGenerics } from '../utils/ref'
 import { cssClickable, cssVariables } from '../utils/styles'
 import { cardHoverTemplate } from '../utils/variables'
 
@@ -97,7 +98,7 @@ const useComputedHoverColor = (props: ButtonProps): string | undefined => {
   return undefined
 }
 
-export const Button: PC<'button', ButtonProps> = React.forwardRef(
+export const Button: PC<'button', ButtonProps> = forwardRefWithGenerics(
   <T extends ElementType>(props: PP<T, ButtonProps>, ref?: PR<T>) => {
     const solvedTheme = useTheme()
 
