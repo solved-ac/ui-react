@@ -17,6 +17,7 @@ import {
   useRole,
   useTypeahead
 } from '@floating-ui/react-dom-interactions'
+import { IconChevronDown } from '@tabler/icons-react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ellipsis } from 'polished'
 import React, {
@@ -28,7 +29,6 @@ import React, {
   useRef,
   useState
 } from 'react'
-import { IoChevronDown } from 'react-icons/io5'
 import { PP, PR } from '../types/PolymorphicElementProps'
 import { forwardRefWithGenerics } from '../utils/ref'
 import { cssClickable, cssDisablable } from '../utils/styles'
@@ -107,7 +107,6 @@ export const Select = forwardRefWithGenerics(
       value,
       onChange,
       render = (e) => (typeof e === 'string' ? e : e.value),
-      as,
       ListItemProps,
       ...rest
     } = props
@@ -125,9 +124,13 @@ export const Select = forwardRefWithGenerics(
     const [controlledScrolling, setControlledScrolling] = useState(false)
     const [touch, setTouch] = useState(false)
 
-    useEffect(() => {
-      if (onChange) onChange(items[selectedIndex])
-    }, [selectedIndex])
+    const handleCommit = (index: number): void => {
+      setSelectedIndex(index)
+      if (onChange) {
+        onChange(items[index])
+      }
+      setOpen(false)
+    }
 
     useEffect(() => {
       const idx = items.findIndex((it) =>
@@ -180,7 +183,7 @@ export const Select = forwardRefWithGenerics(
         useTypeahead(context, {
           listRef: listContentRef,
           activeIndex,
-          onMatch: open ? setActiveIndex : setSelectedIndex,
+          onMatch: open ? setActiveIndex : handleCommit,
         }),
       ])
 
@@ -267,7 +270,7 @@ export const Select = forwardRefWithGenerics(
         >
           {selected ? render(selected) : null}
           <SelectInputAdornment>
-            <IoChevronDown />
+            <IconChevronDown />
           </SelectInputAdornment>
         </SelectDisplay>
         <FloatingPortal>
@@ -340,14 +343,12 @@ export const Select = forwardRefWithGenerics(
                             onKeyDown(e) {
                               allowSelectRef.current = true
                               if (e.key === 'Enter' && allowSelectRef.current) {
-                                setSelectedIndex(i)
-                                setOpen(false)
+                                handleCommit(i)
                               }
                             },
                             onClick() {
                               if (allowSelectRef.current) {
-                                setSelectedIndex(i)
-                                setOpen(false)
+                                handleCommit(i)
                               }
                             },
                             onMouseUp() {
@@ -356,8 +357,7 @@ export const Select = forwardRefWithGenerics(
                               }
 
                               if (allowSelectRef.current) {
-                                setSelectedIndex(i)
-                                setOpen(false)
+                                handleCommit(i)
                               }
 
                               clearTimeout(selectTimeoutRef.current)
