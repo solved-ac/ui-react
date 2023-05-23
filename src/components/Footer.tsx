@@ -1,6 +1,7 @@
 import styled from '@emotion/styled'
 import React, { ElementType } from 'react'
 import { PC, PP, PR } from '../types/PolymorphicElementProps'
+import { forwardRefWithGenerics } from '../utils/ref'
 import { cssVariables } from '../utils/styles'
 
 const { vars, v, styles } = cssVariables(
@@ -34,7 +35,7 @@ export interface FooterProps {
   padding?: 'none' | 'normal' | 'wide'
 }
 
-export const Footer: PC<'footer', FooterProps> = React.forwardRef(
+export const Footer: PC<'footer', FooterProps> = forwardRefWithGenerics(
   <T extends ElementType>(props: PP<T, FooterProps>, ref?: PR<T>) => {
     const {
       backgroundColor,

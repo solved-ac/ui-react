@@ -1,6 +1,7 @@
 import styled from '@emotion/styled'
 import React, { ElementType } from 'react'
 import { PC, PP, PR } from '../types/PolymorphicElementProps'
+import { forwardRefWithGenerics } from '../utils/ref'
 import { cssVariables } from '../utils/styles'
 
 const { vars, v, styles } = cssVariables(
@@ -35,7 +36,7 @@ export interface ContainerProps {
   topBarPadding?: boolean
 }
 
-export const Container: PC<'div', ContainerProps> = React.forwardRef(
+export const Container: PC<'div', ContainerProps> = forwardRefWithGenerics(
   <T extends ElementType>(props: PP<T, ContainerProps>, ref?: PR<T>) => {
     const {
       w = '1200px',

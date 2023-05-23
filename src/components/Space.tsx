@@ -1,12 +1,13 @@
 import React, { ElementType } from 'react'
 import { PC, PP, PR } from '../types/PolymorphicElementProps'
+import { forwardRefWithGenerics } from '../utils/ref'
 
 export interface SpaceProps {
   h?: number | string
   w?: number | string
 }
 
-export const Space: PC<'div', SpaceProps> = React.forwardRef(
+export const Space: PC<'div', SpaceProps> = forwardRefWithGenerics(
   <T extends ElementType>(props: PP<T, SpaceProps>, ref?: PR<T>) => {
     const { h: height, w: width, as: RenderComponent = 'div', ...rest } = props
     if (typeof width !== 'undefined') {

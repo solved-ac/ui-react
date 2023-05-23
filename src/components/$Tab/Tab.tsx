@@ -4,6 +4,7 @@ import { ellipsis } from 'polished'
 import React, { ElementType } from 'react'
 import { PC, PP, PR } from '../../types/PolymorphicElementProps'
 import { computeHoverColor, readableColor } from '../../utils/color'
+import { forwardRefWithGenerics } from '../../utils/ref'
 import { cssClickable, cssVariables } from '../../utils/styles'
 import { transparentHoverTemplate } from '../../utils/variables'
 
@@ -62,7 +63,7 @@ export interface TabProps {
   accentColor?: string
 }
 
-export const Tab: PC<'a', TabProps> = React.forwardRef(
+export const Tab: PC<'a', TabProps> = forwardRefWithGenerics(
   <T extends ElementType>(props: PP<T, TabProps>, ref?: PR<T>) => {
     const solvedTheme = useTheme()
 

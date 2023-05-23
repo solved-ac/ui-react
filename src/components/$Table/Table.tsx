@@ -1,6 +1,7 @@
 import styled from '@emotion/styled'
 import React, { ElementType } from 'react'
 import { PC, PP, PR } from '../../types/PolymorphicElementProps'
+import { forwardRefWithGenerics } from '../../utils/ref'
 import { TableContext } from './TableContext'
 import { TableRowGroupContext } from './TableRowGroupContext'
 
@@ -19,7 +20,7 @@ export interface TableProps {
   padding?: 'none' | 'dense' | 'normal' | 'wide'
 }
 
-export const Table: PC<'table', TableProps> = React.forwardRef(
+export const Table: PC<'table', TableProps> = forwardRefWithGenerics(
   <T extends ElementType>(props: PP<T, TableProps>, ref?: PR<T>) => {
     const {
       fullWidth = false,

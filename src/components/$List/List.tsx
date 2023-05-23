@@ -1,6 +1,7 @@
 import styled from '@emotion/styled'
 import React, { ElementType } from 'react'
 import { PC, PP, PR } from '../../types/PolymorphicElementProps'
+import { forwardRefWithGenerics } from '../../utils/ref'
 
 const paddingMap = {
   none: 'padding: 0;',
@@ -21,7 +22,7 @@ export interface ListProps {
   padding?: 'none' | 'normal' | 'wide'
 }
 
-export const List: PC<'ul', ListProps> = React.forwardRef(
+export const List: PC<'ul', ListProps> = forwardRefWithGenerics(
   <T extends ElementType>(props: PP<T, ListProps>, ref?: PR<T>) => {
     const { padding = 'normal', children, as = 'ul', ...rest } = props
 
