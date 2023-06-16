@@ -1,4 +1,5 @@
 import { transparentize } from 'polished'
+import { CSSLength } from '../types/length'
 import { cssDiv } from '../utils/css'
 import { cssLength } from '../utils/length'
 
@@ -51,8 +52,6 @@ const defaultPalette = {
     10: ['#a720e8', '#fd43ff'],
   },
 }
-
-export type CSSLength = number | string
 
 export interface SolvedTextColor {
   main: string

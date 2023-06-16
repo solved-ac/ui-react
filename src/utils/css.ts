@@ -1,4 +1,4 @@
-import { CSSLength } from '../styles'
+import { CSSLength } from '../types/length'
 import { cssLength } from './length'
 
 export const cssAdd = (a: CSSLength, b: CSSLength): CSSLength => {

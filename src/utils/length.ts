@@ -1,4 +1,4 @@
-import { CSSLength } from '../styles'
+import { CSSLength } from '../types/length'
 
 export const cssLength = (cssLength?: CSSLength | null | undefined): string => {
   if (typeof cssLength === 'number') {
