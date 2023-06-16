@@ -23,9 +23,17 @@ export default {
       control: 'color',
       description: 'The color of the knob',
     },
+    knobBorderColor: {
+      control: 'color',
+      description: 'The border color of the knob',
+    },
     knobActiveColor: {
       control: 'color',
       description: 'The color of the knob when active',
+    },
+    knobActiveBorderColor: {
+      control: 'color',
+      description: 'The border color of the knob when active',
     },
   },
 } as ComponentMeta<typeof Switch>
