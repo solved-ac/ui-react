@@ -16,6 +16,7 @@ const RowContainer = styled.tr<RowContainerProps>`
 export interface RowProps {
   header?: boolean
   padding?: 'none' | 'dense' | 'normal' | 'wide'
+  verticalAlign?: 'top' | 'middle' | 'bottom'
 }
 
 export const Row: PC<'tr', RowProps> = forwardRefWithGenerics(
@@ -24,12 +25,15 @@ export const Row: PC<'tr', RowProps> = forwardRefWithGenerics(
     const {
       header = false,
       padding = tableContext.padding,
+      verticalAlign = tableContext.verticalAlign,
       as = 'tr',
       ...rest
     } = props
 
     return (
-      <TableContext.Provider value={{ ...tableContext, padding }}>
+      <TableContext.Provider
+        value={{ ...tableContext, padding, verticalAlign }}
+      >
         <RowContainer header={header} ref={ref} as={as} {...rest} />
       </TableContext.Provider>
     )

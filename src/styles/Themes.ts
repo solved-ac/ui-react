@@ -1,4 +1,7 @@
 import { transparentize } from 'polished'
+import { CSSLength } from '../types/length'
+import { cssDiv } from '../utils/css'
+import { cssLength } from '../utils/length'
 
 const defaultPalette = {
   white: '#ffffff',
@@ -50,23 +53,20 @@ const defaultPalette = {
   },
 }
 
+export interface SolvedTextColor {
+  main: string
+  inverted: string
+  light: string
+  dark: string
+}
+
 export interface SolvedTheme {
   name: string
   color: {
     solvedAc: string
     text: {
-      primary: {
-        main: string
-        inverted: string
-        light: string
-        dark: string
-      }
-      secondary: {
-        main: string
-        inverted: string
-        light: string
-        dark: string
-      }
+      primary: SolvedTextColor
+      secondary: SolvedTextColor
     }
     background: {
       page: string
@@ -95,7 +95,7 @@ export interface SolvedTheme {
   }
   styles: {
     border: (color?: string) => string
-    shadow: (color?: string, length?: number) => string
+    shadow: (color?: string, length?: CSSLength) => string
   }
 }
 
@@ -139,10 +139,11 @@ const Light: SolvedTheme = {
   styles: {
     border: (color?: string) =>
       `1px solid ${color || defaultPalette.gray[200]}`,
-    shadow: (color?: string, length?: number) =>
-      `${transparentize(0.6, color || defaultPalette.gray[200])} 0px ${
-        (length || 8) / 2
-      }px ${length || 8}px`,
+    shadow: (color?: string, length?: CSSLength) =>
+      `${transparentize(
+        0.6,
+        color || defaultPalette.gray[200]
+      )} 0px ${cssLength(cssDiv(length || 8, 2))} ${cssLength(length || 8)}`,
   },
 }
 
@@ -177,10 +178,11 @@ const Dark: SolvedTheme = {
   styles: {
     border: (color?: string) =>
       `1px solid ${(color || defaultPalette.gray[700]).toString()}`,
-    shadow: (color?: string, length?: number) =>
-      `${transparentize(0.6, color || defaultPalette.gray[200])} 0px ${
-        (length || 8) / 2
-      }px ${length || 8}px`,
+    shadow: (color?: string, length?: CSSLength) =>
+      `${transparentize(
+        0.6,
+        color || defaultPalette.gray[200]
+      )} 0px ${cssLength(cssDiv(length || 8, 2))} ${cssLength(length || 8)}`,
   },
 }
 
@@ -200,10 +202,11 @@ const Black: SolvedTheme = {
   styles: {
     border: (color?: string) =>
       `1px solid ${(color || defaultPalette.gray[900]).toString()}`,
-    shadow: (color?: string, length?: number) =>
-      `${transparentize(0.6, color || defaultPalette.gray[200])} 0px ${
-        (length || 8) / 2
-      }px ${length || 8}px`,
+    shadow: (color?: string, length?: CSSLength) =>
+      `${transparentize(
+        0.6,
+        color || defaultPalette.gray[200]
+      )} 0px ${cssLength(cssDiv(length || 8, 2))} ${cssLength(length || 8)}`,
   },
 }
 
