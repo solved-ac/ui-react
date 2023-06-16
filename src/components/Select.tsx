@@ -16,7 +16,7 @@ import {
   useListNavigation,
   useRole,
   useTypeahead,
-} from '@floating-ui/react-dom-interactions'
+} from '@floating-ui/react'
 import { IconChevronDown } from '@tabler/icons-react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ellipsis } from 'polished'
@@ -142,7 +142,7 @@ export const Select = forwardRefWithGenerics(
       }
     }, [value])
 
-    const { x, y, reference, floating, strategy, context, refs } = useFloating({
+    const { x, y, refs, strategy, context } = useFloating({
       placement: 'bottom',
       open,
       onOpenChange: setOpen,
@@ -167,6 +167,8 @@ export const Select = forwardRefWithGenerics(
         }),
       ],
     })
+
+    const { reference } = refs
 
     useImperativeHandle(ref, () => reference)
 
@@ -251,12 +253,12 @@ export const Select = forwardRefWithGenerics(
     return (
       <React.Fragment>
         <SelectDisplay
+          ref={refs.setReference}
           fullWidth={fullWidth}
           ellipsis={!disableEllipsis}
           role="button"
           tabIndex={0}
           type="button"
-          ref={reference}
           {...getReferenceProps({
             onTouchStart() {
               setTouch(true)
@@ -280,7 +282,6 @@ export const Select = forwardRefWithGenerics(
               <FloatingOverlay lockScroll={!touch} style={{ zIndex: 1 }}>
                 <FloatingFocusManager context={context}>
                   <SelectItemsWrapper
-                    ref={floating}
                     style={{
                       position: strategy,
                       top: y ?? 0,
@@ -288,6 +289,7 @@ export const Select = forwardRefWithGenerics(
                       originX: 0.5,
                       originY: 0,
                     }}
+                    ref={refs.setFloating}
                     {...getFloatingProps({
                       onKeyDown() {
                         setControlledScrolling(true)

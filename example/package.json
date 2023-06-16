@@ -14,7 +14,7 @@
   "dependencies": {
     "@emotion/react": "link:../node_modules/@emotion/react",
     "@emotion/styled": "link:../node_modules/@emotion/styled",
-    "@floating-ui/react-dom-interactions": "link:../node_modules/@floating-ui/react-dom-interactions",
+    "@floating-ui/react": "link:../node_modules/@floating-ui/react",
     "@solved-ac/ui-react": "link:..",
     "@testing-library/jest-dom": "link:../node_modules/@testing-library/jest-dom",
     "@testing-library/react": "link:../node_modules/@testing-library/react",
