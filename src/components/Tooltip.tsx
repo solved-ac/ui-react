@@ -9,8 +9,8 @@ import {
   shift,
   useFloating,
   useHover,
-  useInteractions
-} from '@floating-ui/react-dom-interactions'
+  useInteractions,
+} from '@floating-ui/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { transparentize } from 'polished'
 import React, { ReactNode, useRef, useState } from 'react'
@@ -80,8 +80,7 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
   const {
     x,
     y,
-    reference,
-    floating,
+    refs,
     strategy,
     context,
     placement,
@@ -115,11 +114,7 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
 
   return (
     <React.Fragment>
-      <TooltipWrapper
-        {...getReferenceProps({
-          ref: reference,
-        })}
-      >
+      <TooltipWrapper ref={refs.setReference} {...getReferenceProps()}>
         {children}
       </TooltipWrapper>
       <FloatingPortal>
@@ -128,8 +123,8 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
             {isOpen && (
               <React.Fragment>
                 <RenderComponent
+                  ref={refs.setFloating}
                   {...getFloatingProps({
-                    ref: floating,
                     style: {
                       position: strategy,
                       top: y || 0,

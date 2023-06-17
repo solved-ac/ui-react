@@ -1,5 +1,5 @@
 import { Button, Tooltip } from '@solved-ac/ui-react'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { Meta, StoryFn } from '@storybook/react'
 import React from 'react'
 
 export default {
@@ -17,9 +17,9 @@ export default {
       defaultValue: false,
     },
   },
-} as ComponentMeta<typeof Tooltip>
+} as Meta<typeof Tooltip>
 
-const Template: ComponentStory<typeof Tooltip> = (args) => <Tooltip {...args} />
+const Template: StoryFn<typeof Tooltip> = (args) => <Tooltip {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

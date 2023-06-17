@@ -1,6 +1,6 @@
 {
   "name": "@solved-ac/ui-react",
-  "version": "0.4.3",
+  "version": "0.5.0",
   "description": "React component library used by solved.ac",
   "author": "shiftpsh",
   "license": "MIT",
@@ -32,8 +32,8 @@
   "peerDependencies": {
     "@emotion/react": ">=11",
     "@emotion/styled": ">=11",
-    "@floating-ui/react-dom-interactions": "^0.13.3",
-    "framer-motion": "6.x",
+    "@floating-ui/react": "^0.24.3",
+    "framer-motion": ">=6",
     "react": ">=17",
     "react-dom": ">=17"
   },
@@ -42,7 +42,7 @@
     "@babel/plugin-proposal-optional-chaining": "^7.16.7",
     "@emotion/react": "^11.1.5",
     "@emotion/styled": "^11.1.5",
-    "@floating-ui/react-dom-interactions": "^0.13.3",
+    "@floating-ui/react": "^0.24.3",
     "@tabler/icons-react": "^2.11.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",

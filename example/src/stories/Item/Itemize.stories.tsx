@@ -1,5 +1,5 @@
 import { Enumerate, Item, Itemize } from '@solved-ac/ui-react'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { Meta, StoryFn } from '@storybook/react'
 import React from 'react'
 
 export default {
@@ -17,9 +17,9 @@ export default {
       },
     },
   },
-} as ComponentMeta<typeof Itemize>
+} as Meta<typeof Itemize>
 
-const Template: ComponentStory<typeof Itemize> = (args) => <Itemize {...args} />
+const Template: StoryFn<typeof Itemize> = (args) => <Itemize {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

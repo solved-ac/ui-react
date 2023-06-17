@@ -1,5 +1,5 @@
 import { Card } from '@solved-ac/ui-react'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { Meta, StoryFn } from '@storybook/react'
 import React from 'react'
 
 export default {
@@ -35,9 +35,9 @@ export default {
       description: 'The element to render the card as',
     },
   },
-} as ComponentMeta<typeof Card>
+} as Meta<typeof Card>
 
-const Template: ComponentStory<typeof Card> = (args) => <Card {...args} />
+const Template: StoryFn<typeof Card> = (args) => <Card {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

@@ -15,6 +15,7 @@ const paddingMap = {
 
 interface CellContainerProps {
   padding: 'none' | 'dense' | 'normal' | 'wide'
+  verticalAlign: 'top' | 'middle' | 'bottom'
   numeric: boolean
   header: boolean
 }
@@ -28,6 +29,7 @@ const CellContainer = styled.td<CellContainerProps>`
   display: table-cell;
   border-bottom: ${({ theme }) => theme.styles.border()};
   ${({ padding }) => paddingMap[padding]}
+  ${({ verticalAlign }) => `vertical-align: ${verticalAlign};`}
   ${({ numeric }) =>
     numeric && "text-align: right; font-feature-settings: 'tnum';"}
   ${({ header }) => header && whenHeader}
@@ -35,6 +37,7 @@ const CellContainer = styled.td<CellContainerProps>`
 
 export interface CellProps {
   padding?: 'none' | 'dense' | 'normal' | 'wide'
+  verticalAlign?: 'top' | 'middle' | 'bottom'
   header?: boolean
   numeric?: boolean
 }
@@ -45,6 +48,7 @@ export const Cell: PC<'td', CellProps> = forwardRefWithGenerics(
     const tableRowGroupContext = useContext(TableRowGroupContext)
     const {
       padding = tableContext.padding,
+      verticalAlign = tableRowGroupContext.verticalAlign,
       header = tableRowGroupContext.header,
       as,
       numeric = false,
@@ -56,6 +60,7 @@ export const Cell: PC<'td', CellProps> = forwardRefWithGenerics(
     return (
       <CellContainer
         padding={padding}
+        verticalAlign={verticalAlign}
         numeric={numeric}
         header={header}
         ref={ref}

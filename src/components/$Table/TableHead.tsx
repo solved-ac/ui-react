@@ -28,15 +28,21 @@ const TableHeadContainer = styled.thead<TableHeadContainerProps>`
 
 export interface TableHeadProps {
   sticky?: boolean | number | string
+  verticalAlign?: 'top' | 'middle' | 'bottom'
 }
 
 export const TableHead: PC<'thead', TableHeadProps> = forwardRefWithGenerics(
   <T extends ElementType>(props: PP<T, TableHeadProps>, ref?: PR<T>) => {
     const tableContext = useContext(TableContext)
-    const { sticky = tableContext.sticky, as = 'thead', ...rest } = props
+    const {
+      sticky = tableContext.sticky,
+      verticalAlign = tableContext.verticalAlign,
+      as = 'thead',
+      ...rest
+    } = props
 
     return (
-      <TableRowGroupContext.Provider value={{ header: true }}>
+      <TableRowGroupContext.Provider value={{ header: true, verticalAlign }}>
         <TableHeadContainer sticky={sticky} ref={ref} as={as} {...rest} />
       </TableRowGroupContext.Provider>
     )

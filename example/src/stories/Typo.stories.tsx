@@ -1,5 +1,5 @@
 import { Typo, TypoVariant } from '@solved-ac/ui-react'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { Meta, StoryFn } from '@storybook/react'
 import React from 'react'
 
 export default {
@@ -50,9 +50,9 @@ export default {
       description: 'The element to render the card as',
     },
   },
-} as ComponentMeta<typeof Typo>
+} as Meta<typeof Typo>
 
-const Template: ComponentStory<typeof Typo> = (args) => <Typo {...args} />
+const Template: StoryFn<typeof Typo> = (args) => <Typo {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

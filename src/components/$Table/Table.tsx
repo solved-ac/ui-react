@@ -18,6 +18,7 @@ export interface TableProps {
   fullWidth?: boolean
   sticky?: boolean | number | string
   padding?: 'none' | 'dense' | 'normal' | 'wide'
+  verticalAlign?: 'top' | 'middle' | 'bottom'
 }
 
 export const Table: PC<'table', TableProps> = forwardRefWithGenerics(
@@ -25,14 +26,15 @@ export const Table: PC<'table', TableProps> = forwardRefWithGenerics(
     const {
       fullWidth = false,
       padding = 'normal',
+      verticalAlign = 'top',
       sticky = false,
       as = 'table',
       ...rest
     } = props
 
     return (
-      <TableContext.Provider value={{ padding, sticky }}>
-        <TableRowGroupContext.Provider value={{ header: false }}>
+      <TableContext.Provider value={{ padding, sticky, verticalAlign }}>
+        <TableRowGroupContext.Provider value={{ header: false, verticalAlign }}>
           <TableContainer fullWidth={fullWidth} ref={ref} as={as} {...rest} />
         </TableRowGroupContext.Provider>
       </TableContext.Provider>

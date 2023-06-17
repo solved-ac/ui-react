@@ -1,5 +1,5 @@
 import { List, ListItem } from '@solved-ac/ui-react'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { Meta, StoryFn } from '@storybook/react'
 import React from 'react'
 
 export default {
@@ -11,9 +11,9 @@ export default {
       description: 'The children to display inside the list',
     },
   },
-} as ComponentMeta<typeof List>
+} as Meta<typeof List>
 
-const Template: ComponentStory<typeof List> = (args) => <List {...args} />
+const Template: StoryFn<typeof List> = (args) => <List {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

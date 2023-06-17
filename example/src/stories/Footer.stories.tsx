@@ -1,5 +1,5 @@
 import { Container, Footer } from '@solved-ac/ui-react'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { Meta, StoryFn } from '@storybook/react'
 import React from 'react'
 
 export default {
@@ -19,9 +19,9 @@ export default {
       description: 'The element to render the footer as',
     },
   },
-} as ComponentMeta<typeof Footer>
+} as Meta<typeof Footer>
 
-const Template: ComponentStory<typeof Footer> = (args) => <Footer {...args} />
+const Template: StoryFn<typeof Footer> = (args) => <Footer {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

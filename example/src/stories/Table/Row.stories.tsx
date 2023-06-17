@@ -1,5 +1,5 @@
 import { Cell, Row } from '@solved-ac/ui-react'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { Meta, StoryFn } from '@storybook/react'
 import React from 'react'
 
 export default {
@@ -24,9 +24,9 @@ export default {
       description: 'Whether the row is a header',
     },
   },
-} as ComponentMeta<typeof Row>
+} as Meta<typeof Row>
 
-const Template: ComponentStory<typeof Row> = (args) => <Row {...args} />
+const Template: StoryFn<typeof Row> = (args) => <Row {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

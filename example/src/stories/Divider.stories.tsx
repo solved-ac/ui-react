@@ -1,5 +1,5 @@
 import { Divider } from '@solved-ac/ui-react'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { Meta, StoryFn } from '@storybook/react'
 import React from 'react'
 
 export default {
@@ -18,9 +18,9 @@ export default {
       description: 'The element to render the divider as',
     },
   },
-} as ComponentMeta<typeof Divider>
+} as Meta<typeof Divider>
 
-const Template: ComponentStory<typeof Divider> = (args) => <Divider {...args} />
+const Template: StoryFn<typeof Divider> = (args) => <Divider {...args} />
 
 export const Default = Template.bind({})
 Default.args = {}

@@ -1,5 +1,5 @@
 import { Cell, Row, Table, TableBody, TableHead } from '@solved-ac/ui-react'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { Meta, StoryFn } from '@storybook/react'
 import React from 'react'
 
 export default {
@@ -31,9 +31,9 @@ export default {
       description: 'Whether the table should be sticky',
     },
   },
-} as ComponentMeta<typeof Table>
+} as Meta<typeof Table>
 
-const Template: ComponentStory<typeof Table> = (args) => <Table {...args} />
+const Template: StoryFn<typeof Table> = (args) => <Table {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

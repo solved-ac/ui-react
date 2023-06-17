@@ -1,5 +1,5 @@
 import { TextField } from '@solved-ac/ui-react'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { Meta, StoryFn } from '@storybook/react'
 import React from 'react'
 
 export default {
@@ -30,9 +30,9 @@ export default {
       description: 'Whether the text field should be resizable',
     },
   },
-} as ComponentMeta<typeof TextField>
+} as Meta<typeof TextField>
 
-const Template: ComponentStory<typeof TextField> = (args) => (
+const Template: StoryFn<typeof TextField> = (args) => (
   <TextField {...args} />
 )
 
