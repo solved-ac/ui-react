@@ -1,5 +1,5 @@
 import { Chip } from '@solved-ac/ui-react'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { Meta, StoryFn } from '@storybook/react'
 import React from 'react'
 
 export default {
@@ -19,9 +19,9 @@ export default {
       description: 'The element to render the chip as',
     },
   },
-} as ComponentMeta<typeof Chip>
+} as Meta<typeof Chip>
 
-const Template: ComponentStory<typeof Chip> = (args) => <Chip {...args} />
+const Template: StoryFn<typeof Chip> = (args) => <Chip {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

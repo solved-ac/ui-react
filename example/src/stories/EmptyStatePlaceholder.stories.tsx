@@ -1,5 +1,5 @@
 import { EmptyStatePlaceholder } from '@solved-ac/ui-react'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { Meta, StoryFn } from '@storybook/react'
 import React from 'react'
 
 export default {
@@ -24,9 +24,9 @@ export default {
       description: 'The element to render the placeholder as',
     },
   },
-} as ComponentMeta<typeof EmptyStatePlaceholder>
+} as Meta<typeof EmptyStatePlaceholder>
 
-const Template: ComponentStory<typeof EmptyStatePlaceholder> = (args) => (
+const Template: StoryFn<typeof EmptyStatePlaceholder> = (args) => (
   <EmptyStatePlaceholder {...args} />
 )
 

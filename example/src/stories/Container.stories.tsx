@@ -1,5 +1,5 @@
 import { Container } from '@solved-ac/ui-react'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { Meta, StoryFn } from '@storybook/react'
 import React from 'react'
 
 export default {
@@ -27,9 +27,9 @@ export default {
       description: 'The element to render the container as',
     },
   },
-} as ComponentMeta<typeof Container>
+} as Meta<typeof Container>
 
-const Template: ComponentStory<typeof Container> = (args) => (
+const Template: StoryFn<typeof Container> = (args) => (
   <Container {...args} />
 )
 

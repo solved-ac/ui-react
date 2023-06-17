@@ -1,5 +1,5 @@
 import { Centering, Container, NavBar } from '@solved-ac/ui-react'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { Meta, StoryFn } from '@storybook/react'
 import React from 'react'
 
 export default {
@@ -19,9 +19,9 @@ export default {
       description: 'The element to render the container as',
     },
   },
-} as ComponentMeta<typeof NavBar>
+} as Meta<typeof NavBar>
 
-const Template: ComponentStory<typeof NavBar> = (args) => <NavBar {...args} />
+const Template: StoryFn<typeof NavBar> = (args) => <NavBar {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

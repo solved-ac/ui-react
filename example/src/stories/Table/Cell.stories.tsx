@@ -1,5 +1,5 @@
 import { Cell } from '@solved-ac/ui-react'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { Meta, StoryFn } from '@storybook/react'
 import React from 'react'
 
 export default {
@@ -18,9 +18,9 @@ export default {
       description: 'The padding of the cell',
     },
   },
-} as ComponentMeta<typeof Cell>
+} as Meta<typeof Cell>
 
-const Template: ComponentStory<typeof Cell> = (args) => <Cell {...args} />
+const Template: StoryFn<typeof Cell> = (args) => <Cell {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

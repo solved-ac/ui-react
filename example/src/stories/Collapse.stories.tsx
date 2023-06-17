@@ -1,5 +1,5 @@
 import { Collapse } from '@solved-ac/ui-react'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { Meta, StoryFn } from '@storybook/react'
 import React from 'react'
 
 export default {
@@ -22,9 +22,9 @@ export default {
       description: 'The children to display',
     },
   },
-} as ComponentMeta<typeof Collapse>
+} as Meta<typeof Collapse>
 
-const Template: ComponentStory<typeof Collapse> = (args) => (
+const Template: StoryFn<typeof Collapse> = (args) => (
   <Collapse {...args} />
 )
 

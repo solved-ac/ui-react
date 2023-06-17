@@ -1,5 +1,5 @@
 import { Switch } from '@solved-ac/ui-react'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { Meta, StoryFn } from '@storybook/react'
 import React from 'react'
 
 export default {
@@ -36,9 +36,9 @@ export default {
       description: 'The border color of the knob when active',
     },
   },
-} as ComponentMeta<typeof Switch>
+} as Meta<typeof Switch>
 
-const Template: ComponentStory<typeof Switch> = (args) => <Switch {...args} />
+const Template: StoryFn<typeof Switch> = (args) => <Switch {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
