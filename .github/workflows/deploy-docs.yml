@@ -1,0 +1,25 @@
+name: Build and deploy docs to GitHub Pages
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build-and-deploy:
+    # if: ${{ github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v2
+      - name: (Package) Install dependencies and build
+        run: yarn
+      - name: (Example) Install dependencies
+        working-directory: ./example
+        run: yarn
+      - name: (Example) Build docs
+        working-directory: ./example
+        run: yarn build-storybook
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./example/storybook-static
