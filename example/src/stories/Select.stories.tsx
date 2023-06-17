@@ -1,5 +1,5 @@
 import { Centering, Select } from '@solved-ac/ui-react'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { Meta, StoryFn } from '@storybook/react'
 import React from 'react'
 
 export default {
@@ -23,9 +23,9 @@ export default {
       description: 'Whether the selector should disable ellipsis',
     },
   },
-} as ComponentMeta<typeof Select>
+} as Meta<typeof Select>
 
-const Template: ComponentStory<typeof Select> = (args) => (
+const Template: StoryFn<typeof Select> = (args) => (
   <Centering>
     <Select {...args} />
   </Centering>

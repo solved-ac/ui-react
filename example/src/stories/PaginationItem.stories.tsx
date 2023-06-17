@@ -1,5 +1,5 @@
 import { PaginationItem } from '@solved-ac/ui-react'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { Meta, StoryFn } from '@storybook/react'
 import React from 'react'
 
 export default {
@@ -31,9 +31,9 @@ export default {
       description: 'The element to render the item as',
     },
   },
-} as ComponentMeta<typeof PaginationItem>
+} as Meta<typeof PaginationItem>
 
-const Template: ComponentStory<typeof PaginationItem> = (args) => (
+const Template: StoryFn<typeof PaginationItem> = (args) => (
   <PaginationItem {...args} />
 )
 

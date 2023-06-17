@@ -1,7 +1,6 @@
-import React from 'react'
-import { addDecorator } from '@storybook/react'
-import { SolvedGlobalStyles, solvedThemes } from '@solved-ac/ui-react'
 import { ThemeProvider } from '@emotion/react'
+import { SolvedGlobalStyles, solvedThemes } from '@solved-ac/ui-react'
+import React from 'react'
 
 export const parameters = {
   actions: { argTypesRegex: '^on[A-Z].*' },
@@ -13,11 +12,11 @@ export const parameters = {
   },
 }
 
-addDecorator((Story) => {
-  return (
+export const decorators = [
+  (Story) => (
     <ThemeProvider theme={solvedThemes.light}>
       <SolvedGlobalStyles />
       <Story />
     </ThemeProvider>
-  )
-})
+  ),
+]

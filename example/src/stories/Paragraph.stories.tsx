@@ -1,5 +1,5 @@
 import { Paragraph } from '@solved-ac/ui-react'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { Meta, StoryFn } from '@storybook/react'
 import React from 'react'
 
 export default {
@@ -19,9 +19,9 @@ export default {
       description: 'The element to render the paragraph as',
     },
   },
-} as ComponentMeta<typeof Paragraph>
+} as Meta<typeof Paragraph>
 
-const Template: ComponentStory<typeof Paragraph> = (args) => (
+const Template: StoryFn<typeof Paragraph> = (args) => (
   <Paragraph {...args} />
 )
 

@@ -1,5 +1,5 @@
 import { Enumerate, Item, Itemize } from '@solved-ac/ui-react'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { Meta, StoryFn } from '@storybook/react'
 import React from 'react'
 
 export default {
@@ -11,9 +11,9 @@ export default {
       description: 'The children to display inside the list',
     },
   },
-} as ComponentMeta<typeof Enumerate>
+} as Meta<typeof Enumerate>
 
-const Template: ComponentStory<typeof Enumerate> = (args) => (
+const Template: StoryFn<typeof Enumerate> = (args) => (
   <Enumerate {...args} />
 )
 

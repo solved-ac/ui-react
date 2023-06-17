@@ -1,5 +1,5 @@
 import { Button } from '@solved-ac/ui-react'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { Meta, StoryFn } from '@storybook/react'
 import React from 'react'
 
 export default {
@@ -48,9 +48,9 @@ export default {
       description: 'The element to render the button as',
     },
   },
-} as ComponentMeta<typeof Button>
+} as Meta<typeof Button>
 
-const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />
+const Template: StoryFn<typeof Button> = (args) => <Button {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

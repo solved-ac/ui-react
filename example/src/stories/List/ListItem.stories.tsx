@@ -1,5 +1,5 @@
 import { ListItem } from '@solved-ac/ui-react'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { Meta, StoryFn } from '@storybook/react'
 import React from 'react'
 
 export default {
@@ -42,9 +42,9 @@ export default {
       description: 'The element to render the list item as',
     },
   },
-} as ComponentMeta<typeof ListItem>
+} as Meta<typeof ListItem>
 
-const Template: ComponentStory<typeof ListItem> = (args) => (
+const Template: StoryFn<typeof ListItem> = (args) => (
   <ListItem {...args} />
 )
 
