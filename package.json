@@ -7,7 +7,6 @@
   "repository": "solved-ac/ui-react",
   "homepage": "https://github.com/solved-ac/ui-react",
   "main": "dist/index.js",
-  "module": "dist/index.modern.js",
   "source": "src/index.tsx",
   "engines": {
     "node": ">=10"
