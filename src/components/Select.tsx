@@ -91,6 +91,7 @@ export interface SelectProps<T extends SelectItemNode> {
   disableEllipsis?: boolean
   items?: T[]
   value?: string | null
+  zIndex?: number
   onChange?: (value: T) => void
   render?: (value: T) => ReactNode
   ListItemProps?: Partial<PP<'div', ListItemProps>>
@@ -106,6 +107,7 @@ export const Select = forwardRefWithGenerics(
       disableEllipsis = false,
       items = [],
       value,
+      zIndex,
       onChange,
       render = (e) => (typeof e === 'string' ? e : e.value),
       ListItemProps,
@@ -279,7 +281,10 @@ export const Select = forwardRefWithGenerics(
         <FloatingPortal>
           <AnimatePresence>
             {open && (
-              <FloatingOverlay lockScroll={!touch} style={{ zIndex: 1 }}>
+              <FloatingOverlay
+                lockScroll={!touch}
+                style={{ zIndex: typeof zIndex === 'number' ? zIndex : 1 }}
+              >
                 <FloatingFocusManager context={context}>
                   <SelectItemsWrapper
                     style={{
