@@ -6,7 +6,8 @@ import React from 'react'
 import { resolveLocale } from '../../utils/locale'
 import { Button } from '../Button'
 import { Typo } from '../Typo'
-import { DateSelectAnnotation, DateSelectProps } from './DateSelect'
+import { DateSelectAnnotation, DateSelectCursor } from './DateSelect'
+import { useDateSelectContext } from './DateSelectContext'
 
 const DateSelectContainer = styled.div`
   display: flex;
@@ -30,6 +31,43 @@ const DateContainer = styled.div<{ maxAnnotationsPerDay?: number }>`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  position: relative;
+`
+
+const DateIndicatorBackground = styled.div`
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 2em;
+  height: 2em;
+  border-radius: 9999px;
+  transform: translate(-50%, -50%);
+`
+
+const DateHoverIndicator = styled(DateIndicatorBackground)`
+  background-color: ${({ theme }) => theme.color.background.card.dark};
+  opacity: 0.5;
+`
+
+const DateSelectedIndicator = styled(DateIndicatorBackground)`
+  background-color: ${({ theme }) => theme.color.solvedAc};
+`
+
+const DateHoverRangeIndicator = styled(DateIndicatorBackground)<{
+  side?: 'left' | 'right'
+}>`
+  width: ${({ side }) => (side ? '50%' : '100%')};
+  left: ${({ side }) => (side === 'right' ? '0' : 'unset')};
+  right: ${({ side }) => (side === 'right' ? 'unset' : '0')};
+  transform: translate(0, -50%);
+  border-radius: 0;
+  background-color: ${({ theme }) => theme.color.background.card.main};
+`
+
+const DateIndicator = styled(Typo)`
+  display: block;
+  position: relative;
+  width: 100%;
 `
 
 const AnnotationContainer = styled.div`
@@ -79,28 +117,37 @@ const MonthNavigationButton = styled(Button)`
 
 const DAY = 24 * 60 * 60 * 1000
 
-type DateSelectMonthView = DateSelectProps & {
-  selectedDate: Date
-  setSelectedDate: (date: Date) => void
+export interface DateSelectMonthView {
+  cursorDate: Date
+  setCursorDate: (date: Date) => void
   setModeToMonth: () => void
   firstMonth: boolean
   lastMonth: boolean
   offset: number
+  selectState: DateSelectCursor
+  setSelectState: React.Dispatch<React.SetStateAction<DateSelectCursor>>
 }
 
 export const DateSelectMonthView = (
   props: DateSelectMonthView
 ): JSX.Element => {
+  const context = useDateSelectContext()
+
   const {
-    // value,
-    // onChange,
+    value,
+    onChange,
     annotations = [],
     maxAnnotationsPerDay = annotations.length ? 3 : 0,
     weekStartsOn = 0,
-    selectedDate,
-    setSelectedDate,
-    setModeToMonth,
     locale,
+  } = context
+
+  const {
+    cursorDate,
+    setCursorDate,
+    selectState,
+    setSelectState,
+    setModeToMonth,
     firstMonth,
     lastMonth,
     offset,
@@ -111,8 +158,8 @@ export const DateSelectMonthView = (
   const resolvedLocale = resolveLocale(locale)
 
   const renderDateObject = new Date(
-    selectedDate.getFullYear(),
-    selectedDate.getMonth() + offset,
+    cursorDate.getFullYear(),
+    cursorDate.getMonth() + offset,
     1
   )
   const renderYear = renderDateObject.getFullYear()
@@ -146,10 +193,26 @@ export const DateSelectMonthView = (
     .split('T')[0]
   const lastDateString = lastDate.toISOString().split('T')[0]
 
+  const hoveredDate = selectState.hover?.toISOString().split('T')[0]
+  const inputSelectedRangeA =
+    (selectState.mode === 'selectEnd' ? selectState.valueStart : null)
+      ?.toISOString()
+      .split('T')[0] || null
+  const inputSelectedRangeB =
+    selectState.mode === 'selectEnd' ? hoveredDate || null : null
+  const inputSelectedRangeStart =
+    (inputSelectedRangeA || '0') < (inputSelectedRangeB || '0')
+      ? inputSelectedRangeA
+      : inputSelectedRangeB
+  const inputSelectedRangeEnd =
+    (inputSelectedRangeA || '0') > (inputSelectedRangeB || '0')
+      ? inputSelectedRangeA
+      : inputSelectedRangeB
+
   const handleNavigateMonth = (delta: number): void => {
     const destinationMonth1stDate = new Date(
-      selectedDate.getFullYear(),
-      selectedDate.getMonth() + delta,
+      cursorDate.getFullYear(),
+      cursorDate.getMonth() + delta,
       1
     )
     const destinationMonthLastDate = new Date(
@@ -158,7 +221,7 @@ export const DateSelectMonthView = (
       0
     )
     const destinationDate = Math.min(
-      selectedDate.getDate(),
+      cursorDate.getDate(),
       destinationMonthLastDate.getDate()
     )
     const destination = new Date(
@@ -166,7 +229,36 @@ export const DateSelectMonthView = (
       destinationMonth1stDate.getMonth(),
       destinationDate
     )
-    setSelectedDate(destination)
+    setCursorDate(destination)
+  }
+
+  const handleSelectDate = (date: string): void => {
+    if (context.type === 'date') {
+      if (context.onChange) {
+        context.onChange(date)
+      }
+      return
+    }
+
+    const { onChange: onChangeRange } = context
+    if (selectState.mode === 'selectStart') {
+      setSelectState((prev) => ({
+        ...prev,
+        mode: 'selectEnd',
+        valueStart: new Date(date),
+      }))
+    } else if (selectState.mode === 'selectEnd' && inputSelectedRangeStart) {
+      if (onChangeRange) {
+        onChangeRange({
+          start: inputSelectedRangeStart,
+          end: date,
+        })
+      }
+      setSelectState((prev) => ({
+        mode: 'selectStart',
+        hover: prev.hover,
+      }))
+    }
   }
 
   const annotationsInRenderMonth = annotations
@@ -231,19 +323,50 @@ export const DateSelectMonthView = (
         {new Array(42).fill(undefined).map((_, dateOffset) => {
           const date = new Date(firstWeekFirstDate.getTime() + dateOffset * DAY)
           const dateString = date.toISOString().split('T')[0]
+
+          const currentDateInHoverRange =
+            inputSelectedRangeStart && inputSelectedRangeEnd
+              ? dateString >= inputSelectedRangeStart &&
+                dateString <= inputSelectedRangeEnd
+              : false
+
           return (
             <DateContainer
               key={date.toISOString()}
               maxAnnotationsPerDay={maxAnnotationsPerDay}
+              onMouseEnter={() =>
+                setSelectState((prev) => ({
+                  ...prev,
+                  hover: date,
+                }))
+              }
+              onClick={() => handleSelectDate(dateString)}
             >
-              <Typo
-                description={date.getMonth() !== renderMonth}
-                style={{
-                  opacity: date.getMonth() !== renderMonth ? 0.5 : undefined,
-                }}
-              >
-                {date.getDate()}
-              </Typo>
+              <DateIndicator>
+                {currentDateInHoverRange && (
+                  <DateHoverRangeIndicator
+                    side={
+                      dateString === inputSelectedRangeStart
+                        ? 'left'
+                        : dateString === inputSelectedRangeEnd
+                        ? 'right'
+                        : undefined
+                    }
+                  />
+                )}
+                {inputSelectedRangeA === dateString && (
+                  <DateSelectedIndicator />
+                )}
+                {hoveredDate === dateString && <DateHoverIndicator />}
+                <DateIndicator
+                  description={date.getMonth() !== renderMonth}
+                  style={{
+                    opacity: date.getMonth() !== renderMonth ? 0.5 : undefined,
+                  }}
+                >
+                  {date.getDate()}
+                </DateIndicator>
+              </DateIndicator>
               {annotationsGreedilyBucketed.map((annotationsInDay, index) => {
                 const annotation = annotationsInDay.find(
                   ({ start, end }) => start <= dateString && end >= dateString,

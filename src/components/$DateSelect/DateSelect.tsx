@@ -1,7 +1,8 @@
 import styled from '@emotion/styled'
-import React, { ElementType, useState } from 'react'
+import React, { ElementType, useEffect, useState } from 'react'
 import { PP, PR } from '../../types/PolymorphicElementProps'
 import { forwardRefWithGenerics } from '../../utils/ref'
+import { DateSelectContext } from './DateSelectContext'
 import { DateSelectMonthView } from './DateSelectMonthView'
 
 export interface DateRange {
@@ -13,12 +14,12 @@ export type DateSelectValues =
   | {
       type: 'date'
       value: string
-      onChange: (value: string) => void
+      onChange?: (value: string) => void
     }
   | {
       type: 'date-range'
       value: DateRange
-      onChange: (value: DateRange) => void
+      onChange?: (value: DateRange) => void
     }
 
 export interface DateSelectAnnotation extends DateRange {
@@ -35,6 +36,22 @@ export type DateSelectProps = DateSelectValues & {
 }
 
 export type DateSelectMode = 'year' | 'month' | 'date'
+export type CursorMode = 'select' | 'selectStart' | 'selectEnd'
+
+export type DateSelectCursor =
+  | {
+      mode: 'select'
+      hover: Date | null
+    }
+  | {
+      mode: 'selectStart'
+      hover: Date | null
+    }
+  | {
+      mode: 'selectEnd'
+      valueStart: Date
+      hover: Date | null
+    }
 
 // const toDateString = (date: Date): string => {
 //   return date.toISOString().split('T')[0]
@@ -66,28 +83,42 @@ export const DateSelect = forwardRefWithGenerics(
     // const theme = useTheme()
 
     const [currentMode, setCurrentMode] = useState<DateSelectMode>('date')
-    const [selectedDate, setSelectedDate] = useState<Date>(new Date())
+    const [selectState, setSelectState] = useState<DateSelectCursor>({
+      mode: type === 'date' ? ('select' as const) : ('selectStart' as const),
+      hover: null,
+    })
+    const [cursorDate, setCursorDate] = useState<Date>(new Date())
+
+    useEffect(() => {
+      setSelectState({
+        mode: type === 'date' ? ('select' as const) : ('selectStart' as const),
+        hover: null,
+      })
+    }, [type])
 
     // const selectedYear = selectedDate.getFullYear()
     // const selectedMonth = selectedDate.getMonth()
 
     return (
-      <DateSelectContainer {...rest} ref={ref}>
-        {currentMode === 'date' &&
-          new Array(chunks).fill(0).map((_, index) => (
-            <DateSelectMonthView
-              {...props}
-              // eslint-disable-next-line react/no-array-index-key
-              key={index}
-              offset={index - Math.floor(chunks / 2)}
-              selectedDate={selectedDate}
-              setSelectedDate={setSelectedDate}
-              setModeToMonth={() => setCurrentMode('month')}
-              firstMonth={index === 0}
-              lastMonth={index === chunks - 1}
-            />
-          ))}
-      </DateSelectContainer>
+      <DateSelectContext.Provider value={props}>
+        <DateSelectContainer {...rest} ref={ref}>
+          {currentMode === 'date' &&
+            new Array(chunks).fill(0).map((_, index) => (
+              <DateSelectMonthView
+                // eslint-disable-next-line react/no-array-index-key
+                key={index}
+                offset={index - Math.floor(chunks / 2)}
+                cursorDate={cursorDate}
+                setCursorDate={setCursorDate}
+                selectState={selectState}
+                setSelectState={setSelectState}
+                setModeToMonth={() => setCurrentMode('month')}
+                firstMonth={index === 0}
+                lastMonth={index === chunks - 1}
+              />
+            ))}
+        </DateSelectContainer>
+      </DateSelectContext.Provider>
     )
   }
 )
