@@ -8,6 +8,7 @@ import {
   offset,
   safePolygon,
   shift,
+  useClick,
   useFloating,
   useHover,
   useInteractions,
@@ -68,6 +69,8 @@ export type TooltipProps = {
   keepOpen?: boolean
   place?: TooltipPlacement
   interactive?: boolean
+  activateOnHover?: boolean
+  activateOnClick?: boolean
 } & (
   | {
       noDefaultStyles: false
@@ -123,6 +126,8 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
     keepOpen = false,
     place,
     interactive = false,
+    activateOnHover = true,
+    activateOnClick = false,
     ...cardProps
   } = props
   const [isOpen, setIsOpen] = useState(false)
@@ -157,11 +162,15 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
 
   const { getReferenceProps, getFloatingProps } = useInteractions([
     useHover(context, {
+      enabled: activateOnHover,
       delay: 200,
       move: true,
       handleClose: safePolygon({
         buffer: 1,
       }),
+    }),
+    useClick(context, {
+      enabled: activateOnClick,
     }),
   ])
 
