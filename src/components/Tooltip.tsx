@@ -164,8 +164,6 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
   const arrowPosition =
     renderSide[placement.split('-')[0] as keyof typeof renderSide]
 
-  console.log(arrowPosition)
-
   return (
     <React.Fragment>
       <TooltipWrapper ref={refs.setReference} {...getReferenceProps()}>
