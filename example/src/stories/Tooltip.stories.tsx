@@ -51,6 +51,17 @@ export default {
         'Whether to make the tooltip interactive - if set to true, the tooltip contents will receive pointer events',
       defaultValue: false,
     },
+    activateOnHover: {
+      control: 'boolean',
+      description: 'Whether to activate the tooltip on mouse hover',
+      defaultValue: true,
+    },
+    activateOnClick: {
+      control: 'boolean',
+      description:
+        'Whether to activate the tooltip on mouse click - repeated clicks will toggle the tooltip',
+      defaultValue: false,
+    },
   },
 } as Meta<typeof Tooltip>
 
