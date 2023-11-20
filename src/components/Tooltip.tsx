@@ -13,7 +13,7 @@ import {
 } from '@floating-ui/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { transparentize } from 'polished'
-import React, { ReactNode, useRef, useState } from 'react'
+import React, { CSSProperties, ReactNode, useRef, useState } from 'react'
 import { SolvedTheme, solvedThemes } from '../styles'
 import { Card, CardProps } from './Card'
 
@@ -53,10 +53,20 @@ const renderSide = {
   left: 'right',
 } as const
 
+type TooltipPlacementBasic = 'top' | 'right' | 'bottom' | 'left'
+type TooltipPlacementRelative = 'start' | 'end'
+
+export type TooltipPlacement =
+  | `${TooltipPlacementBasic}-${TooltipPlacementRelative}`
+  | TooltipPlacementBasic
+
 export type TooltipProps = {
   title?: ReactNode
   theme?: SolvedTheme
   children?: ReactNode
+  arrow?: boolean
+  keepOpen?: boolean
+  place?: TooltipPlacement
 } & (
   | {
       noDefaultStyles: false
@@ -66,15 +76,56 @@ export type TooltipProps = {
     })
 )
 
+const resolveArrowStyles = (
+  arrowX: number | undefined | null,
+  arrowY: number | undefined | null,
+  arrowPosition: 'top' | 'bottom' | 'left' | 'right',
+  padding = 16
+): CSSProperties => {
+  if (arrowPosition === 'bottom') {
+    return {
+      left: arrowX ?? undefined,
+      bottom: -padding,
+      transform: `scaleY(-1)`,
+    }
+  }
+  if (arrowPosition === 'top') {
+    return {
+      left: arrowX ?? undefined,
+      top: -padding,
+    }
+  }
+  if (arrowPosition === 'left') {
+    return {
+      top: arrowY ?? undefined,
+      left: -16,
+      transform: `rotate(-90deg)`,
+    }
+  }
+  if (arrowPosition === 'right') {
+    return {
+      top: arrowY ?? undefined,
+      right: -16,
+      transform: `rotate(90deg)`,
+    }
+  }
+  return {}
+}
+
 export const Tooltip: React.FC<TooltipProps> = (props) => {
   const {
     title,
     theme,
     noDefaultStyles: noBackground,
     children,
+    arrow: drawArrow = true,
+    keepOpen = false,
+    place,
     ...cardProps
   } = props
   const [isOpen, setIsOpen] = useState(false)
+  const renderTooltip = keepOpen || isOpen
+
   const arrowRef = useRef(null)
 
   const {
@@ -86,13 +137,14 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
     placement,
     middlewareData: { arrow: { x: arrowX, y: arrowY } = {} },
   } = useFloating({
+    placement: place,
     strategy: 'fixed',
     open: isOpen,
     onOpenChange: setIsOpen,
     middleware: [
-      offset(8),
+      offset(16),
+      shift({ padding: 16 }),
       flip(),
-      shift({ padding: 8 }),
       arrow({ element: arrowRef }),
     ],
     whileElementsMounted: (reference, floating, update) =>
@@ -112,6 +164,8 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
   const arrowPosition =
     renderSide[placement.split('-')[0] as keyof typeof renderSide]
 
+  console.log(arrowPosition)
+
   return (
     <React.Fragment>
       <TooltipWrapper ref={refs.setReference} {...getReferenceProps()}>
@@ -120,7 +174,7 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
       <FloatingPortal>
         <ThemeProvider theme={theme || solvedThemes.dark}>
           <AnimatePresence>
-            {isOpen && (
+            {renderTooltip && (
               <React.Fragment>
                 <RenderComponent
                   ref={refs.setFloating}
@@ -133,27 +187,17 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
                   })}
                   {...cardProps}
                   transition={{ duration: 0.2, ease: 'easeInOut' }}
-                  initial={{ opacity: 0, y: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, y: 8, scale: 1 }}
-                  exit={{ opacity: 0, y: 0, scale: 0.9 }}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
                 >
                   {title}
-                  <Arrow
-                    ref={arrowRef}
-                    style={
-                      arrowPosition === 'bottom'
-                        ? {
-                            left: arrowX ?? undefined,
-                            [arrowPosition]: -16,
-                            transform: `scaleY(-1)`,
-                          }
-                        : {
-                            top:
-                              arrowY !== null ? (arrowY || 0) - 16 : undefined,
-                            left: arrowX ?? undefined,
-                          }
-                    }
-                  />
+                  {drawArrow && (
+                    <Arrow
+                      ref={arrowRef}
+                      style={resolveArrowStyles(arrowX, arrowY, arrowPosition)}
+                    />
+                  )}
                 </RenderComponent>
               </React.Fragment>
             )}
