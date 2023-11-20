@@ -68,6 +68,9 @@ export type TooltipProps = {
   keepOpen?: boolean
   place?: TooltipPlacement
   interactive?: boolean
+  noThemeChange?: boolean
+  arrowColor?: string
+  ArrowProps?: React.HTMLAttributes<HTMLDivElement>
 } & (
   | {
       noDefaultStyles: false
@@ -123,6 +126,9 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
     keepOpen = false,
     place,
     interactive = false,
+    noThemeChange = false,
+    arrowColor,
+    ArrowProps,
     ...cardProps
   } = props
   const [isOpen, setIsOpen] = useState(false)
@@ -166,6 +172,8 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
   ])
 
   const RenderComponent = noBackground ? motion.div : TooltipContainer
+  const ThemeProviderComponent =
+    noThemeChange || noBackground ? React.Fragment : ThemeProvider
 
   const arrowPosition =
     renderSide[placement.split('-')[0] as keyof typeof renderSide]
@@ -176,7 +184,7 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
         {children}
       </TooltipWrapper>
       <FloatingPortal>
-        <ThemeProvider theme={theme || solvedThemes.dark}>
+        <ThemeProviderComponent theme={theme || solvedThemes.dark}>
           <AnimatePresence>
             {renderTooltip && (
               <React.Fragment>
@@ -200,14 +208,28 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
                   {drawArrow && (
                     <Arrow
                       ref={arrowRef}
-                      style={resolveArrowStyles(arrowX, arrowY, arrowPosition)}
+                      {...ArrowProps}
+                      style={{
+                        ...resolveArrowStyles(arrowX, arrowY, arrowPosition),
+                        ...(arrowColor
+                          ? {
+                              borderColor: [
+                                'transparent',
+                                'transparent',
+                                arrowColor,
+                                'transparent',
+                              ].join(' '),
+                            }
+                          : {}),
+                        ...(ArrowProps?.style || {}),
+                      }}
                     />
                   )}
                 </RenderComponent>
               </React.Fragment>
             )}
           </AnimatePresence>
-        </ThemeProvider>
+        </ThemeProviderComponent>
       </FloatingPortal>
     </React.Fragment>
   )

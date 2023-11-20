@@ -11,11 +11,6 @@ export default {
       description: 'The title to display',
       defaultValue: 'Tooltip',
     },
-    noDefaultStyles: {
-      control: 'boolean',
-      description: 'Whether to use the default styles',
-      defaultValue: false,
-    },
     arrow: {
       control: 'boolean',
       description: 'Whether to show the arrow',
@@ -50,6 +45,26 @@ export default {
       description:
         'Whether to make the tooltip interactive - if set to true, the tooltip contents will receive pointer events',
       defaultValue: false,
+    },
+    arrowColor: {
+      control: 'color',
+      description: 'The color of the arrow',
+      defaultValue: undefined,
+    },
+    noDefaultStyles: {
+      control: 'boolean',
+      description: 'Whether to use the default styles',
+      defaultValue: false,
+    },
+    noThemeChange: {
+      control: 'boolean',
+      description:
+        'Whether to change the theme - tooltips will always be using solvedThemes.dark unless this is set to true',
+      defaultValue: false,
+    },
+    ArrowProps: {
+      control: 'object',
+      description: 'Props to pass to the arrow',
     },
   },
 } as Meta<typeof Tooltip>
