@@ -45,6 +45,12 @@ export default {
       description: 'The placement of the tooltip',
       defaultValue: 'top',
     },
+    interactive: {
+      control: 'boolean',
+      description:
+        'Whether to make the tooltip interactive - if set to true, the tooltip contents will receive pointer events',
+      defaultValue: false,
+    },
   },
 } as Meta<typeof Tooltip>
 

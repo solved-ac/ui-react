@@ -6,6 +6,7 @@ import {
   flip,
   FloatingPortal,
   offset,
+  safePolygon,
   shift,
   useFloating,
   useHover,
@@ -27,7 +28,6 @@ const TooltipContainer = styled(motion(Card))`
   border: ${({ theme }) => theme.styles.border()};
   box-shadow: ${({ theme }) => theme.styles.shadow(undefined, 16)};
   z-index: 30000;
-  pointer-events: none;
   backdrop-filter: blur(4px);
   font-size: initial;
   font-weight: initial;
@@ -67,6 +67,7 @@ export type TooltipProps = {
   arrow?: boolean
   keepOpen?: boolean
   place?: TooltipPlacement
+  interactive?: boolean
 } & (
   | {
       noDefaultStyles: false
@@ -121,6 +122,7 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
     arrow: drawArrow = true,
     keepOpen = false,
     place,
+    interactive = false,
     ...cardProps
   } = props
   const [isOpen, setIsOpen] = useState(false)
@@ -156,6 +158,10 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
   const { getReferenceProps, getFloatingProps } = useInteractions([
     useHover(context, {
       delay: 200,
+      move: true,
+      handleClose: safePolygon({
+        buffer: 1,
+      }),
     }),
   ])
 
@@ -181,6 +187,7 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
                       position: strategy,
                       top: y || 0,
                       left: x || 0,
+                      pointerEvents: interactive ? 'auto' : 'none',
                     },
                   })}
                   {...cardProps}
