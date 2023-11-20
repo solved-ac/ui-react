@@ -12,6 +12,7 @@ const { vars, v, styles } = cssVariables(
   {
     ...transparentHoverTemplate,
     accentColor: (theme) => theme.color.background.table.header,
+    accentHintColor: 'transparent',
   },
   'tab'
 )
@@ -40,7 +41,7 @@ const TabContainer = styled.button<TabContainerProps>`
   text-align: center;
   user-select: none;
   border: none;
-  border-bottom: 2px solid transparent;
+  border-bottom: 2px solid ${v.accentHintColor};
   transition: background-color 0.3s ease, color 0.3s ease,
     border-color 0.3s ease;
   background: ${v.backgroundColor};
@@ -61,6 +62,7 @@ export interface TabProps {
   backgroundColor?: string
   hoverColor?: string
   accentColor?: string
+  accentHintColor?: string
 }
 
 export const Tab: PC<'a', TabProps> = forwardRefWithGenerics(
@@ -102,6 +104,7 @@ export const Tab: PC<'a', TabProps> = forwardRefWithGenerics(
             computedHoverColor &&
             readableColor(computedHoverColor, solvedTheme),
           [vars.accentColor]: computedAccentColor,
+          [vars.accentHintColor]: props.accentHintColor || 'transparent',
           ...style,
         }}
         {...rest}

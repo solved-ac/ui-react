@@ -28,7 +28,11 @@ export default {
     },
     accentColor: {
       control: 'color',
-      description: 'The accent color of the tab',
+      description: 'The accent color of the tab. This color is used for the bottom border of the tab when selected.',
+    },
+    accentHintColor: {
+      control: 'color',
+      description: 'The accent hint color of the tab. This color is used for the bottom border of the tab when not selected.',
     },
     as: {
       control: { type: 'select', options: ['div', 'span', 'button', 'a'] },
