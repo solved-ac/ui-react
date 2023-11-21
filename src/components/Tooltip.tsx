@@ -9,6 +9,7 @@ import {
   safePolygon,
   shift,
   useClick,
+  useDismiss,
   useFloating,
   useHover,
   useInteractions,
@@ -71,6 +72,7 @@ export type TooltipProps = {
   interactive?: boolean
   activateOnHover?: boolean
   activateOnClick?: boolean
+  noThemeChange?: boolean
 } & (
   | {
       noDefaultStyles: false
@@ -128,6 +130,7 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
     interactive = false,
     activateOnHover = true,
     activateOnClick = false,
+    noThemeChange = false,
     ...cardProps
   } = props
   const [isOpen, setIsOpen] = useState(false)
@@ -172,9 +175,14 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
     useClick(context, {
       enabled: activateOnClick,
     }),
+    useDismiss(context, {
+      enabled: activateOnClick && !keepOpen,
+    }),
   ])
 
   const RenderComponent = noBackground ? motion.div : TooltipContainer
+  const ThemeProviderComponent =
+    noThemeChange || noBackground ? React.Fragment : ThemeProvider
 
   const arrowPosition =
     renderSide[placement.split('-')[0] as keyof typeof renderSide]
@@ -185,7 +193,7 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
         {children}
       </TooltipWrapper>
       <FloatingPortal>
-        <ThemeProvider theme={theme || solvedThemes.dark}>
+        <ThemeProviderComponent theme={theme || solvedThemes.dark}>
           <AnimatePresence>
             {renderTooltip && (
               <React.Fragment>
@@ -216,7 +224,7 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
               </React.Fragment>
             )}
           </AnimatePresence>
-        </ThemeProvider>
+        </ThemeProviderComponent>
       </FloatingPortal>
     </React.Fragment>
   )
