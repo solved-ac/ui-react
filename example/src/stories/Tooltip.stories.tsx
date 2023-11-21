@@ -11,11 +11,6 @@ export default {
       description: 'The title to display',
       defaultValue: 'Tooltip',
     },
-    noDefaultStyles: {
-      control: 'boolean',
-      description: 'Whether to use the default styles',
-      defaultValue: false,
-    },
     arrow: {
       control: 'boolean',
       description: 'Whether to show the arrow',
@@ -60,6 +55,18 @@ export default {
       control: 'boolean',
       description:
         'Whether to activate the tooltip on mouse click - repeated clicks will toggle the tooltip',
+      defaultValue: false,
+    },
+    noDefaultStyles: {
+      control: 'boolean',
+      description:
+        'Whether to use the default styles - this will also disable the theme change.',
+      defaultValue: false,
+    },
+    noThemeChange: {
+      control: 'boolean',
+      description:
+        'Whether to prevent the theme from changing - Tooltip is set to use the dark theme by default. This will prevent that.',
       defaultValue: false,
     },
   },
