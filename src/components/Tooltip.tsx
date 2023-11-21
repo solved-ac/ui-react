@@ -6,14 +6,17 @@ import {
   flip,
   FloatingPortal,
   offset,
+  safePolygon,
   shift,
+  useClick,
+  useDismiss,
   useFloating,
   useHover,
   useInteractions,
 } from '@floating-ui/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { transparentize } from 'polished'
-import React, { ReactNode, useRef, useState } from 'react'
+import React, { CSSProperties, ReactNode, useRef, useState } from 'react'
 import { SolvedTheme, solvedThemes } from '../styles'
 import { Card, CardProps } from './Card'
 
@@ -27,7 +30,6 @@ const TooltipContainer = styled(motion(Card))`
   border: ${({ theme }) => theme.styles.border()};
   box-shadow: ${({ theme }) => theme.styles.shadow(undefined, 16)};
   z-index: 30000;
-  pointer-events: none;
   backdrop-filter: blur(4px);
   font-size: initial;
   font-weight: initial;
@@ -53,10 +55,24 @@ const renderSide = {
   left: 'right',
 } as const
 
+type TooltipPlacementBasic = 'top' | 'right' | 'bottom' | 'left'
+type TooltipPlacementRelative = 'start' | 'end'
+
+export type TooltipPlacement =
+  | `${TooltipPlacementBasic}-${TooltipPlacementRelative}`
+  | TooltipPlacementBasic
+
 export type TooltipProps = {
   title?: ReactNode
   theme?: SolvedTheme
   children?: ReactNode
+  arrow?: boolean
+  keepOpen?: boolean
+  place?: TooltipPlacement
+  interactive?: boolean
+  activateOnHover?: boolean
+  activateOnClick?: boolean
+  noThemeChange?: boolean
 } & (
   | {
       noDefaultStyles: false
@@ -66,15 +82,60 @@ export type TooltipProps = {
     })
 )
 
+const resolveArrowStyles = (
+  arrowX: number | undefined | null,
+  arrowY: number | undefined | null,
+  arrowPosition: 'top' | 'bottom' | 'left' | 'right',
+  padding = 16
+): CSSProperties => {
+  if (arrowPosition === 'bottom') {
+    return {
+      left: arrowX ?? undefined,
+      bottom: -padding,
+      transform: `scaleY(-1)`,
+    }
+  }
+  if (arrowPosition === 'top') {
+    return {
+      left: arrowX ?? undefined,
+      top: -padding,
+    }
+  }
+  if (arrowPosition === 'left') {
+    return {
+      top: arrowY ?? undefined,
+      left: -16,
+      transform: `rotate(-90deg)`,
+    }
+  }
+  if (arrowPosition === 'right') {
+    return {
+      top: arrowY ?? undefined,
+      right: -16,
+      transform: `rotate(90deg)`,
+    }
+  }
+  return {}
+}
+
 export const Tooltip: React.FC<TooltipProps> = (props) => {
   const {
     title,
     theme,
     noDefaultStyles: noBackground,
     children,
+    arrow: drawArrow = true,
+    keepOpen = false,
+    place,
+    interactive = false,
+    activateOnHover = true,
+    activateOnClick = false,
+    noThemeChange = false,
     ...cardProps
   } = props
   const [isOpen, setIsOpen] = useState(false)
+  const renderTooltip = keepOpen || isOpen
+
   const arrowRef = useRef(null)
 
   const {
@@ -86,13 +147,14 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
     placement,
     middlewareData: { arrow: { x: arrowX, y: arrowY } = {} },
   } = useFloating({
+    placement: place,
     strategy: 'fixed',
     open: isOpen,
     onOpenChange: setIsOpen,
     middleware: [
-      offset(8),
+      offset(16),
+      shift({ padding: 16 }),
       flip(),
-      shift({ padding: 8 }),
       arrow({ element: arrowRef }),
     ],
     whileElementsMounted: (reference, floating, update) =>
@@ -103,11 +165,24 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
 
   const { getReferenceProps, getFloatingProps } = useInteractions([
     useHover(context, {
+      enabled: activateOnHover,
       delay: 200,
+      move: true,
+      handleClose: safePolygon({
+        buffer: 1,
+      }),
+    }),
+    useClick(context, {
+      enabled: activateOnClick,
+    }),
+    useDismiss(context, {
+      enabled: activateOnClick && !keepOpen,
     }),
   ])
 
   const RenderComponent = noBackground ? motion.div : TooltipContainer
+  const ThemeProviderComponent =
+    noThemeChange || noBackground ? React.Fragment : ThemeProvider
 
   const arrowPosition =
     renderSide[placement.split('-')[0] as keyof typeof renderSide]
@@ -118,9 +193,9 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
         {children}
       </TooltipWrapper>
       <FloatingPortal>
-        <ThemeProvider theme={theme || solvedThemes.dark}>
+        <ThemeProviderComponent theme={theme || solvedThemes.dark}>
           <AnimatePresence>
-            {isOpen && (
+            {renderTooltip && (
               <React.Fragment>
                 <RenderComponent
                   ref={refs.setFloating}
@@ -129,36 +204,27 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
                       position: strategy,
                       top: y || 0,
                       left: x || 0,
+                      pointerEvents: interactive ? 'auto' : 'none',
                     },
                   })}
                   {...cardProps}
                   transition={{ duration: 0.2, ease: 'easeInOut' }}
-                  initial={{ opacity: 0, y: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, y: 8, scale: 1 }}
-                  exit={{ opacity: 0, y: 0, scale: 0.9 }}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
                 >
                   {title}
-                  <Arrow
-                    ref={arrowRef}
-                    style={
-                      arrowPosition === 'bottom'
-                        ? {
-                            left: arrowX ?? undefined,
-                            [arrowPosition]: -16,
-                            transform: `scaleY(-1)`,
-                          }
-                        : {
-                            top:
-                              arrowY !== null ? (arrowY || 0) - 16 : undefined,
-                            left: arrowX ?? undefined,
-                          }
-                    }
-                  />
+                  {drawArrow && (
+                    <Arrow
+                      ref={arrowRef}
+                      style={resolveArrowStyles(arrowX, arrowY, arrowPosition)}
+                    />
+                  )}
                 </RenderComponent>
               </React.Fragment>
             )}
           </AnimatePresence>
-        </ThemeProvider>
+        </ThemeProviderComponent>
       </FloatingPortal>
     </React.Fragment>
   )
