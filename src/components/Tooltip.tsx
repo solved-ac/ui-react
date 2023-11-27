@@ -73,6 +73,7 @@ export type TooltipProps = {
   activateOnHover?: boolean
   activateOnClick?: boolean
   noThemeChange?: boolean
+  zIndex?: number
 } & (
   | {
       noDefaultStyles: false
@@ -131,6 +132,7 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
     activateOnHover = true,
     activateOnClick = false,
     noThemeChange = false,
+    zIndex,
     ...cardProps
   } = props
   const [isOpen, setIsOpen] = useState(false)
@@ -200,14 +202,16 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
                 <RenderComponent
                   ref={refs.setFloating}
                   {...getFloatingProps({
+                    ...(cardProps || {}),
                     style: {
+                      ...('style' in cardProps ? cardProps.style || {} : {}),
                       position: strategy,
                       top: y || 0,
                       left: x || 0,
                       pointerEvents: interactive ? 'auto' : 'none',
+                      zIndex,
                     },
                   })}
-                  {...cardProps}
                   transition={{ duration: 0.2, ease: 'easeInOut' }}
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
