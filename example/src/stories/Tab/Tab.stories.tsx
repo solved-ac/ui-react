@@ -30,6 +30,10 @@ export default {
       control: 'color',
       description: 'The accent color of the tab',
     },
+    accentHintColor: {
+      control: 'color',
+      description: 'The accent hint color of the tab',
+    },
     as: {
       control: { type: 'select', options: ['div', 'span', 'button', 'a'] },
       description: 'The element to render the item as',
