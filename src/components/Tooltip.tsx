@@ -67,7 +67,7 @@ export type TooltipProps = {
   theme?: SolvedTheme
   children?: ReactNode
   arrow?: boolean
-  keepOpen?: boolean
+  open?: boolean
   place?: TooltipPlacement
   interactive?: boolean
   activateOnHover?: boolean
@@ -126,7 +126,7 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
     noDefaultStyles: noBackground,
     children,
     arrow: drawArrow = true,
-    keepOpen = false,
+    open,
     place,
     interactive = false,
     activateOnHover = true,
@@ -136,7 +136,7 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
     ...cardProps
   } = props
   const [isOpen, setIsOpen] = useState(false)
-  const renderTooltip = keepOpen || isOpen
+  const renderTooltip = typeof open === 'boolean' ? open : isOpen
 
   const arrowRef = useRef(null)
 
@@ -178,7 +178,7 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
       enabled: activateOnClick,
     }),
     useDismiss(context, {
-      enabled: activateOnClick && !keepOpen,
+      enabled: activateOnClick,
     }),
   ])
 
