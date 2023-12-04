@@ -93,7 +93,7 @@ export interface SelectProps<T extends SelectItemNode> {
   value?: string | null
   zIndex?: number
   onChange?: (value: T) => void
-  render?: (value: T) => ReactNode
+  render?: (value: T, index?: number) => ReactNode
   ListItemProps?: Partial<PP<'div', ListItemProps>>
 }
 
@@ -377,7 +377,7 @@ export const Select = forwardRefWithGenerics(
                             },
                           })}
                         >
-                          {render(item)}
+                          {render(item, i)}
                         </ListItem>
                       )
                     })}
