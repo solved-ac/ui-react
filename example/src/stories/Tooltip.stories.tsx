@@ -57,6 +57,11 @@ export default {
         'Whether to activate the tooltip on mouse click - repeated clicks will toggle the tooltip',
       defaultValue: false,
     },
+    zIndex: {
+      control: 'number',
+      description: 'The z-index of the tooltip',
+      defaultValue: 0,
+    },
     noDefaultStyles: {
       control: 'boolean',
       description:

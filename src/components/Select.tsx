@@ -27,7 +27,7 @@ import React, {
   useImperativeHandle,
   useLayoutEffect,
   useRef,
-  useState,
+  useState
 } from 'react'
 import { PP, PR } from '../types/PolymorphicElementProps'
 import { Timeout } from '../types/Timeout'
@@ -93,7 +93,7 @@ export interface SelectProps<T extends SelectItemNode> {
   value?: string | null
   zIndex?: number
   onChange?: (value: T) => void
-  render?: (value: T) => ReactNode
+  render?: (value: T, index?: number) => ReactNode
   ListItemProps?: Partial<PP<'div', ListItemProps>>
 }
 
@@ -327,23 +327,25 @@ export const Select = forwardRefWithGenerics(
                               ? theme.color.background.card.main
                               : undefined
                           }
-                          style={{
-                            ...(disableEllipsis
-                              ? {}
-                              : {
-                                  textOverflow: 'ellipsis',
-                                  overflow: 'hidden',
-                                  whiteSpace: 'nowrap',
-                                }),
-                            ...(ListItemProps?.style || {}),
-                            fontWeight: i === selectedIndex ? 'bold' : 'normal',
-                          }}
                           ref={(node) => {
                             listRef.current[i] = node
                             listContentRef.current[i] =
                               typeof item === 'string' ? item : item.value
                           }}
                           {...getItemProps({
+                            ...ListItemProps,
+                            style: {
+                              ...(disableEllipsis
+                                ? {}
+                                : {
+                                    textOverflow: 'ellipsis',
+                                    overflow: 'hidden',
+                                    whiteSpace: 'nowrap',
+                                  }),
+                              ...(ListItemProps?.style || {}),
+                              fontWeight:
+                                i === selectedIndex ? 'bold' : 'normal',
+                            },
                             onTouchStart() {
                               allowSelectRef.current = true
                               allowMouseUpRef.current = false
@@ -374,9 +376,8 @@ export const Select = forwardRefWithGenerics(
                               })
                             },
                           })}
-                          {...ListItemProps}
                         >
-                          {render(item)}
+                          {render(item, i)}
                         </ListItem>
                       )
                     })}

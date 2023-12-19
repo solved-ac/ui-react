@@ -67,12 +67,13 @@ export type TooltipProps = {
   theme?: SolvedTheme
   children?: ReactNode
   arrow?: boolean
-  keepOpen?: boolean
+  open?: boolean
   place?: TooltipPlacement
   interactive?: boolean
   activateOnHover?: boolean
   activateOnClick?: boolean
   noThemeChange?: boolean
+  zIndex?: number
 } & (
   | {
       noDefaultStyles: false
@@ -125,16 +126,17 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
     noDefaultStyles: noBackground,
     children,
     arrow: drawArrow = true,
-    keepOpen = false,
+    open,
     place,
     interactive = false,
     activateOnHover = true,
     activateOnClick = false,
     noThemeChange = false,
+    zIndex,
     ...cardProps
   } = props
   const [isOpen, setIsOpen] = useState(false)
-  const renderTooltip = keepOpen || isOpen
+  const renderTooltip = typeof open === 'boolean' ? open : isOpen
 
   const arrowRef = useRef(null)
 
@@ -176,7 +178,7 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
       enabled: activateOnClick,
     }),
     useDismiss(context, {
-      enabled: activateOnClick && !keepOpen,
+      enabled: activateOnClick,
     }),
   ])
 
@@ -200,14 +202,16 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
                 <RenderComponent
                   ref={refs.setFloating}
                   {...getFloatingProps({
+                    ...(cardProps || {}),
                     style: {
+                      ...('style' in cardProps ? cardProps.style || {} : {}),
                       position: strategy,
                       top: y || 0,
                       left: x || 0,
                       pointerEvents: interactive ? 'auto' : 'none',
+                      zIndex,
                     },
                   })}
-                  {...cardProps}
                   transition={{ duration: 0.2, ease: 'easeInOut' }}
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
