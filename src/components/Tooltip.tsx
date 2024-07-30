@@ -16,7 +16,13 @@ import {
 } from '@floating-ui/react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { transparentize } from 'polished'
-import React, { CSSProperties, ReactNode, useRef, useState } from 'react'
+import React, {
+  CSSProperties,
+  ReactNode,
+  useRef,
+  useState,
+  useMemo,
+} from 'react'
 import { SolvedTheme, solvedThemes } from '../styles'
 import { Card, CardProps } from './Card'
 
@@ -74,6 +80,7 @@ export type TooltipProps = {
   activateOnClick?: boolean
   noThemeChange?: boolean
   zIndex?: number
+  onOpenChange?: (open: boolean) => void
 } & (
   | {
       noDefaultStyles: false
@@ -133,12 +140,20 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
     activateOnClick = false,
     noThemeChange = false,
     zIndex,
+    onOpenChange,
     ...cardProps
   } = props
   const [isOpen, setIsOpen] = useState(false)
   const renderTooltip = typeof open === 'boolean' ? open : isOpen
 
   const arrowRef = useRef(null)
+
+  const handleOpenChange = (open: boolean): void => {
+    setIsOpen(open)
+    if (onOpenChange) {
+      onOpenChange(open)
+    }
+  }
 
   const {
     x,
@@ -152,7 +167,7 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
     placement: place,
     strategy: 'fixed',
     open: isOpen,
-    onOpenChange: setIsOpen,
+    onOpenChange: handleOpenChange,
     middleware: [
       offset(16),
       shift({ padding: 16 }),
@@ -183,8 +198,18 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
   ])
 
   const RenderComponent = noBackground ? motion.div : TooltipContainer
-  const ThemeProviderComponent =
-    noThemeChange || noBackground ? React.Fragment : ThemeProvider
+  const ThemeProviderComponent = useMemo(
+    () =>
+      noThemeChange || noBackground
+        ? React.Fragment
+        : ({ children }: { children?: ReactNode }) => (
+            // eslint-disable-next-line react/jsx-indent
+            <ThemeProvider theme={theme || solvedThemes.dark}>
+              {children}
+            </ThemeProvider>
+          ),
+    [noThemeChange, noBackground, theme]
+  )
 
   const arrowPosition =
     renderSide[placement.split('-')[0] as keyof typeof renderSide]
@@ -195,7 +220,7 @@ export const Tooltip: React.FC<TooltipProps> = (props) => {
         {children}
       </TooltipWrapper>
       <FloatingPortal>
-        <ThemeProviderComponent theme={theme || solvedThemes.dark}>
+        <ThemeProviderComponent>
           <AnimatePresence>
             {renderTooltip && (
               <React.Fragment>
