@@ -7,7 +7,6 @@ export default {
   component: Itemize,
   argTypes: {
     children: {
-      control: 'none',
       description: 'The children to display inside the list',
     },
     marker: {
@@ -17,7 +16,7 @@ export default {
       },
     },
   },
-} as Meta<typeof Itemize>
+} satisfies Meta<typeof Itemize>
 
 const Template: StoryFn<typeof Itemize> = (args) => <Itemize {...args} />
 

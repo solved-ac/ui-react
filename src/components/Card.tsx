@@ -1,9 +1,12 @@
 import { css, useTheme } from '@emotion/react'
 import styled from '@emotion/styled'
 import React, { ElementType, PropsWithChildren } from 'react'
-import { PC, PP, PR } from '../types/PolymorphicElementProps'
+import {
+  PolymorphicComponent,
+  PolymorphicComponentPropsWithRef,
+  PolymorphicRef,
+} from '../types/PolymorphicElementProps'
 import { computeHoverColor, readableColor } from '../utils/color'
-import { forwardRefWithGenerics } from '../utils/ref'
 import { cssClickable, cssVariables } from '../utils/styles'
 import { cardHoverTemplate } from '../utils/variables'
 
@@ -21,6 +24,7 @@ const paddingMap = {
 }
 
 interface CardContainerProps {
+  disabled: boolean
   clickable: boolean
   padding: 'none' | 'normal' | 'wide'
 }
@@ -53,8 +57,11 @@ export interface CardProps extends PropsWithChildren {
   padding?: 'none' | 'normal' | 'wide'
 }
 
-export const Card: PC<'div', CardProps> = forwardRefWithGenerics(
-  <T extends ElementType>(props: PP<T, CardProps>, ref?: PR<T>) => {
+export const Card: PolymorphicComponent<'div', CardProps> = React.forwardRef(
+  <C extends ElementType = 'div'>(
+    props: PolymorphicComponentPropsWithRef<C, CardProps>,
+    ref?: PolymorphicRef<C>
+  ) => {
     const solvedTheme = useTheme()
 
     const {
@@ -77,7 +84,7 @@ export const Card: PC<'div', CardProps> = forwardRefWithGenerics(
         ref={ref}
         as={as}
         role={clickable ? 'button' : undefined}
-        tabindex={clickable ? 0 : undefined}
+        tabIndex={clickable ? 0 : undefined}
         disabled={disabled && clickable}
         clickable={clickable}
         padding={padding}

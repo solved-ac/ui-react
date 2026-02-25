@@ -5,8 +5,11 @@ import React, {
   useEffect,
   useState,
 } from 'react'
-import { PP, PR } from '../../types/PolymorphicElementProps'
-import { forwardRefWithGenerics } from '../../utils/ref'
+import {
+  PolymorphicComponent,
+  PolymorphicComponentPropsWithRef,
+  PolymorphicRef,
+} from '../../types/PolymorphicElementProps'
 import { DateSelectContext } from './DateSelectContext'
 import { DateSelectMonthView } from './DateSelectMonthView'
 
@@ -72,58 +75,63 @@ const DateSelectContainer = styled.div`
   gap: 1em;
 `
 
-export const DateSelect = forwardRefWithGenerics(
-  <T extends ElementType>(props: PP<T, DateSelectProps>, ref?: PR<T>) => {
-    const {
-      type,
-      value,
-      onChange,
-      annotations = [],
-      maxAnnotationsPerDay = annotations.length ? 3 : 0,
-      weekStartsOn = 0,
-      locale,
-      chunks = 1,
-      ...rest
-    } = props
-    // const theme = useTheme()
+export const DateSelect: PolymorphicComponent<'div', DateSelectProps> =
+  React.forwardRef(
+    <C extends ElementType = 'div'>(
+      props: PolymorphicComponentPropsWithRef<C, DateSelectProps>,
+      ref?: PolymorphicRef<C>
+    ) => {
+      const {
+        type,
+        value,
+        onChange,
+        annotations = [],
+        maxAnnotationsPerDay = annotations.length ? 3 : 0,
+        weekStartsOn = 0,
+        locale,
+        chunks = 1,
+        ...rest
+      } = props
+      // const theme = useTheme()
 
-    const [currentMode, setCurrentMode] = useState<DateSelectMode>('date')
-    const [selectState, setSelectState] = useState<DateSelectCursor>({
-      mode: type === 'date' ? ('select' as const) : ('selectStart' as const),
-      hover: null,
-    })
-    const [cursorDate, setCursorDate] = useState<Date>(new Date())
-
-    useEffect(() => {
-      setSelectState({
+      const [currentMode, setCurrentMode] = useState<DateSelectMode>('date')
+      const [selectState, setSelectState] = useState<DateSelectCursor>({
         mode: type === 'date' ? ('select' as const) : ('selectStart' as const),
         hover: null,
       })
-    }, [type])
+      const [cursorDate, setCursorDate] = useState<Date>(new Date())
 
-    // const selectedYear = selectedDate.getFullYear()
-    // const selectedMonth = selectedDate.getMonth()
+      useEffect(() => {
+        setSelectState({
+          mode:
+            type === 'date' ? ('select' as const) : ('selectStart' as const),
+          hover: null,
+        })
+      }, [type])
 
-    return (
-      <DateSelectContext.Provider value={props}>
-        <DateSelectContainer {...rest} ref={ref}>
-          {currentMode === 'date' &&
-            new Array(chunks).fill(0).map((_, index) => (
-              <DateSelectMonthView
-                // eslint-disable-next-line react/no-array-index-key
-                key={index}
-                offset={index - Math.floor(chunks / 2)}
-                cursorDate={cursorDate}
-                setCursorDate={setCursorDate}
-                selectState={selectState}
-                setSelectState={setSelectState}
-                setModeToMonth={() => setCurrentMode('month')}
-                firstMonth={index === 0}
-                lastMonth={index === chunks - 1}
-              />
-            ))}
-        </DateSelectContainer>
-      </DateSelectContext.Provider>
-    )
-  }
-)
+      // const selectedYear = selectedDate.getFullYear()
+      // const selectedMonth = selectedDate.getMonth()
+
+      return (
+        <DateSelectContext.Provider value={props}>
+          <DateSelectContainer {...rest} ref={ref}>
+            {currentMode === 'date' &&
+              new Array(chunks).fill(0).map((_, index) => (
+                <DateSelectMonthView
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={index}
+                  offset={index - Math.floor(chunks / 2)}
+                  cursorDate={cursorDate}
+                  setCursorDate={setCursorDate}
+                  selectState={selectState}
+                  setSelectState={setSelectState}
+                  setModeToMonth={() => setCurrentMode('month')}
+                  firstMonth={index === 0}
+                  lastMonth={index === chunks - 1}
+                />
+              ))}
+          </DateSelectContainer>
+        </DateSelectContext.Provider>
+      )
+    }
+  )

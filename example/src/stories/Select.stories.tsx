@@ -1,6 +1,6 @@
 import { Centering, Select } from '@solved-ac/ui-react'
 import { Meta, StoryFn } from '@storybook/react'
-import React from 'react'
+import React, { Fragment } from 'react'
 
 export default {
   title: 'Components/Select',
@@ -10,9 +10,7 @@ export default {
       control: 'text',
       description: 'The value of the select',
     },
-    items: {
-      control: 'none',
-    },
+    items: {},
     fullWidth: {
       control: 'boolean',
       description:
@@ -23,7 +21,7 @@ export default {
       description: 'Whether the selector should disable ellipsis',
     },
   },
-} as Meta<typeof Select>
+} satisfies Meta<typeof Select>
 
 const Template: StoryFn<typeof Select> = (args) => (
   <Centering>
@@ -59,15 +57,15 @@ export const CustomRender = Template.bind({})
 CustomRender.args = {
   value: 'Select',
   items: ['kr', 'gb', 'us', 'jp'],
-  render: (s: string) => (
-    <>
+  render: (s) => (
+    <Fragment>
       <img
         src={`https://flagicons.lipis.dev/flags/4x3/${s}.svg`}
         alt={s}
         style={{ height: '1em' }}
       />{' '}
       {s}
-    </>
+    </Fragment>
   ),
 }
 

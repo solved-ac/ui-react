@@ -1,8 +1,11 @@
 import styled from '@emotion/styled'
 import React, { ElementType } from 'react'
-import { PP, PR } from '../types/PolymorphicElementProps'
+import {
+  PolymorphicComponent,
+  PolymorphicComponentPropsWithRef,
+  PolymorphicRef,
+} from '../types/PolymorphicElementProps'
 import { computeHoverColor } from '../utils/color'
-import { forwardRefWithGenerics } from '../utils/ref'
 import { cssVariables } from '../utils/styles'
 
 const { vars, v, styles } = cssVariables(
@@ -88,44 +91,48 @@ const computeKnobActiveBorderColor = (
   return undefined
 }
 
-export const Switch = forwardRefWithGenerics(
-  <T extends ElementType>(props: PP<T, SwitchProps>, ref?: PR<T>) => {
-    const {
-      value,
-      onChange,
-      backgroundColor,
-      backgroundActiveColor,
-      knobColor,
-      knobActiveColor = knobColor,
-      ...rest
-    } = props
+export const Switch: PolymorphicComponent<'div', SwitchProps> =
+  React.forwardRef(
+    <C extends ElementType = 'div'>(
+      props: PolymorphicComponentPropsWithRef<C, SwitchProps>,
+      ref?: PolymorphicRef<C>
+    ) => {
+      const {
+        value,
+        onChange,
+        backgroundColor,
+        backgroundActiveColor,
+        knobColor,
+        knobActiveColor = knobColor,
+        ...rest
+      } = props
 
-    const computedKnobBorderColor = computeKnobBorderColor(props)
-    const computedKnobActiveBorderColor = computeKnobActiveBorderColor(props)
+      const computedKnobBorderColor = computeKnobBorderColor(props)
+      const computedKnobActiveBorderColor = computeKnobActiveBorderColor(props)
 
-    return (
-      <SwitchBase
-        ref={ref}
-        active={value}
-        onClick={() => onChange && onChange(!value)}
-        style={{
-          [vars.backgroundColor]: backgroundColor,
-          [vars.backgroundActiveColor]: backgroundActiveColor,
-        }}
-        {...rest}
-      >
-        <SwitchKnob
+      return (
+        <SwitchBase
+          ref={ref}
           active={value}
+          onClick={() => onChange && onChange(!value)}
           style={{
-            [vars.knobColor]: knobColor,
-            [vars.knobActiveColor]: knobActiveColor,
-            [vars.knobBorderColor]: computedKnobBorderColor,
-            [vars.knobActiveBorderColor]: computedKnobActiveBorderColor,
+            [vars.backgroundColor]: backgroundColor,
+            [vars.backgroundActiveColor]: backgroundActiveColor,
           }}
-        />
-      </SwitchBase>
-    )
-  }
-)
+          {...rest}
+        >
+          <SwitchKnob
+            active={value}
+            style={{
+              [vars.knobColor]: knobColor,
+              [vars.knobActiveColor]: knobActiveColor,
+              [vars.knobBorderColor]: computedKnobBorderColor,
+              [vars.knobActiveBorderColor]: computedKnobActiveBorderColor,
+            }}
+          />
+        </SwitchBase>
+      )
+    }
+  )
 
 export default Switch

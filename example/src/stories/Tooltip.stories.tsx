@@ -75,7 +75,7 @@ export default {
       defaultValue: false,
     },
   },
-} as Meta<typeof Tooltip>
+} satisfies Meta<typeof Tooltip>
 
 const Template: StoryFn<typeof Tooltip> = (args) => (
   <Centering

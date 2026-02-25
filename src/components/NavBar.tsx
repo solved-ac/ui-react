@@ -1,9 +1,12 @@
 import { useTheme } from '@emotion/react'
 import styled from '@emotion/styled'
 import React, { ElementType, PropsWithChildren } from 'react'
-import { PC, PP, PR } from '../types/PolymorphicElementProps'
+import {
+  PolymorphicComponent,
+  PolymorphicComponentPropsWithRef,
+  PolymorphicRef,
+} from '../types/PolymorphicElementProps'
 import { readableColor } from '../utils/color'
-import { forwardRefWithGenerics } from '../utils/ref'
 import { cssVariables } from '../utils/styles'
 
 export const navBarVariables = cssVariables(
@@ -28,23 +31,27 @@ export interface NavBarProps extends PropsWithChildren {
   backgroundColor?: string
 }
 
-export const NavBar: PC<'header', NavBarProps> = forwardRefWithGenerics(
-  <T extends ElementType>(props: PP<T, NavBarProps>, ref?: PR<T>) => {
-    const theme = useTheme()
-    const { backgroundColor, style, as = 'header', ...rest } = props
+export const NavBar: PolymorphicComponent<'header', NavBarProps> =
+  React.forwardRef(
+    <C extends ElementType = 'header'>(
+      props: PolymorphicComponentPropsWithRef<C, NavBarProps>,
+      ref?: PolymorphicRef<C>
+    ) => {
+      const theme = useTheme()
+      const { backgroundColor, style, as = 'header', ...rest } = props
 
-    return (
-      <NavbarContainer
-        ref={ref}
-        as={as}
-        style={{
-          [vars.backgroundColor]: backgroundColor,
-          [vars.textColor]:
-            backgroundColor && readableColor(backgroundColor, theme),
-          ...style,
-        }}
-        {...rest}
-      />
-    )
-  }
-)
+      return (
+        <NavbarContainer
+          ref={ref}
+          as={as}
+          style={{
+            [vars.backgroundColor]: backgroundColor,
+            [vars.textColor]:
+              backgroundColor && readableColor(backgroundColor, theme),
+            ...style,
+          }}
+          {...rest}
+        />
+      )
+    }
+  )

@@ -7,7 +7,7 @@ export default {
   component: Table,
   argTypes: {
     children: {
-      control: 'none',
+      control: undefined,
       description: 'The content to display inside the table',
     },
     padding: {
@@ -26,12 +26,12 @@ export default {
     },
     sticky: {
       control: {
-        type: 'string',
+        type: 'boolean',
       },
       description: 'Whether the table should be sticky',
     },
   },
-} as Meta<typeof Table>
+} satisfies Meta<typeof Table>
 
 const Template: StoryFn<typeof Table> = (args) => <Table {...args} />
 

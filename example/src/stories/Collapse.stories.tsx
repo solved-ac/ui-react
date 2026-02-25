@@ -18,15 +18,12 @@ export default {
       defaultValue: 'div',
     },
     children: {
-      control: 'none',
       description: 'The children to display',
     },
   },
-} as Meta<typeof Collapse>
+} satisfies Meta<typeof Collapse>
 
-const Template: StoryFn<typeof Collapse> = (args) => (
-  <Collapse {...args} />
-)
+const Template: StoryFn<typeof Collapse> = (args) => <Collapse {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

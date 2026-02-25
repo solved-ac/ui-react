@@ -3,8 +3,11 @@ import styled from '@emotion/styled'
 import { ellipsis } from 'polished'
 import React, { ElementType, PropsWithChildren } from 'react'
 import { SolvedTheme, solvedThemes } from '../styles'
-import { PC, PP, PR } from '../types/PolymorphicElementProps'
-import { forwardRefWithGenerics } from '../utils/ref'
+import {
+  PolymorphicComponent,
+  PolymorphicComponentPropsWithRef,
+  PolymorphicRef,
+} from '../types/PolymorphicElementProps'
 
 const variants = (theme: SolvedTheme) =>
   ({
@@ -150,34 +153,38 @@ const firstVariant = (variant?: TypoVariant[]): TypoVariant | undefined => {
   return undefined
 }
 
-export const Typo: PC<'span', TypoProps> = forwardRefWithGenerics(
-  <T extends ElementType>(props: PP<T, TypoProps>, ref?: PR<T>) => {
-    const { variant = [], as, ...rest } = props
+export const Typo: PolymorphicComponent<'span', TypoProps> =
+  React.forwardRef(
+    <C extends ElementType = 'span'>(
+      props: PolymorphicComponentPropsWithRef<C, TypoProps>,
+      ref?: PolymorphicRef<C>
+    ) => {
+      const { variant = [], as, ...rest } = props
 
-    const calculatedVariants = [
-      ...(typeof variant === 'string' ? [variant] : variant),
-      ...Object.entries(rest)
-        .filter(
-          ([k, v]) => variantKeys.includes(k) && typeof v === 'boolean' && v
-        )
-        .map(([k]) => k),
-    ] as TypoVariant[]
+      const calculatedVariants = [
+        ...(typeof variant === 'string' ? [variant] : variant),
+        ...Object.entries(rest)
+          .filter(
+            ([k, v]) => variantKeys.includes(k) && typeof v === 'boolean' && v
+          )
+          .map(([k]) => k),
+      ] as TypoVariant[]
 
-    // TODO types are wrong when `as` is inferred by variant
-    const calculatedAs =
-      as || asMap[firstVariant(calculatedVariants) ?? 'default'] || 'span'
+      // TODO types are wrong when `as` is inferred by variant
+      const calculatedAs =
+        as || asMap[firstVariant(calculatedVariants) ?? 'default'] || 'span'
 
-    const filteredRest = Object.fromEntries(
-      Object.entries(rest).filter(([k]) => !variantKeys.includes(k))
-    )
+      const filteredRest = Object.fromEntries(
+        Object.entries(rest).filter(([k]) => !variantKeys.includes(k))
+      )
 
-    return (
-      <TypoContainer
-        ref={ref}
-        as={calculatedAs}
-        variant={calculatedVariants}
-        {...filteredRest}
-      />
-    )
-  }
-)
+      return (
+        <TypoContainer
+          ref={ref}
+          as={calculatedAs}
+          variant={calculatedVariants}
+          {...filteredRest}
+        />
+      )
+    }
+  )

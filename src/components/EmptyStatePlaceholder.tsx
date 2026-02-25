@@ -1,7 +1,10 @@
 import styled from '@emotion/styled'
 import React, { ElementType, PropsWithChildren } from 'react'
-import { PC, PP, PR } from '../types/PolymorphicElementProps'
-import { forwardRefWithGenerics } from '../utils/ref'
+import {
+  PolymorphicComponent,
+  PolymorphicComponentPropsWithRef,
+  PolymorphicRef,
+} from '../types/PolymorphicElementProps'
 import { cssCentering } from '../utils/styles'
 
 const paddingMap = {
@@ -28,12 +31,14 @@ export interface EmptyStatePlaceholderProps extends PropsWithChildren {
   padding?: 'none' | 'normal' | 'wide'
 }
 
-export const EmptyStatePlaceholder: PC<'div', EmptyStatePlaceholderProps> =
-  forwardRefWithGenerics(
-    <T extends ElementType>(
-      props: PP<T, EmptyStatePlaceholderProps>,
-      ref?: PR<T>
-    ) => {
+export const EmptyStatePlaceholder: PolymorphicComponent<
+  'div',
+  EmptyStatePlaceholderProps
+> = React.forwardRef(
+  <C extends ElementType = 'div'>(
+    props: PolymorphicComponentPropsWithRef<C, EmptyStatePlaceholderProps>,
+    ref?: PolymorphicRef<C>
+  ) => {
       const { padding, fullHeight, as = 'div', ...rest } = props
 
       return (

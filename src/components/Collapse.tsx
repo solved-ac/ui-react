@@ -6,8 +6,11 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import { PC, PP, PR } from '../types/PolymorphicElementProps'
-import { forwardRefWithGenerics } from '../utils/ref'
+import {
+  PolymorphicComponent,
+  PolymorphicComponentPropsWithRef,
+  PolymorphicRef,
+} from '../types/PolymorphicElementProps'
 
 interface CollapseContainerProps {
   renderHeight: number | 'auto'
@@ -28,8 +31,12 @@ export interface CollapseProps extends PropsWithChildren {
   shown: boolean
 }
 
-export const Collapse: PC<'div', CollapseProps> = forwardRefWithGenerics(
-  <T extends ElementType>(props: PP<T, CollapseProps>, ref?: PR<T>) => {
+export const Collapse: PolymorphicComponent<'div', CollapseProps> =
+  React.forwardRef(
+    <C extends ElementType = 'div'>(
+      props: PolymorphicComponentPropsWithRef<C, CollapseProps>,
+      ref?: PolymorphicRef<C>
+    ) => {
     const { as = 'div', shown, children } = props
 
     const contentsRef = useRef<HTMLDivElement>(null)

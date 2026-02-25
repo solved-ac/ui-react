@@ -1,7 +1,10 @@
 import styled from '@emotion/styled'
 import React, { ElementType, PropsWithChildren, useContext } from 'react'
-import { PC, PP, PR } from '../../types/PolymorphicElementProps'
-import { forwardRefWithGenerics } from '../../utils/ref'
+import {
+  PolymorphicComponent,
+  PolymorphicComponentPropsWithRef,
+  PolymorphicRef,
+} from '../../types/PolymorphicElementProps'
 import { ItemizeContext } from './ItemizeContext'
 
 const marginMap = {
@@ -32,28 +35,32 @@ export interface ItemizeProps extends PropsWithChildren {
   margin?: 'none' | 'normal' | 'wide'
 }
 
-export const Itemize: PC<'ul', ItemizeProps> = forwardRefWithGenerics(
-  <T extends ElementType>(props: PP<T, ItemizeProps>, ref?: PR<T>) => {
-    const itemizeContext = useContext(ItemizeContext)
-    const {
-      margin = itemizeContext.level === 0 ? 'normal' : 'none',
-      marker = itemizeContext.level === 0 ? '✓' : '–',
-      as = 'ul',
-      ...rest
-    } = props
+export const Itemize: PolymorphicComponent<'ul', ItemizeProps> =
+  React.forwardRef(
+    <C extends ElementType = 'ul'>(
+      props: PolymorphicComponentPropsWithRef<C, ItemizeProps>,
+      ref?: PolymorphicRef<C>
+    ) => {
+      const itemizeContext = useContext(ItemizeContext)
+      const {
+        margin = itemizeContext.level === 0 ? 'normal' : 'none',
+        marker = itemizeContext.level === 0 ? '✓' : '–',
+        as = 'ul',
+        ...rest
+      } = props
 
-    return (
-      <ItemizeContext.Provider
-        value={{ marker, usesCounter: false, level: itemizeContext.level + 1 }}
-      >
-        <ItemizeContainer
-          margin={margin}
-          marker={marker}
-          ref={ref}
-          as={as}
-          {...rest}
-        />
-      </ItemizeContext.Provider>
-    )
-  }
-)
+      return (
+        <ItemizeContext.Provider
+          value={{ marker, usesCounter: false, level: itemizeContext.level + 1 }}
+        >
+          <ItemizeContainer
+            margin={margin}
+            marker={marker}
+            ref={ref}
+            as={as}
+            {...rest}
+          />
+        </ItemizeContext.Provider>
+      )
+    }
+  )

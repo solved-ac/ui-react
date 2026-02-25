@@ -7,7 +7,6 @@ export default {
   component: Footer,
   argTypes: {
     children: {
-      control: 'none',
       description: 'Children to display',
     },
     backgroundColor: {
@@ -19,7 +18,7 @@ export default {
       description: 'The element to render the footer as',
     },
   },
-} as Meta<typeof Footer>
+} satisfies Meta<typeof Footer>
 
 const Template: StoryFn<typeof Footer> = (args) => <Footer {...args} />
 

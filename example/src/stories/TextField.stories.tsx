@@ -30,11 +30,9 @@ export default {
       description: 'Whether the text field should be resizable',
     },
   },
-} as Meta<typeof TextField>
+} satisfies Meta<typeof TextField>
 
-const Template: StoryFn<typeof TextField> = (args) => (
-  <TextField {...args} />
-)
+const Template: StoryFn<typeof TextField> = (args) => <TextField {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

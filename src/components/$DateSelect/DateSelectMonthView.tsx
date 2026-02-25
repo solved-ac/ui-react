@@ -128,9 +128,7 @@ export interface DateSelectMonthView {
   setSelectState: React.Dispatch<React.SetStateAction<DateSelectCursor>>
 }
 
-export const DateSelectMonthView = (
-  props: DateSelectMonthView
-): JSX.Element => {
+export const DateSelectMonthView = (props: DateSelectMonthView) => {
   const context = useDateSelectContext()
 
   const {

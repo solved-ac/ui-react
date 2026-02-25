@@ -18,7 +18,7 @@ export default {
       description: 'The padding of the cell',
     },
   },
-} as Meta<typeof Cell>
+} satisfies Meta<typeof Cell>
 
 const Template: StoryFn<typeof Cell> = (args) => <Cell {...args} />
 
