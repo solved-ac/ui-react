@@ -7,11 +7,10 @@ export default {
   component: List,
   argTypes: {
     children: {
-      control: 'none',
       description: 'The children to display inside the list',
     },
   },
-} as Meta<typeof List>
+} satisfies Meta<typeof List>
 
 const Template: StoryFn<typeof List> = (args) => <List {...args} />
 

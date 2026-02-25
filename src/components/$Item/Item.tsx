@@ -1,7 +1,10 @@
 import styled from '@emotion/styled'
 import React, { ElementType, PropsWithChildren, useContext } from 'react'
-import { PC, PP, PR } from '../../types/PolymorphicElementProps'
-import { forwardRefWithGenerics } from '../../utils/ref'
+import {
+  PolymorphicComponent,
+  PolymorphicComponentPropsWithRef,
+  PolymorphicRef,
+} from '../../types/PolymorphicElementProps'
 import { ItemizeContext } from './ItemizeContext'
 
 interface ItemContainerProps {
@@ -21,8 +24,11 @@ export interface ItemProps extends PropsWithChildren {
   marker?: string
 }
 
-export const Item: PC<'li', ItemProps> = forwardRefWithGenerics(
-  <T extends ElementType>(props: PP<T, ItemProps>, ref?: PR<T>) => {
+export const Item: PolymorphicComponent<'li', ItemProps> = React.forwardRef(
+  <C extends ElementType = 'li'>(
+    props: PolymorphicComponentPropsWithRef<C, ItemProps>,
+    ref?: PolymorphicRef<C>
+  ) => {
     const itemizeContext = useContext(ItemizeContext)
     const { marker = itemizeContext.marker, as = 'li', ...rest } = props
 

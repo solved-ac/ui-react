@@ -18,7 +18,7 @@ export default {
       description: 'The element to render the divider as',
     },
   },
-} as Meta<typeof Divider>
+} satisfies Meta<typeof Divider>
 
 const Template: StoryFn<typeof Divider> = (args) => <Divider {...args} />
 

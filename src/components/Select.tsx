@@ -30,9 +30,11 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import { PP, PR } from '../types/PolymorphicElementProps'
+import {
+  PolymorphicComponentPropsWithRef,
+  PolymorphicRef,
+} from '../types/PolymorphicElementProps'
 import { Timeout } from '../types/Timeout'
-import { forwardRefWithGenerics } from '../utils/ref'
 import { cssClickable, cssDisablable } from '../utils/styles'
 import { ListItem, ListItemProps } from './$List'
 import { Centering } from './Centering'
@@ -96,13 +98,13 @@ export interface SelectProps<T extends SelectItemNode>
   zIndex?: number
   onChange?: (value: T) => void
   render?: (value: T, index?: number) => ReactNode
-  ListItemProps?: Partial<PP<'div', ListItemProps>>
+  ListItemProps?: Partial<PolymorphicComponentPropsWithRef<'div', ListItemProps>>
 }
 
-export const Select = forwardRefWithGenerics(
-  <T extends ElementType, E extends SelectItemNode>(
-    props: PP<T, SelectProps<E>>,
-    ref?: PR<T>
+export const Select = React.forwardRef(
+  <C extends ElementType = 'div', E extends SelectItemNode = SelectItemNode>(
+    props: PolymorphicComponentPropsWithRef<C, SelectProps<E>>,
+    ref?: PolymorphicRef<C>
   ) => {
     const {
       fullWidth = false,
@@ -121,7 +123,7 @@ export const Select = forwardRefWithGenerics(
     const listContentRef = useRef<Array<string | null>>([])
     const allowSelectRef = useRef(false)
     const allowMouseUpRef = useRef(true)
-    const selectTimeoutRef = useRef<Timeout>()
+    const selectTimeoutRef = useRef<Timeout | null>(null)
 
     const [open, setOpen] = useState(false)
     const [selectedIndex, setSelectedIndex] = useState(0)
@@ -262,7 +264,6 @@ export const Select = forwardRefWithGenerics(
           ellipsis={!disableEllipsis}
           role="button"
           tabIndex={0}
-          type="button"
           {...getReferenceProps({
             onTouchStart() {
               setTouch(true)

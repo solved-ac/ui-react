@@ -1,7 +1,10 @@
 import styled from '@emotion/styled'
 import React, { ElementType, PropsWithChildren } from 'react'
-import { PC, PP, PR } from '../types/PolymorphicElementProps'
-import { forwardRefWithGenerics } from '../utils/ref'
+import {
+  PolymorphicComponent,
+  PolymorphicComponentPropsWithRef,
+  PolymorphicRef,
+} from '../types/PolymorphicElementProps'
 import { cssVariables } from '../utils/styles'
 
 const { vars, v, styles } = cssVariables(
@@ -35,30 +38,34 @@ export interface FooterProps extends PropsWithChildren {
   padding?: 'none' | 'normal' | 'wide'
 }
 
-export const Footer: PC<'footer', FooterProps> = forwardRefWithGenerics(
-  <T extends ElementType>(props: PP<T, FooterProps>, ref?: PR<T>) => {
-    const {
-      backgroundColor,
-      padding = 'normal',
-      style,
-      as = 'footer',
-      ...rest
-    } = props
+export const Footer: PolymorphicComponent<'footer', FooterProps> =
+  React.forwardRef(
+    <C extends ElementType = 'footer'>(
+      props: PolymorphicComponentPropsWithRef<C, FooterProps>,
+      ref?: PolymorphicRef<C>
+    ) => {
+      const {
+        backgroundColor,
+        padding = 'normal',
+        style,
+        as = 'footer',
+        ...rest
+      } = props
 
-    return (
-      <FooterContainer
-        ref={ref}
-        as={as}
-        padding={padding}
-        style={{
-          [vars.backgroundColor]: backgroundColor,
-          // TODO:
-          // [vars.textColor]:
-          //   backgroundColor && readableColor(backgroundColor, theme),
-          ...style,
-        }}
-        {...rest}
-      />
-    )
-  }
-)
+      return (
+        <FooterContainer
+          ref={ref}
+          as={as}
+          padding={padding}
+          style={{
+            [vars.backgroundColor]: backgroundColor,
+            // TODO:
+            // [vars.textColor]:
+            //   backgroundColor && readableColor(backgroundColor, theme),
+            ...style,
+          }}
+          {...rest}
+        />
+      )
+    }
+  )

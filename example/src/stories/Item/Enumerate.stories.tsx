@@ -7,15 +7,12 @@ export default {
   component: Enumerate,
   argTypes: {
     children: {
-      control: 'none',
       description: 'The children to display inside the list',
     },
   },
-} as Meta<typeof Enumerate>
+} satisfies Meta<typeof Enumerate>
 
-const Template: StoryFn<typeof Enumerate> = (args) => (
-  <Enumerate {...args} />
-)
+const Template: StoryFn<typeof Enumerate> = (args) => <Enumerate {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

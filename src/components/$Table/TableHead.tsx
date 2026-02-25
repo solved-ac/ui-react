@@ -1,7 +1,10 @@
 import styled from '@emotion/styled'
 import React, { ElementType, PropsWithChildren, useContext } from 'react'
-import { PC, PP, PR } from '../../types/PolymorphicElementProps'
-import { forwardRefWithGenerics } from '../../utils/ref'
+import {
+  PolymorphicComponent,
+  PolymorphicComponentPropsWithRef,
+  PolymorphicRef,
+} from '../../types/PolymorphicElementProps'
 import { TableContext } from './TableContext'
 import { TableRowGroupContext } from './TableRowGroupContext'
 
@@ -31,20 +34,24 @@ export interface TableHeadProps extends PropsWithChildren {
   verticalAlign?: 'top' | 'middle' | 'bottom'
 }
 
-export const TableHead: PC<'thead', TableHeadProps> = forwardRefWithGenerics(
-  <T extends ElementType>(props: PP<T, TableHeadProps>, ref?: PR<T>) => {
-    const tableContext = useContext(TableContext)
-    const {
-      sticky = tableContext.sticky,
-      verticalAlign = tableContext.verticalAlign,
-      as = 'thead',
-      ...rest
-    } = props
+export const TableHead: PolymorphicComponent<'thead', TableHeadProps> =
+  React.forwardRef(
+    <C extends ElementType = 'thead'>(
+      props: PolymorphicComponentPropsWithRef<C, TableHeadProps>,
+      ref?: PolymorphicRef<C>
+    ) => {
+      const tableContext = useContext(TableContext)
+      const {
+        sticky = tableContext.sticky,
+        verticalAlign = tableContext.verticalAlign,
+        as = 'thead',
+        ...rest
+      } = props
 
-    return (
-      <TableRowGroupContext.Provider value={{ header: true, verticalAlign }}>
-        <TableHeadContainer sticky={sticky} ref={ref} as={as} {...rest} />
-      </TableRowGroupContext.Provider>
-    )
-  }
-)
+      return (
+        <TableRowGroupContext.Provider value={{ header: true, verticalAlign }}>
+          <TableHeadContainer sticky={sticky} ref={ref} as={as} {...rest} />
+        </TableRowGroupContext.Provider>
+      )
+    }
+  )

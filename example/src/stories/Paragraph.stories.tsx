@@ -7,7 +7,6 @@ export default {
   component: Paragraph,
   argTypes: {
     children: {
-      control: 'none',
       description: 'Children to display',
     },
     margin: {
@@ -19,11 +18,9 @@ export default {
       description: 'The element to render the paragraph as',
     },
   },
-} as Meta<typeof Paragraph>
+} satisfies Meta<typeof Paragraph>
 
-const Template: StoryFn<typeof Paragraph> = (args) => (
-  <Paragraph {...args} />
-)
+const Template: StoryFn<typeof Paragraph> = (args) => <Paragraph {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

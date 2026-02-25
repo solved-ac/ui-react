@@ -1,30 +1,23 @@
-const path = require('path')
-const toPath = (_path) => path.join(process.cwd(), _path)
-module.exports = {
+/** @type {import('@storybook/react-vite').StorybookConfig} */
+const config = {
   stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
-  addons: [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@storybook/addon-interactions',
-    // '@storybook/preset-create-react-app',
-  ],
-  webpackFinal: async (config) => ({
-    ...config,
-    resolve: {
-      ...config.resolve,
-      alias: {
-        ...config.resolve.alias,
-        '@emotion/core': toPath('node_modules/@emotion/react'),
-        '@emotion/styled': toPath('node_modules/@emotion/styled'),
-        'emotion-theming': toPath('node_modules/@emotion/react'),
-      },
-    },
-  }),
+  addons: ['@storybook/addon-links'],
   framework: {
-    name: '@storybook/react-webpack5',
+    name: '@storybook/react-vite',
     options: {},
   },
   docs: {
     autodocs: true,
   },
+  viteFinal: (config) => {
+    config.build = config.build ?? {}
+    config.build.rollupOptions = config.build.rollupOptions ?? {}
+    config.build.rollupOptions.onwarn = (warning, warn) => {
+      if (warning.code === 'MODULE_LEVEL_DIRECTIVE') return
+      warn(warning)
+    }
+    return config
+  },
 }
+
+export default config

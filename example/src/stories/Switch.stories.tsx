@@ -36,7 +36,7 @@ export default {
       description: 'The border color of the knob when active',
     },
   },
-} as Meta<typeof Switch>
+} satisfies Meta<typeof Switch>
 
 const Template: StoryFn<typeof Switch> = (args) => <Switch {...args} />
 

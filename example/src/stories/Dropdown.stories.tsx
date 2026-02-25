@@ -26,7 +26,7 @@ export default {
       defaultValue: true,
     },
   },
-} as Meta<typeof Dropdown>
+} satisfies Meta<typeof Dropdown>
 
 const Template: StoryFn<typeof Dropdown> = (args) => (
   <Centering

@@ -1,8 +1,11 @@
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 import React, { ElementType, PropsWithChildren, useContext } from 'react'
-import { PC, PP, PR } from '../../types/PolymorphicElementProps'
-import { forwardRefWithGenerics } from '../../utils/ref'
+import {
+  PolymorphicComponent,
+  PolymorphicComponentPropsWithRef,
+  PolymorphicRef,
+} from '../../types/PolymorphicElementProps'
 import { TableContext } from './TableContext'
 import { TableRowGroupContext } from './TableRowGroupContext'
 
@@ -42,31 +45,35 @@ export interface CellProps extends PropsWithChildren {
   numeric?: boolean
 }
 
-export const Cell: PC<'td', CellProps> = forwardRefWithGenerics(
-  <T extends ElementType>(props: PP<T, CellProps>, ref?: PR<T>) => {
-    const tableContext = useContext(TableContext)
-    const tableRowGroupContext = useContext(TableRowGroupContext)
-    const {
-      padding = tableContext.padding,
-      verticalAlign = tableRowGroupContext.verticalAlign,
-      header = tableRowGroupContext.header,
-      as,
-      numeric = false,
-      ...rest
-    } = props
+export const Cell: PolymorphicComponent<'td', CellProps> =
+  React.forwardRef(
+    <C extends ElementType = 'td'>(
+      props: PolymorphicComponentPropsWithRef<C, CellProps>,
+      ref?: PolymorphicRef<C>
+    ) => {
+      const tableContext = useContext(TableContext)
+      const tableRowGroupContext = useContext(TableRowGroupContext)
+      const {
+        padding = tableContext.padding,
+        verticalAlign = tableRowGroupContext.verticalAlign,
+        header = tableRowGroupContext.header,
+        as,
+        numeric = false,
+        ...rest
+      } = props
 
-    const calculatedAs = as || (header ? 'th' : 'td')
+      const calculatedAs = as || (header ? 'th' : 'td')
 
-    return (
-      <CellContainer
-        padding={padding}
-        verticalAlign={verticalAlign}
-        numeric={numeric}
-        header={header}
-        ref={ref}
-        as={calculatedAs}
-        {...rest}
-      />
-    )
-  }
-)
+      return (
+        <CellContainer
+          padding={padding}
+          verticalAlign={verticalAlign}
+          numeric={numeric}
+          header={header}
+          ref={ref}
+          as={calculatedAs}
+          {...rest}
+        />
+      )
+    }
+  )

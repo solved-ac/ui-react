@@ -1,9 +1,12 @@
 import { css, useTheme } from '@emotion/react'
 import styled from '@emotion/styled'
 import React, { ElementType, PropsWithChildren } from 'react'
-import { PC, PP, PR } from '../../types/PolymorphicElementProps'
+import {
+  PolymorphicComponent,
+  PolymorphicComponentPropsWithRef,
+  PolymorphicRef,
+} from '../../types/PolymorphicElementProps'
 import { computeHoverColor, readableColor } from '../../utils/color'
-import { forwardRefWithGenerics } from '../../utils/ref'
 import { cssClickable, cssVariables } from '../../utils/styles'
 import { transparentHoverTemplate } from '../../utils/variables'
 
@@ -64,50 +67,54 @@ export interface ListItemProps extends PropsWithChildren {
   padding?: 'none' | 'normal' | 'wide'
 }
 
-export const ListItem: PC<'div', ListItemProps> = forwardRefWithGenerics(
-  <T extends ElementType>(props: PP<T, ListItemProps>, ref?: PR<T>) => {
-    const solvedTheme = useTheme()
+export const ListItem: PolymorphicComponent<'div', ListItemProps> =
+  React.forwardRef(
+    <C extends ElementType = 'div'>(
+      props: PolymorphicComponentPropsWithRef<C, ListItemProps>,
+      ref?: PolymorphicRef<C>
+    ) => {
+      const solvedTheme = useTheme()
 
-    const {
-      backgroundColor,
-      hoverColor,
-      clickable = false,
-      disabled = false,
-      padding = 'normal',
-      style,
-      children,
-      as = 'div',
-      ...rest
-    } = props
+      const {
+        backgroundColor,
+        hoverColor,
+        clickable = false,
+        disabled = false,
+        padding = 'normal',
+        style,
+        children,
+        as = 'div',
+        ...rest
+      } = props
 
-    const computedHoverColor =
-      hoverColor || (backgroundColor && computeHoverColor(backgroundColor))
+      const computedHoverColor =
+        hoverColor || (backgroundColor && computeHoverColor(backgroundColor))
 
-    return (
-      <ListItemWrapper>
-        <ListItemContainer
-          ref={ref}
-          as={as}
-          role={clickable ? 'button' : undefined}
-          tabindex={clickable ? 0 : undefined}
-          disabled={disabled && clickable}
-          clickable={clickable}
-          padding={padding}
-          style={{
-            [vars.backgroundColor]: backgroundColor,
-            [vars.hoverBackgroundColor]: computedHoverColor,
-            [vars.textColor]:
-              backgroundColor && readableColor(backgroundColor, solvedTheme),
-            [vars.hoverTextColor]:
-              computedHoverColor &&
-              readableColor(computedHoverColor, solvedTheme),
-            ...style,
-          }}
-          {...rest}
-        >
-          {children}
-        </ListItemContainer>
-      </ListItemWrapper>
-    )
-  }
-)
+      return (
+        <ListItemWrapper>
+          <ListItemContainer
+            ref={ref}
+            as={as}
+            role={clickable ? 'button' : undefined}
+            tabIndex={clickable ? 0 : undefined}
+            disabled={disabled && clickable}
+            clickable={clickable}
+            padding={padding}
+            style={{
+              [vars.backgroundColor]: backgroundColor,
+              [vars.hoverBackgroundColor]: computedHoverColor,
+              [vars.textColor]:
+                backgroundColor && readableColor(backgroundColor, solvedTheme),
+              [vars.hoverTextColor]:
+                computedHoverColor &&
+                readableColor(computedHoverColor, solvedTheme),
+              ...style,
+            }}
+            {...rest}
+          >
+            {children}
+          </ListItemContainer>
+        </ListItemWrapper>
+      )
+    }
+  )

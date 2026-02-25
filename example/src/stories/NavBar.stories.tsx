@@ -7,7 +7,6 @@ export default {
   component: NavBar,
   argTypes: {
     children: {
-      control: 'none',
       description: 'Children to display',
     },
     backgroundColor: {
@@ -19,7 +18,7 @@ export default {
       description: 'The element to render the container as',
     },
   },
-} as Meta<typeof NavBar>
+} satisfies Meta<typeof NavBar>
 
 const Template: StoryFn<typeof NavBar> = (args) => <NavBar {...args} />
 
