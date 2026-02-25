@@ -1,0 +1,5 @@
+import{d as c,j as r,e as u,B as g}from"./iframe-aIwZw5cp.js";import e from"./Tooltip.stories-fk1-eV-M.js";import"./preload-helper-Dp1pzeXC.js";var a,o,n,s;const C={title:"Components/Dropdown",component:c,argTypes:{...e.argTypes,interactive:{...((a=e.argTypes)==null?void 0:a.interactive)||{},defaultValue:!0},activateOnHover:{...((o=e.argTypes)==null?void 0:o.activateOnHover)||{},defaultValue:!1},activateOnClick:{...((n=e.argTypes)==null?void 0:n.activateOnClick)||{},defaultValue:!0},noThemeChange:{...((s=e.argTypes)==null?void 0:s.noThemeChange)||{},defaultValue:!0}}},m=d=>r.jsx(u,{style:{height:200},children:r.jsx(c,{...d})}),t=m.bind({});t.args={children:r.jsx(g,{children:"Click me!"}),title:"Dropdown"};var i,l,p;t.parameters={...t.parameters,docs:{...(i=t.parameters)==null?void 0:i.docs,source:{originalSource:`args => <Centering style={{
+  height: 200
+}}>
+    <Dropdown {...args} />
+  </Centering>`,...(p=(l=t.parameters)==null?void 0:l.docs)==null?void 0:p.source}}};const v=["Default"];export{t as Default,v as __namedExportsOrder,C as default};
