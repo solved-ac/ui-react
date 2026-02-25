@@ -39,7 +39,7 @@ export default {
       description: 'The element to render the item as',
     },
   },
-} as Meta<typeof Tab>
+} satisfies Meta<typeof Tab>
 
 const Template: StoryFn<typeof Tab> = (args) => <Tab {...args} />
 

@@ -1,7 +1,10 @@
 import styled from '@emotion/styled'
 import React, { ElementType, PropsWithChildren } from 'react'
-import { PC, PP, PR } from '../../types/PolymorphicElementProps'
-import { forwardRefWithGenerics } from '../../utils/ref'
+import {
+  PolymorphicComponent,
+  PolymorphicComponentPropsWithRef,
+  PolymorphicRef,
+} from '../../types/PolymorphicElementProps'
 
 interface TabsContainerProps {
   fullWidth: boolean
@@ -20,17 +23,21 @@ export interface TabsProps extends PropsWithChildren {
   multiline?: boolean
 }
 
-export const Tabs: PC<'nav', TabsProps> = forwardRefWithGenerics(
-  <T extends ElementType>(props: PP<T, TabsProps>, ref?: PR<T>) => {
-    const { fullWidth = false, multiline = false, as = 'nav', ...rest } = props
-    return (
-      <TabsContainer
-        ref={ref}
-        as={as}
-        fullWidth={fullWidth}
-        multiline={multiline}
-        {...rest}
-      />
-    )
-  }
-)
+export const Tabs: PolymorphicComponent<'nav', TabsProps> =
+  React.forwardRef(
+    <C extends ElementType = 'nav'>(
+      props: PolymorphicComponentPropsWithRef<C, TabsProps>,
+      ref?: PolymorphicRef<C>
+    ) => {
+      const { fullWidth = false, multiline = false, as = 'nav', ...rest } = props
+      return (
+        <TabsContainer
+          ref={ref}
+          as={as}
+          fullWidth={fullWidth}
+          multiline={multiline}
+          {...rest}
+        />
+      )
+    }
+  )

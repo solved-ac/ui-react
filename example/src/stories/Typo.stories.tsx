@@ -50,7 +50,7 @@ export default {
       description: 'The element to render the card as',
     },
   },
-} as Meta<typeof Typo>
+} satisfies Meta<typeof Typo>
 
 const Template: StoryFn<typeof Typo> = (args) => <Typo {...args} />
 

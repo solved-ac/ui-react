@@ -1,7 +1,10 @@
 import styled from '@emotion/styled'
 import React, { ElementType, PropsWithChildren } from 'react'
-import { PC, PP, PR } from '../types/PolymorphicElementProps'
-import { forwardRefWithGenerics } from '../utils/ref'
+import {
+  PolymorphicComponent,
+  PolymorphicComponentPropsWithRef,
+  PolymorphicRef,
+} from '../types/PolymorphicElementProps'
 import { cssVariables } from '../utils/styles'
 
 const { vars, v, styles } = cssVariables(
@@ -36,8 +39,12 @@ export interface ContainerProps extends PropsWithChildren {
   topBarPadding?: boolean
 }
 
-export const Container: PC<'div', ContainerProps> = forwardRefWithGenerics(
-  <T extends ElementType>(props: PP<T, ContainerProps>, ref?: PR<T>) => {
+export const Container: PolymorphicComponent<'div', ContainerProps> =
+  React.forwardRef(
+    <C extends ElementType = 'div'>(
+      props: PolymorphicComponentPropsWithRef<C, ContainerProps>,
+      ref?: PolymorphicRef<C>
+    ) => {
     const {
       w = '1200px',
       padding = 'normal',

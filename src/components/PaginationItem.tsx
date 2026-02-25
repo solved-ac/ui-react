@@ -2,9 +2,12 @@ import { css, useTheme } from '@emotion/react'
 import styled from '@emotion/styled'
 import { ellipsis } from 'polished'
 import React, { ElementType, PropsWithChildren } from 'react'
-import { PC, PP, PR } from '../types/PolymorphicElementProps'
+import {
+  PolymorphicComponent,
+  PolymorphicComponentPropsWithRef,
+  PolymorphicRef,
+} from '../types/PolymorphicElementProps'
 import { computeHoverColor, readableColor } from '../utils/color'
-import { forwardRefWithGenerics } from '../utils/ref'
 import { cssClickable, cssVariables } from '../utils/styles'
 import { transparentHoverTemplate } from '../utils/variables'
 
@@ -62,9 +65,12 @@ export interface PaginationItemProps extends PropsWithChildren {
   activeColor?: string
 }
 
-export const PaginationItem: PC<'a', PaginationItemProps> =
-  forwardRefWithGenerics(
-    <T extends ElementType>(props: PP<T, PaginationItemProps>, ref?: PR<T>) => {
+export const PaginationItem: PolymorphicComponent<'a', PaginationItemProps> =
+  React.forwardRef(
+    <C extends ElementType = 'a'>(
+      props: PolymorphicComponentPropsWithRef<C, PaginationItemProps>,
+      ref?: PolymorphicRef<C>
+    ) => {
       const solvedTheme = useTheme()
 
       const {
@@ -89,7 +95,7 @@ export const PaginationItem: PC<'a', PaginationItemProps> =
           ref={ref}
           as={as}
           role="button"
-          tabindex={0}
+          tabIndex={0}
           current={current}
           disabled={disabled}
           style={{

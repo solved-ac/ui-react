@@ -27,11 +27,9 @@ export default {
       description: 'The element to render the container as',
     },
   },
-} as Meta<typeof Container>
+} satisfies Meta<typeof Container>
 
-const Template: StoryFn<typeof Container> = (args) => (
-  <Container {...args} />
-)
+const Template: StoryFn<typeof Container> = (args) => <Container {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

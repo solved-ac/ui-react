@@ -1,76 +1,29 @@
 {
   "name": "@solved-ac/ui-react-example",
-  "homepage": ".",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "start": "node ../node_modules/react-scripts/bin/react-scripts.js start",
-    "build": "node ../node_modules/react-scripts/bin/react-scripts.js build",
-    "test": "node ../node_modules/react-scripts/bin/react-scripts.js test",
-    "eject": "node ../node_modules/react-scripts/bin/react-scripts.js eject",
-    "storybook": "storybook dev -p 6006 -s public",
-    "build-storybook": "storybook build -s public"
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@emotion/react": "link:../node_modules/@emotion/react",
     "@emotion/styled": "link:../node_modules/@emotion/styled",
     "@floating-ui/react": "link:../node_modules/@floating-ui/react",
     "@solved-ac/ui-react": "link:..",
-    "@testing-library/jest-dom": "link:../node_modules/@testing-library/jest-dom",
-    "@testing-library/react": "link:../node_modules/@testing-library/react",
-    "@testing-library/user-event": "link:../node_modules/@testing-library/user-event",
-    "@types/jest": "link:../node_modules/@types/jest",
-    "@types/node": "link:../node_modules/@types/node",
     "@types/react": "link:../node_modules/@types/react",
     "@types/react-dom": "link:../node_modules/@types/react-dom",
     "framer-motion": "link:../node_modules/framer-motion",
     "react": "link:../node_modules/react",
     "react-dom": "link:../node_modules/react-dom",
-    "react-scripts": "link:../node_modules/react-scripts",
     "typescript": "link:../node_modules/typescript"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0",
-    "@babel/plugin-syntax-object-rest-spread": "^7.8.3",
-    "@babel/preset-env": "^7.22.5",
-    "@babel/preset-react": "^7.22.5",
-    "@babel/preset-typescript": "^7.22.5",
-    "@storybook/addon-actions": "^7.0.21",
-    "@storybook/addon-essentials": "^7.0.21",
-    "@storybook/addon-interactions": "^7.0.21",
-    "@storybook/addon-links": "^7.0.21",
-    "@storybook/node-logger": "^7.0.21",
-    "@storybook/preset-create-react-app": "^7.0.21",
-    "@storybook/react": "^7.0.21",
-    "@storybook/react-webpack5": "^7.0.21",
-    "@storybook/testing-library": "^0.1.0",
-    "babel-plugin-dynamic-import-node": "^2.3.3",
-    "storybook": "^7.0.21",
-    "webpack": "5"
-  },
-  "eslintConfig": {
-    "extends": "react-app",
-    "overrides": [
-      {
-        "files": [
-          "**/*.stories.*"
-        ],
-        "rules": {
-          "import/no-anonymous-default-export": "off"
-        }
-      }
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "@storybook/addon-links": "^10.2.12",
+    "@storybook/react": "^10.2.12",
+    "@storybook/react-vite": "^10.2.12",
+    "storybook": "^10.2.12",
+    "vite": "^6.0.0"
   }
 }

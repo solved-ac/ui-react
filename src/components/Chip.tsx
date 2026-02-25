@@ -1,9 +1,12 @@
 import { useTheme } from '@emotion/react'
 import styled from '@emotion/styled'
 import React, { ElementType, PropsWithChildren } from 'react'
-import { PC, PP, PR } from '../types/PolymorphicElementProps'
+import {
+  PolymorphicComponent,
+  PolymorphicComponentPropsWithRef,
+  PolymorphicRef,
+} from '../types/PolymorphicElementProps'
 import { readableColor } from '../utils/color'
-import { forwardRefWithGenerics } from '../utils/ref'
 import { cssVariables } from '../utils/styles'
 
 const { vars, v, styles } = cssVariables(
@@ -28,8 +31,11 @@ export interface ChipProps extends PropsWithChildren {
   backgroundColor?: string
 }
 
-export const Chip: PC<'div', ChipProps> = forwardRefWithGenerics(
-  <T extends ElementType>(props: PP<T, ChipProps>, ref?: PR<T>) => {
+export const Chip: PolymorphicComponent<'div', ChipProps> = React.forwardRef(
+  <C extends ElementType = 'div'>(
+    props: PolymorphicComponentPropsWithRef<C, ChipProps>,
+    ref?: PolymorphicRef<C>
+  ) => {
     const theme = useTheme()
     const { backgroundColor, style, as = 'div', ...rest } = props
 

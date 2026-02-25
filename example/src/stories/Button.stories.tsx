@@ -48,7 +48,7 @@ export default {
       description: 'The element to render the button as',
     },
   },
-} as Meta<typeof Button>
+} satisfies Meta<typeof Button>
 
 const Template: StoryFn<typeof Button> = (args) => <Button {...args} />
 

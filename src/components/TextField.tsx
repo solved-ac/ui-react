@@ -1,7 +1,10 @@
 import styled from '@emotion/styled'
 import React, { ElementType, PropsWithChildren } from 'react'
-import { PC, PP, PR } from '../types/PolymorphicElementProps'
-import { forwardRefWithGenerics } from '../utils/ref'
+import {
+  PolymorphicComponent,
+  PolymorphicComponentPropsWithRef,
+  PolymorphicRef,
+} from '../types/PolymorphicElementProps'
 import { cssDisablable } from '../utils/styles'
 
 interface TextFieldContainerProps {
@@ -43,27 +46,31 @@ const getResizable = (
   return resizable
 }
 
-export const TextField: PC<'input', TextFieldProps> = forwardRefWithGenerics(
-  <T extends ElementType>(props: PP<T, TextFieldProps>, ref?: PR<T>) => {
-    const {
-      fullWidth = false,
-      multiline = false,
-      disabled = false,
-      resizable = false,
-      // TODO types are wrong when `as` is inferred by variant
-      as = multiline ? 'textarea' : 'input',
-      ...rest
-    } = props
+export const TextField: PolymorphicComponent<'input', TextFieldProps> =
+  React.forwardRef(
+    <C extends ElementType = 'input'>(
+      props: PolymorphicComponentPropsWithRef<C, TextFieldProps>,
+      ref?: PolymorphicRef<C>
+    ) => {
+      const {
+        fullWidth = false,
+        multiline = false,
+        disabled = false,
+        resizable = false,
+        // TODO types are wrong when `as` is inferred by variant
+        as = multiline ? 'textarea' : 'input',
+        ...rest
+      } = props
 
-    return (
-      <TextFieldContainer
-        fullWidth={fullWidth}
-        disabled={disabled}
-        resizable={getResizable(resizable)}
-        ref={ref}
-        as={as}
-        {...rest}
-      />
-    )
-  }
-)
+      return (
+        <TextFieldContainer
+          fullWidth={fullWidth}
+          disabled={disabled}
+          resizable={getResizable(resizable)}
+          ref={ref}
+          as={as}
+          {...rest}
+        />
+      )
+    }
+  )

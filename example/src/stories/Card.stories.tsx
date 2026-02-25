@@ -35,7 +35,7 @@ export default {
       description: 'The element to render the card as',
     },
   },
-} as Meta<typeof Card>
+} satisfies Meta<typeof Card>
 
 const Template: StoryFn<typeof Card> = (args) => <Card {...args} />
 

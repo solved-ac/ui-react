@@ -31,7 +31,7 @@ export default {
       description: 'The element to render the item as',
     },
   },
-} as Meta<typeof PaginationItem>
+} satisfies Meta<typeof PaginationItem>
 
 const Template: StoryFn<typeof PaginationItem> = (args) => (
   <PaginationItem {...args} />

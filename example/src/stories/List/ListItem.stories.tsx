@@ -42,11 +42,9 @@ export default {
       description: 'The element to render the list item as',
     },
   },
-} as Meta<typeof ListItem>
+} satisfies Meta<typeof ListItem>
 
-const Template: StoryFn<typeof ListItem> = (args) => (
-  <ListItem {...args} />
-)
+const Template: StoryFn<typeof ListItem> = (args) => <ListItem {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

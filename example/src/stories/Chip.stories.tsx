@@ -19,7 +19,7 @@ export default {
       description: 'The element to render the chip as',
     },
   },
-} as Meta<typeof Chip>
+} satisfies Meta<typeof Chip>
 
 const Template: StoryFn<typeof Chip> = (args) => <Chip {...args} />
 

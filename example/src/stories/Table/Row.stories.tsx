@@ -24,7 +24,7 @@ export default {
       description: 'Whether the row is a header',
     },
   },
-} as Meta<typeof Row>
+} satisfies Meta<typeof Row>
 
 const Template: StoryFn<typeof Row> = (args) => <Row {...args} />
 

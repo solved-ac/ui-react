@@ -20,7 +20,7 @@ export default {
       description: 'Whether the tabs should be displayed in multiple lines',
     },
   },
-} as Meta<typeof Tabs>
+} satisfies Meta<typeof Tabs>
 
 const Template: StoryFn<typeof Tabs> = (args) => <Tabs {...args} />
 

@@ -24,7 +24,7 @@ export default {
       description: 'The element to render the placeholder as',
     },
   },
-} as Meta<typeof EmptyStatePlaceholder>
+} satisfies Meta<typeof EmptyStatePlaceholder>
 
 const Template: StoryFn<typeof EmptyStatePlaceholder> = (args) => (
   <EmptyStatePlaceholder {...args} />

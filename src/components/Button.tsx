@@ -2,9 +2,12 @@ import { useTheme } from '@emotion/react'
 import styled from '@emotion/styled'
 import { transparentize } from 'polished'
 import React, { ElementType, PropsWithChildren } from 'react'
-import { PC, PP, PR } from '../types/PolymorphicElementProps'
+import {
+  PolymorphicComponent,
+  PolymorphicComponentPropsWithRef,
+  PolymorphicRef,
+} from '../types/PolymorphicElementProps'
 import { computeHoverColor, readableColor } from '../utils/color'
-import { forwardRefWithGenerics } from '../utils/ref'
 import { cssClickable, cssVariables } from '../utils/styles'
 import { cardHoverTemplate } from '../utils/variables'
 
@@ -98,55 +101,59 @@ const useComputedHoverColor = (props: ButtonProps): string | undefined => {
   return undefined
 }
 
-export const Button: PC<'button', ButtonProps> = forwardRefWithGenerics(
-  <T extends ElementType>(props: PP<T, ButtonProps>, ref?: PR<T>) => {
-    const solvedTheme = useTheme()
+export const Button: PolymorphicComponent<'button', ButtonProps> =
+  React.forwardRef(
+    <C extends ElementType = 'button'>(
+      props: PolymorphicComponentPropsWithRef<C, ButtonProps>,
+      ref?: PolymorphicRef<C>
+    ) => {
+      const solvedTheme = useTheme()
 
-    const {
-      disabled = false,
-      circle = false,
-      fullWidth = false,
-      padding = 'normal',
-      style,
-      children,
-      as = 'button',
-      ...rest
-    } = props
+      const {
+        disabled = false,
+        circle = false,
+        fullWidth = false,
+        padding = 'normal',
+        style,
+        children,
+        as = 'button',
+        ...rest
+      } = props
 
-    const computedBackgroundColor = useComputedBackgroundColor(props)
-    const computedHoverColor = useComputedHoverColor(props)
+      const computedBackgroundColor = useComputedBackgroundColor(props)
+      const computedHoverColor = useComputedHoverColor(props)
 
-    return (
-      <ButtonContainer
-        as={as}
-        role="button"
-        tabindex={0}
-        ref={ref}
-        disabled={disabled}
-        circle={circle}
-        fullWidth={fullWidth}
-        padding={padding}
-        style={{
-          [vars.backgroundColor]: computedBackgroundColor,
-          [vars.hoverBackgroundColor]: computedHoverColor,
-          [vars.textColor]:
-            computedBackgroundColor &&
-            readableColor(computedBackgroundColor, solvedTheme),
-          [vars.hoverTextColor]:
-            computedHoverColor &&
-            readableColor(computedHoverColor, solvedTheme),
-          [vars.hoverShadow]:
-            computedHoverColor &&
-            solvedTheme.styles.shadow(computedHoverColor, 8),
-          [vars.activeShadow]:
-            computedHoverColor &&
-            solvedTheme.styles.shadow(computedHoverColor, 4),
-          ...style,
-        }}
-        {...rest}
-      >
-        {children}
-      </ButtonContainer>
-    )
-  }
-)
+      return (
+        <ButtonContainer
+          as={as}
+          role="button"
+          tabIndex={0}
+          ref={ref}
+          disabled={disabled}
+          circle={circle}
+          fullWidth={fullWidth}
+          padding={padding}
+          style={{
+            [vars.backgroundColor]: computedBackgroundColor,
+            [vars.hoverBackgroundColor]: computedHoverColor,
+            [vars.textColor]:
+              computedBackgroundColor &&
+              readableColor(computedBackgroundColor, solvedTheme),
+            [vars.hoverTextColor]:
+              computedHoverColor &&
+              readableColor(computedHoverColor, solvedTheme),
+            [vars.hoverShadow]:
+              computedHoverColor &&
+              solvedTheme.styles.shadow(computedHoverColor, 8),
+            [vars.activeShadow]:
+              computedHoverColor &&
+              solvedTheme.styles.shadow(computedHoverColor, 4),
+            ...style,
+          }}
+          {...rest}
+        >
+          {children}
+        </ButtonContainer>
+      )
+    }
+  )

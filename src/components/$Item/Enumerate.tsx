@@ -1,7 +1,10 @@
 import styled from '@emotion/styled'
 import React, { ElementType, PropsWithChildren, useContext } from 'react'
-import { PC, PP, PR } from '../../types/PolymorphicElementProps'
-import { forwardRefWithGenerics } from '../../utils/ref'
+import {
+  PolymorphicComponent,
+  PolymorphicComponentPropsWithRef,
+  PolymorphicRef,
+} from '../../types/PolymorphicElementProps'
 import { ItemizeContext } from './ItemizeContext'
 
 const marginMap = {
@@ -32,28 +35,32 @@ export interface EnumerateProps extends PropsWithChildren {
   margin?: 'none' | 'normal' | 'wide'
 }
 
-export const Enumerate: PC<'ol', EnumerateProps> = forwardRefWithGenerics(
-  <T extends ElementType>(props: PP<T, EnumerateProps>, ref?: PR<T>) => {
-    const itemizeContext = useContext(ItemizeContext)
-    const {
-      margin = itemizeContext.level === 0 ? 'normal' : 'none',
-      marker = 'decimal',
-      as = 'ol',
-      ...rest
-    } = props
+export const Enumerate: PolymorphicComponent<'ol', EnumerateProps> =
+  React.forwardRef(
+    <C extends ElementType = 'ol'>(
+      props: PolymorphicComponentPropsWithRef<C, EnumerateProps>,
+      ref?: PolymorphicRef<C>
+    ) => {
+      const itemizeContext = useContext(ItemizeContext)
+      const {
+        margin = itemizeContext.level === 0 ? 'normal' : 'none',
+        marker = 'decimal',
+        as = 'ol',
+        ...rest
+      } = props
 
-    return (
-      <ItemizeContext.Provider
-        value={{ marker, usesCounter: true, level: itemizeContext.level + 1 }}
-      >
-        <EnumerateContainer
-          margin={margin}
-          marker={marker}
-          ref={ref}
-          as={as}
-          {...rest}
-        />
-      </ItemizeContext.Provider>
-    )
-  }
-)
+      return (
+        <ItemizeContext.Provider
+          value={{ marker, usesCounter: true, level: itemizeContext.level + 1 }}
+        >
+          <EnumerateContainer
+            margin={margin}
+            marker={marker}
+            ref={ref}
+            as={as}
+            {...rest}
+          />
+        </ItemizeContext.Provider>
+      )
+    }
+  )
